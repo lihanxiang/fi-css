@@ -1,0 +1,62 @@
+body {
+    background-color: #FFFAFA;
+}
+
+form {
+    background-color: #F5F5F5;
+}
+
+.alert {
+    margin: 5%;
+}
+
+.text-input{
+    border-left-style: none;
+    border-right-style: none;
+    border-top-style: none;
+}
+
+.form-group {
+    margin: 5%
+}
+
+.text-input-div, .check-box-div, .file-div{
+    border-radius: 15px;
+    background-color: #FFFAFA;
+    width: 60%;
+    height: 60%;
+    margin: auto;
+}
+
+.require{
+    color: red;
+}
+#file-upload{
+    display: none;
+}
+
+.file{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.file + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+}
+
+.file:focus + label,
+.file + label:hover {
+    background-color: red;
+}
+
+.file + label {
+    cursor: pointer;
+}

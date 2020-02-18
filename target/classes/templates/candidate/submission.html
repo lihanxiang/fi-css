@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Paper</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link href="https://cdn.bootcss.com/awesome-bootstrap-checkbox/v0.2.3/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <link rel="stylesheet" href="/css/text.css">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#add-file').click(function () {
+                $('#file-upload').click();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4"></h1>
+            <p class="lead">The title and the abstract should be entered as plain text, the should not contain HTML
+                elements</p>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col">
+                <div>
+                    <form action="" th:action="@{/submission/create}" enctype="multipart/form-data" method="post">
+                        <br><div class="alert alert-primary" style="margin: 5%" role="alert">
+                            <h4 class="alert-heading">Title and Abstract</h4>
+                            <p>The title and the abstract should be entered as plain text, the should not contain HTML
+                                elements</p>
+                        </div>
+                        <div class="text-input-div">
+                            <div class="form-group">
+                                <label for="title"></label>
+                                <h5>
+                                    Title
+                                    <span class="require">*</span>
+                                </h5>
+                                <input type="text" class="form-control text-input" id="title"
+                                       name="title" required="required"><br>
+                            </div>
+                        </div><br>
+
+                        <div class="text-input-div">
+                            <div class="form-group">
+                                <label for="abstractText"></label>
+                                <h5>
+                                    Abstract
+                                    <span class="require">*</span>
+                                </h5><br>
+                                <textarea class="form-control" id="abstractText" placeholder="Long text"
+                                          name="abstractText" required="required" rows="5"></textarea>
+                            </div>
+                        </div><br>
+
+                        <div class="text-input-div">
+                            <div class="form-group">
+                                <label for="keywords"></label>
+                                <h5>
+                                    Keywords
+                                    <span class="require">*</span>
+                                </h5>
+                                <h6>You should specify at least three keywords, which are separated by semicolons.</h6><br>
+                                <input type="text" class="form-control text-input" id="keywords"
+                                       name="keywords" required="required">
+                            </div>
+                        </div><br>
+
+                        <div class="check-box-div">
+                            <div class="form-group">
+                                <h5>
+                                    Topics
+                                    <span class="require">*</span>
+                                </h5>
+                                <h6>Please select topics relevant to your submission from the following list</h6><br>
+                            </div>
+                            <div>
+                                <div class="form-check" th:each="topic : ${topics}">
+                                    <label class="form-check-label" for="topic"></label>
+                                    <input class="form-check-input" type="checkbox" id="topic"
+                                           name="topic"  th:value="${topic.content}"
+                                           th:text="${topic.content}"
+                                           th:attr ="checked=${topics.contains(topic.content)?true:false}">
+                                </div>
+                            </div>
+                        </div><br>
+
+                        <div class="alert alert-primary" role="alert">
+                            <div class="form-group">
+                                <h4 class="alert-heading">Uploads</h4>
+                                <p>Each paper should be written in English, whose length should not be less than 4 pages.
+                                    It could be one of two types of papers: research paper and survey paper, and should
+                                    follow the IEEE format:
+                                    <a href="http://www.ieee.org/conferences_events/conferences/publishing/templates.html"
+                                       target="_blank">
+                                        http://www.ieee.org/conferences_events/conferences/publishing/templates.html.
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="file-div">
+                            <div class="form-group">
+                                <h5>
+                                    Paper
+                                    <span class="require">*</span>
+                                </h5>
+                                <h6>The paper MUST be in PDF and the file name MUST be your English name, e.g.,
+                                    TaimanChan.pdf</h6><br>
+                                <label for="paper">
+                                    <img src="/img/upload.png" alt="upload" width="20" height="20">
+                                    Choose a file
+                                </label>
+                                <input type="file" name="paper" id="paper" class="file" required="required">
+                            </div><br>
+                        </div><br>
+
+                        <div class="file-div">
+                            <div class="form-group">
+                                <h5>
+                                    Slide
+                                    <span class="require">*</span>
+                                </h5>
+                                <h6>The slides file MUST be in PPT or PDF and the file name MUST be your English name, e.g.,
+                                    TaimanChan.pptx.</h6><br>
+                                <label for="ppt">
+                                    <img src="/img/upload.png" alt="upload" width="20" height="20">
+                                    Choose a file
+                                </label>
+                                <input type="file" name="slide" id="ppt" class="file" required="required">
+                            </div>
+                        </div><br>
+
+                        <div class="text-input-div">
+                            <div class="form-group">
+                                <label for="email"></label>
+                                <h5>
+                                    Email
+                                    <span class="require">*</span>
+                                </h5><br>
+                                <input type="email" class="form-control text-input" id="email"
+                                       name="email" required="required">
+                            </div>
+                        </div>
+
+                        <br><button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+
+    <!--<script src="upload.js"></script>-->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous">
+    </script>
+</body>
+</html>
