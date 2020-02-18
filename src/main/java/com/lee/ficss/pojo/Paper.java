@@ -8,7 +8,8 @@ public class Paper {
     private int id;
     private String paperFileID;
     private String author;
-    private String paperName;
+    private String paperTitle;
     private String paperFilePath;
-    private String submitDate;
+    private String commitTime;
+    private String lastModified;
 }

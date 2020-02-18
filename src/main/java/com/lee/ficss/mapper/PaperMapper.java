@@ -14,13 +14,13 @@ import java.util.List;
 public interface PaperMapper {
 
     //Insert
-    @Insert("INSERT INTO paper (paper_file_id, author, paper_name, paper_file_path, submit_date)" +
-            "VALUE (#{paperFileID}, #{author}, #{paperName}, #{paperFilePath}, #{submitDate})")
+    @Insert("INSERT INTO paper (paper_file_id, author, paper_title, paper_file_path, commit_time, last_modified)" +
+            "VALUE (#{paperFileID}, #{author}, #{paperTitle}, #{paperFilePath}, #{commitTime}, #{lastModified})")
     void createPaper(Paper paper);
 
     //Update
-    @Insert("UPDATE paper SET author = #{author}, paper_name = #{paperName}, " +
-            "paper_file_path = #{paperFilePath}, submit_date = #{submitDate}" +
+    @Insert("UPDATE paper SET author = #{author}, paper_title = #{paperTitle}, " +
+            "paper_file_path = #{paperFilePath}, last_modified = #{lastModified}" +
             "WHERE paper_file_id = #{paperFileID}")
     void editPaperInfo(Paper paper);
 
@@ -28,11 +28,14 @@ public interface PaperMapper {
     @Select("SELECT * FROM paper WHERE paper_file_id = #{paperFileID}")
     Paper getPaperByFileID(String paperFileID);
 
-    @Select("SELECT * FROM paper WHERE author = #{author}")
-    List<Paper> getPaperByAuthor(String author);
-
-    @Select("SELECT * FROM paper WHERE submit_date = #{submitDate}")
-    List<Paper> getPaperByDate(String submitDate);
+    @Select("<script>" +
+            "SELECT * FROM paper WHERE" +
+            "<if test='author != null>author = LIKE CONCAT('%', #{author}, '%')</if>'" +
+            "<if test='paperTitle != null>paper_title LIKE CONCAT('%', #{paperTitle}, '%')</if>'" +
+            "<if test='commitTime != null>commitTime LIKE CONCAT(#{commitTime}, '%')</if>'" +
+            "ORDER BY last_modified" +
+            "</script>")
+    List<Paper> getPapers(String author, String paperTitle, String commitTime);
 
     //Delete
     @Delete("DELETE FROM paper WHERE paper_file_id = #{paperFileID}")

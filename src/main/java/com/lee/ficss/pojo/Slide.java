@@ -8,7 +8,8 @@ public class Slide {
     private int id;
     private String slideFileID;
     private String author;
-    private String slideName;
+    private String slideTitle;
     private String slideFilePath;
-    private String submitDate;
+    private String commitTime;
+    private String lastModified;
 }

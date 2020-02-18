@@ -13,14 +13,10 @@ public interface SlideService {
     void editSlideInfo(Slide slide);
 
     //Select
-    Slide getSlideByID(int id);
-
     Slide getSlideByFileID(String slideFileID);
 
-    List<Slide> getSlideByAuthor(String author);
-
-    List<Slide> getSlideByDate(String submitDate);
+    List<Slide> getSlides(String author, String slideTitle, String commitTime);
 
     //Delete
-    void deleteSlide(int id);
+    void deleteSlide(String slideFileID);
 }

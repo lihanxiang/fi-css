@@ -3,38 +3,44 @@ use ficss;
 
 CREATE TABLE administrator (
 	id INT(32) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	user_id VARCHAR(32) NOT NULL,
     username VARCHAR(32) NOT NULL,
     password VARCHAR(32) NOT NULL,
     access_code VARCHAR(32) NOT NULL
 )ENGINE=INNODB , AUTO_INCREMENT=1 , CHARSET=UTF8;
-
+drop table slide;
 CREATE TABLE submission (
     id INT(32) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    submission_id VARCHAR(32) NOT NULL,
     title TEXT NOT NULL,
     abstract_text TEXT NOT NULL,
     keyword VARCHAR(255) NOT NULL,
     topic VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     paper_file_id VARCHAR(32) NOT NULL,
-    slide_file_id VARCHAR(32) NOT NULL
+    slide_file_id VARCHAR(32) NOT NULL,
+    commit_time VARCHAR(32) NOT NULL,
+    last_modified VARCHAR(32) NOT NULL
 )  ENGINE=INNODB , AUTO_INCREMENT=1 , CHARSET=UTF8;
 
 CREATE TABLE paper (
     id INT(32) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     paper_file_id VARCHAR(32) NOT NULL,
     author varchar(32) not null,
-    paper_name VARCHAR(255) NOT NULL,
+    paper_title VARCHAR(255) NOT NULL,
     paper_file_path VARCHAR(255) NOT NULL,
-    submit_date VARCHAR(32) NOT NULL
+    commit_time VARCHAR(32) NOT NULL,
+    last_modified VARCHAR(32) NOT NULL
 )  ENGINE=INNODB , AUTO_INCREMENT=1 , CHARSET=UTF8;
 
 CREATE TABLE slide (
     id INT(32) NOT NULL PRIMARY KEY AUTO_INCREMENT,
     slide_file_id VARCHAR(32) NOT NULL,
     author VARCHAR(32) NOT NULL,
-    slide_name VARCHAR(255) NOT NULL,
+    slide_title VARCHAR(255) NOT NULL,
     slide_file_path VARCHAR(255) NOT NULL,
-    submit_date VARCHAR(32) NOT NULL
+    commit_time VARCHAR(32) NOT NULL,
+    last_modified VARCHAR(32) NOT NULL
 )  ENGINE=INNODB , AUTO_INCREMENT=1 , CHARSET=UTF8;
 
 CREATE TABLE session (

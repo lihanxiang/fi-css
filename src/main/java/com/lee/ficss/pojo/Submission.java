@@ -12,4 +12,6 @@ public class Submission {
     private String email;
     private String paperFileID;
     private String slideFileId;
+    private String commitTime;
+    private String lastModified;
 }
