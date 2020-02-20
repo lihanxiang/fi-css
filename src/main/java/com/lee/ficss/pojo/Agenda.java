@@ -13,4 +13,18 @@ public class Agenda {
     private String eventEndTime;
     private String room;
     private String description;
+
+    public Agenda() {
+    }
+
+    public Agenda(String agendaID, String event, String eventDate, String eventStartTime,
+                  String eventEndTime, String room, String description) {
+        this.agendaID = agendaID;
+        this.event = event;
+        this.eventDate = eventDate;
+        this.eventStartTime = eventStartTime;
+        this.eventEndTime = eventEndTime;
+        this.room = room;
+        this.description = description;
+    }
 }

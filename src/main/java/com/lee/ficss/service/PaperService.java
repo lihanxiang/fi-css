@@ -15,6 +15,8 @@ public interface PaperService {
     //Select
     Paper getPaperByFileID(String paperFileID);
 
+    List<Paper> getPaperBySubmitterID(String submitterID);
+
     List<Paper> getPapers(String author, String paperTitle, String commitTime);
 
     //Delete

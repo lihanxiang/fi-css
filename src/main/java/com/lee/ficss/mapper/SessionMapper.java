@@ -27,9 +27,9 @@ public interface SessionMapper {
 
     @Select("<script>" +
             "SELECT * FROM session WHERE" +
-            "<if test='sessionName != null>session_name = #{sessionName}</if>'" +
-            "<if test='sessionRoom != null>session_room >= #{sessionRoom}</if>'" +
-            "<if test='sessionDate != null>session_date <= #{sessionDate}</if>'" +
+            "<if test='sessionName != null'>session_name = #{sessionName}</if>" +
+            "<if test='sessionRoom != null'>session_room = #{sessionRoom}</if>" +
+            "<if test='sessionDate != null'>session_date = #{sessionDate}</if>" +
             "ORDER BY session_date" +
             "</script>")
     List<Session> getSessions(String sessionName, String sessionRoom, String sessionDate);

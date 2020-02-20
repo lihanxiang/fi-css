@@ -32,6 +32,11 @@ public class SlideServiceImpl implements SlideService {
     }
 
     @Override
+    public List<Slide> getSlideBySubmitter(String submitterID) {
+        return slideMapper.getSlideBySubmitter(submitterID);
+    }
+
+    @Override
     public List<Slide> getSlides(String author, String slideTitle, String commitTime) {
         return slideMapper.getSlides(author, slideTitle, commitTime);
     }

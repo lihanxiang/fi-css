@@ -7,16 +7,23 @@
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link href="https://cdn.bootcss.com/awesome-bootstrap-checkbox/v0.2.3/awesome-bootstrap-checkbox.css" rel="stylesheet">
     <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/submission.js"></script>
     <link rel="stylesheet" href="/css/text.css">
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#add-file').click(function () {
-                $('#file-upload').click();
-            });
-        });
-    </script>
 </head>
 <body>
+    <div th:if="${message} eq 1" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
             <h1 class="display-4"></h1>
@@ -29,6 +36,9 @@
         <div class="row">
             <div class="col-3"></div>
             <div class="col">
+                <div id="ajax">
+
+                </div>
                 <div>
                     <form action="" th:action="@{/submission/create}" enctype="multipart/form-data" method="post">
                         <br><div class="alert alert-primary" style="margin: 5%" role="alert">
@@ -46,7 +56,7 @@
                                 <input type="text" class="form-control text-input" id="title"
                                        name="title" required="required"><br>
                             </div>
-                        </div><br>
+                        </div>
 
                         <div class="text-input-div">
                             <div class="form-group">
@@ -55,23 +65,23 @@
                                     Abstract
                                     <span class="require">*</span>
                                 </h5><br>
-                                <textarea class="form-control" id="abstractText" placeholder="Long text"
-                                          name="abstractText" required="required" rows="5"></textarea>
+                                <textarea class="form-control" id="abstractText" name="abstractText"
+                                          required="required" rows="5"></textarea><br>
                             </div>
-                        </div><br>
+                        </div>
 
                         <div class="text-input-div">
                             <div class="form-group">
-                                <label for="keywords"></label>
+                                <label for="keyword"></label>
                                 <h5>
                                     Keywords
                                     <span class="require">*</span>
                                 </h5>
-                                <h6>You should specify at least three keywords, which are separated by semicolons.</h6><br>
-                                <input type="text" class="form-control text-input" id="keywords"
-                                       name="keywords" required="required">
+                                <h6>You should specify <b>at least three</b> keywords, which are separated by semicolons.</h6><br>
+                                <input type="text" class="form-control text-input" id="keyword"
+                                       name="keyword" required="required"><br>
                             </div>
-                        </div><br>
+                        </div>
 
                         <div class="check-box-div">
                             <div class="form-group">
@@ -79,17 +89,13 @@
                                     Topics
                                     <span class="require">*</span>
                                 </h5>
-                                <h6>Please select topics relevant to your submission from the following list</h6><br>
+                                <h6>Please select <b>at least one</b> topic relevant to your submission from the following list</h6><br>
                             </div>
-                            <div>
-                                <div class="form-check" th:each="topic : ${topics}">
-                                    <label class="form-check-label" for="topic"></label>
-                                    <input class="form-check-input" type="checkbox" id="topic"
-                                           name="topic"  th:value="${topic.content}"
-                                           th:text="${topic.content}"
-                                           th:attr ="checked=${topics.contains(topic.content)?true:false}">
-                                </div>
-                            </div>
+                            <div class="form-check" th:each="topic : ${topics}">
+                                <label class="form-check-label" for="topic"></label>
+                                <input class="form-check-input" type="checkbox" id="topic" name="topic"
+                                       th:value="${topic}" th:text="${topic}" th:checked="${topicStat.index} eq 0">
+                            </div><br>
                         </div><br>
 
                         <div class="alert alert-primary" role="alert">
@@ -120,7 +126,7 @@
                                 </label>
                                 <input type="file" name="paper" id="paper" class="file" required="required">
                             </div><br>
-                        </div><br>
+                        </div>
 
                         <div class="file-div">
                             <div class="form-group">
@@ -135,8 +141,8 @@
                                     Choose a file
                                 </label>
                                 <input type="file" name="slide" id="ppt" class="file" required="required">
-                            </div>
-                        </div><br>
+                            </div><br>
+                        </div>
 
                         <div class="text-input-div">
                             <div class="form-group">
@@ -146,11 +152,11 @@
                                     <span class="require">*</span>
                                 </h5><br>
                                 <input type="email" class="form-control text-input" id="email"
-                                       name="email" required="required">
+                                       name="email" required="required"><br>
                             </div>
-                        </div>
+                        </div><br>
 
-                        <br><button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>

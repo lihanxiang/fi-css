@@ -7,5 +7,13 @@ public class Topic {
 
     private int id;
     private String topicID;
-    private String content;
+    private String topicName;
+
+    public Topic() {
+    }
+
+    public Topic(String topicID, String topicName) {
+        this.topicID = topicID;
+        this.topicName = topicName;
+    }
 }

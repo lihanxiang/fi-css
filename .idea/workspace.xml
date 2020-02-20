@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33675143-483b-46e9-916f-a3a56eb20935" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,8 +13,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Interface" />
+        <option value="HTML File" />
+        <option value="JavaScript File" />
         <option value="Class" />
       </list>
     </option>
@@ -28,13 +28,19 @@
     </option>
   </component>
   <component name="ProjectId" id="1Xp44MCFFh9IK3AcZm53puseWKN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/static/js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/static/css" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -43,26 +49,100 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\工作\fi-css\src\main\resources\static\css" />
+      <recent name="C:\工作\fi-css\src\main\java\com\lee\ficss\shiro" />
       <recent name="C:\工作\fi-css\src\main\resources\static\js" />
       <recent name="C:\工作\fi-css\src\main\resources\static\img" />
-      <recent name="C:\工作\fi-css\src\main\resources\static\css" />
       <recent name="C:\工作\fi-css" />
-      <recent name="C:\工作\fi-css\src\main\resources\templates\file" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.lee.ficss.util" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\工作\fi-css\src\main\resources\templates\error" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.FiCssApplication">
+    <configuration name="FiCssApplicationTests.createPopic" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="fi-css" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lee.ficss.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lee.ficss" />
+      <option name="MAIN_CLASS_NAME" value="com.lee.ficss.FiCssApplicationTests" />
+      <option name="METHOD_NAME" value="createPopic" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FiCssApplicationTests.createTopic" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="fi-css" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lee.ficss.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lee.ficss" />
+      <option name="MAIN_CLASS_NAME" value="com.lee.ficss.FiCssApplicationTests" />
+      <option name="METHOD_NAME" value="createTopic" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FiCssApplicationTests.createUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="fi-css" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lee.ficss.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lee.ficss" />
+      <option name="MAIN_CLASS_NAME" value="com.lee.ficss.FiCssApplicationTests" />
+      <option name="METHOD_NAME" value="createUser" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FiCssApplicationTests.getTopics" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="fi-css" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lee.ficss.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lee.ficss" />
+      <option name="MAIN_CLASS_NAME" value="com.lee.ficss.FiCssApplicationTests" />
+      <option name="METHOD_NAME" value="getTopics" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FiCssApplicationTests.getUserByEmail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="fi-css" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lee.ficss.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lee.ficss" />
+      <option name="MAIN_CLASS_NAME" value="com.lee.ficss.FiCssApplicationTests" />
+      <option name="METHOD_NAME" value="getUserByEmail" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FiCssApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="fi-css" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.lee.ficss.FiCssApplication" />
@@ -70,6 +150,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.FiCssApplicationTests.getUserByEmail" />
+        <item itemvalue="JUnit.FiCssApplicationTests.createUser" />
+        <item itemvalue="JUnit.FiCssApplicationTests.getTopics" />
+        <item itemvalue="JUnit.FiCssApplicationTests.createTopic" />
+        <item itemvalue="JUnit.FiCssApplicationTests.createPopic" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -85,10 +174,85 @@
       <workItem from="1581766376908" duration="4879000" />
       <workItem from="1581821627040" duration="8177000" />
       <workItem from="1581990963026" duration="9710000" />
+      <workItem from="1582075949104" duration="16497000" />
+      <workItem from="1582161814447" duration="2114000" />
+      <workItem from="1582165754122" duration="159000" />
+      <workItem from="1582166351911" duration="210000" />
+      <workItem from="1582166624999" duration="15357000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1032" y="182" key="#Inspections" timestamp="1582203699245">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1032" y="182" key="#Inspections/0.0.1920.1040@0.0.1920.1040" timestamp="1582203699245" />
+    <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser" timestamp="1582203866666">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1582203866666" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1582183298698">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582183298698" />
+    <state width="1877" height="349" key="GridCell.Tab.0.bottom" timestamp="1582204928545">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928545" />
+    <state width="1877" height="349" key="GridCell.Tab.0.center" timestamp="1582204928545">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928545" />
+    <state width="1877" height="349" key="GridCell.Tab.0.left" timestamp="1582204928545">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928545" />
+    <state width="1877" height="349" key="GridCell.Tab.0.right" timestamp="1582204928545">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928545" />
+    <state width="1877" height="349" key="GridCell.Tab.1.bottom" timestamp="1582204928546">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928546" />
+    <state width="1877" height="349" key="GridCell.Tab.1.center" timestamp="1582204928546">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928546" />
+    <state width="1877" height="349" key="GridCell.Tab.1.left" timestamp="1582204928546">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928546" />
+    <state width="1877" height="349" key="GridCell.Tab.1.right" timestamp="1582204928546">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928546" />
+    <state width="1877" height="349" key="GridCell.Tab.2.bottom" timestamp="1582204928535">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928535" />
+    <state width="1877" height="349" key="GridCell.Tab.2.center" timestamp="1582204928535">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928535" />
+    <state width="1877" height="349" key="GridCell.Tab.2.left" timestamp="1582204928535">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928535" />
+    <state width="1877" height="349" key="GridCell.Tab.2.right" timestamp="1582204928535">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="349" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928535" />
+    <state x="461" y="162" key="SettingsEditor" timestamp="1582166561356">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="162" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1582166561356" />
+    <state x="515" y="221" key="new project wizard" timestamp="1582166530676">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="515" y="221" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1582166530676" />
   </component>
 </project>

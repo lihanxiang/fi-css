@@ -14,7 +14,7 @@ public interface TopicService {
     void editTopicInfo(Topic topic);
 
     //Select
-    List<Topic> getAllTopics();
+    List<String> getAllTopics();
 
     //Delete
     void deleteTopic(String topicID);

@@ -27,6 +27,16 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
+    public Submission getSubmissionByID(String submissionID) {
+        return submissionMapper.getSubmissionByID(submissionID);
+    }
+
+    @Override
+    public List<Submission> getSubmissionBySubmitterID(String submitterID) {
+        return submissionMapper.getSubmissionBySubmitterID(submitterID);
+    }
+
+    @Override
     public List<Submission> getSubmissionsByPaper(String paperFileID) {
         return submissionMapper.getSubmissionsByPaper(paperFileID);
     }

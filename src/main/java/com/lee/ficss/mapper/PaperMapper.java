@@ -14,8 +14,8 @@ import java.util.List;
 public interface PaperMapper {
 
     //Insert
-    @Insert("INSERT INTO paper (paper_file_id, author, paper_title, paper_file_path, commit_time, last_modified)" +
-            "VALUE (#{paperFileID}, #{author}, #{paperTitle}, #{paperFilePath}, #{commitTime}, #{lastModified})")
+    @Insert("INSERT INTO paper (paper_file_id, submitter_id, author, paper_title, paper_file_path, commit_time, last_modified)" +
+            "VALUE (#{paperFileID}, #{submitterID}, #{author}, #{paperTitle}, #{paperFilePath}, #{commitTime}, #{lastModified})")
     void createPaper(Paper paper);
 
     //Update
@@ -28,11 +28,14 @@ public interface PaperMapper {
     @Select("SELECT * FROM paper WHERE paper_file_id = #{paperFileID}")
     Paper getPaperByFileID(String paperFileID);
 
+    @Select("SELECT * FROM paper WHERE submitter_id = #{submitterID}")
+    List<Paper> getPaperBySubmitterID(String submitterID);
+
     @Select("<script>" +
             "SELECT * FROM paper WHERE" +
-            "<if test='author != null>author = LIKE CONCAT('%', #{author}, '%')</if>'" +
-            "<if test='paperTitle != null>paper_title LIKE CONCAT('%', #{paperTitle}, '%')</if>'" +
-            "<if test='commitTime != null>commitTime LIKE CONCAT(#{commitTime}, '%')</if>'" +
+            "<if test='author != null'>author = LIKE CONCAT('%', #{author}, '%')</if>" +
+            "<if test='paperTitle != null'>paper_title LIKE CONCAT('%', #{paperTitle}, '%')</if>" +
+            "<if test='commitTime != null'>commitTime LIKE CONCAT(#{commitTime}, '%')</if>" +
             "ORDER BY last_modified" +
             "</script>")
     List<Paper> getPapers(String author, String paperTitle, String commitTime);

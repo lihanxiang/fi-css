@@ -3,7 +3,6 @@ package com.lee.ficss.service.impl;
 import com.lee.ficss.mapper.PaperMapper;
 import com.lee.ficss.pojo.Paper;
 import com.lee.ficss.service.PaperService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +29,11 @@ public class PaperServiceImpl implements PaperService {
     @Override
     public Paper getPaperByFileID(String paperFileID) {
         return paperMapper.getPaperByFileID(paperFileID);
+    }
+
+    @Override
+    public List<Paper> getPaperBySubmitterID(String submitterID) {
+        return paperMapper.getPaperBySubmitterID(submitterID);
     }
 
     @Override

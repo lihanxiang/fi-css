@@ -1,6 +1,7 @@
 use ficss;
+
 insert into topic (content) values 
-('Artificial Intelligence'), ('Mechine Learning'), ('Big Data Analytics'), ('Software Engineering'), ('Digital Signal/Image/Audio Processing'), ('Pattern Recognition');
+('Artificial Intelligence'), ('Machine Learning'), ('Big Data Analytics'), ('Software Engineering'), ('Digital Signal/Image/Audio Processing'), ('Pattern Recognition');
 
 insert into agenda (event, event_date, event_start_time, event_end_time, room, description) 
 values ('Registration', '2020-02-25', '13:00', '13:20', 'Room B401', null),

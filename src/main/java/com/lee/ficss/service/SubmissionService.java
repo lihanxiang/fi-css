@@ -13,6 +13,10 @@ public interface SubmissionService {
     void editSubmission(Submission submission);
 
     //Select
+    Submission getSubmissionByID(String submissionID);
+
+    List<Submission> getSubmissionBySubmitterID(String submitterID);
+
     List<Submission> getSubmissionsByPaper(String paperFileID);
 
     List<Submission> getSubmissions(String keyword, String topic, String commitTime);
