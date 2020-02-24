@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{html5shiv, jquery, jquery-3.3.1.slim, respond}" />
+    <file url="file://$PROJECT_DIR$" libraries="{all, awesome-bootstrap-checkbox, bootstrap.bundle, html5shiv, jquery, jquery-3.3.1, jquery-3.3.1.slim, respond}" />
   </component>
 </project>

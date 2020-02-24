@@ -27,12 +27,13 @@ public interface SessionMapper {
 
     @Select("<script>" +
             "SELECT * FROM session WHERE" +
-            "<if test='sessionName != null'>session_name = #{sessionName}</if>" +
-            "<if test='sessionRoom != null'>session_room = #{sessionRoom}</if>" +
-            "<if test='sessionDate != null'>session_date = #{sessionDate}</if>" +
+            "<if test='sessionName != \"ignore\"'>session_name = #{sessionName}</if>" +
+            "<if test='sessionRoom != \"ignore\"'>session_room = #{sessionRoom}</if>" +
+            "<if test='sessionDate != \"ignore\"'>session_date = #{sessionDate}</if>" +
             "ORDER BY session_date" +
             "</script>")
-    List<Session> getSessions(String sessionName, String sessionRoom, String sessionDate);
+    List<Session> getSessions(@Param("sessionName") String sessionName, @Param("sessionRoom") String sessionRoom,
+                              @Param("sessionRoom") String sessionDate);
 
     @Select("SELECT reviewer_name FROM session_reviewer WHERE session_id = #{sessionID}")
     List<String> getSessionReviewers(String sessionID);

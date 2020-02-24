@@ -37,8 +37,8 @@ public class SlideServiceImpl implements SlideService {
     }
 
     @Override
-    public List<Slide> getSlides(String author, String slideTitle, String commitTime) {
-        return slideMapper.getSlides(author, slideTitle, commitTime);
+    public List<Slide> getSlides(String slideTitle, String commitTime) {
+        return slideMapper.getSlides(slideTitle, commitTime);
     }
 
     @Override

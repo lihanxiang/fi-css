@@ -17,7 +17,7 @@ public interface SlideService {
 
     List<Slide> getSlideBySubmitter(String submitterID);
 
-    List<Slide> getSlides(String author, String slideTitle, String commitTime);
+    List<Slide> getSlides(String slideTitle, String commitTime);
 
     //Delete
     void deleteSlide(String slideFileID);

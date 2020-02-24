@@ -13,7 +13,7 @@ public class Submission {
     private String topic;
     private String email;
     private String paperFileID;
-    private String slideFileId;
+    private String slideFileID;
     private String commitTime;
     private String lastModified;
 
@@ -21,7 +21,7 @@ public class Submission {
     }
 
     public Submission(String submissionID, String submitterID, String title, String abstractText, String keyword,
-                      String topic, String email, String paperFileID, String slideFileId, String commitTime,
+                      String topic, String email, String paperFileID, String slideFileID, String commitTime,
                       String lastModified) {
         this.submissionID = submissionID;
         this.submitterID = submitterID;
@@ -31,7 +31,7 @@ public class Submission {
         this.topic = topic;
         this.email = email;
         this.paperFileID = paperFileID;
-        this.slideFileId = slideFileId;
+        this.slideFileID = slideFileID;
         this.commitTime = commitTime;
         this.lastModified = lastModified;
     }

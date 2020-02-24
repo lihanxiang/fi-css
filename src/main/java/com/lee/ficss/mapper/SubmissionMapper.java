@@ -36,12 +36,13 @@ public interface SubmissionMapper {
 
     @Select("<script>" +
             "SELECT * FROM session WHERE" +
-            "<if test='keyword != null'>keyword = LIKE CONCAT('%', #{keyword}, '%')</if>" +
-            "<if test='topic != null'>topic LIKE CONCAT('%', #{topic}, '%')</if>" +
-            "<if test='commitTime != null'>commitTime LIKE CONCAT(#{commitTime}, '%')</if>" +
+            "<if test='keyword != \"ignore\"'>keyword = LIKE CONCAT('%', #{keyword}, '%')</if>" +
+            "<if test='topic != \"ignore\"'>topic LIKE CONCAT('%', #{topic}, '%')</if>" +
+            "<if test='commitTime != \"ignore\"'>commitTime LIKE CONCAT(#{commitTime}, '%')</if>" +
             "ORDER BY last_modified" +
             "</script>")
-    List<Submission> getSubmissions(String keyword, String topic, String commitTime);
+    List<Submission> getSubmissions(@Param("keyword") String keyword, @Param("topic") String topic,
+                                    @Param("commitTime") String commitTime);
 
     /*@Select("SELECT * FROM submission WHERE keyword LIKE CONCAT('%', #{keyword}, '%')")
     List<Submission> getSubmissionsByKeyword(String keyword);

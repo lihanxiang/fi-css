@@ -1,7 +1,10 @@
 package com.lee.ficss;
 
+import com.lee.ficss.exception.UserException;
 import com.lee.ficss.mapper.AgendaMapper;
+import com.lee.ficss.mapper.PaperMapper;
 import com.lee.ficss.mapper.TopicMapper;
+import com.lee.ficss.mapper.UserMapper;
 import com.lee.ficss.pojo.Topic;
 import com.lee.ficss.pojo.User;
 import com.lee.ficss.service.TopicService;
@@ -24,6 +27,10 @@ class FiCssApplicationTests {
     private RandomIDBuilder randomIDBuilder;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private PaperMapper paperMapper;
 
     @Autowired
     private TopicMapper topicMapper;
@@ -33,14 +40,26 @@ class FiCssApplicationTests {
     }
 
     @Test
-    public void createUser(){
-        userService.createUser(new User("李汉祥", "HanxiangLi", "test",
-                "test@qq.com","15059325230", "candidate"));
+    public void createUser() throws UserException {
+        //userService.createUser(new User("1", "1", "1", "1","1", "candidate"));
+        userService.createUser(new User("李汉祥", "Hanxiang Li", "test",
+                "945457758@qq.com","15059325230", "candidate"));
+        userService.createUser(new User("潘晋锐", "Jinrui Pan", "111",
+                "11@11.com","11111", "candidate"));
+        userService.createUser(new User("测试账户", "Test", "test",
+                "test@test.com","test", "candidate"));
+        userService.createUser(new User("管理员账户", "Admin", "admin",
+                "admin@admin.com","admin", "admin"));
+    }
+
+    @Test
+    public void test(){
+        User user = userMapper.getUserByEmail("test@test.com");
+        System.out.println(user.getUserID());
     }
 
     @Test
     public void getUserByEmail(){
-        System.out.println(userService.getUserByEmail("test@qq.com").getChineseName());
     }
 
     @Test

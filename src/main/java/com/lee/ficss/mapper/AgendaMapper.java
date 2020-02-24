@@ -26,10 +26,10 @@ public interface AgendaMapper {
 
     @Select("<script>" +
             "SELECT * FROM agenda WHERE" +
-            "<if test='eventDate != null'>event_date = #{eventDate}</if>" +
-            "<if test='eventStartTime != null'>event_start_time &gt;= #{eventStartTime}</if>" +
-            "<if test='eventEndTime != null'>event_end_time  &lt;= #{eventEndTime}</if>" +
-            "<if test='room != null'>room = #{room}</if>" +
+            "<if test='eventDate != \"ignore\"'>event_date = #{eventDate}</if>" +
+            "<if test='eventStartTime != \"ignore\"'>event_start_time &gt;= #{eventStartTime}</if>" +
+            "<if test='eventEndTime != \"ignore\"'>event_end_time  &lt;= #{eventEndTime}</if>" +
+            "<if test='room != \"ignore\"'>room = #{room}</if>" +
             "ORDER BY event_start_time, event_end_time" +
             "</script>")
     List<Agenda> getAgenda(@Param("eventDate") String eventDate,

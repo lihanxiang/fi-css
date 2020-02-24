@@ -1,20 +1,18 @@
 package com.lee.ficss.controller;
 
 import com.lee.ficss.pojo.Paper;
+import com.lee.ficss.pojo.Slide;
 import com.lee.ficss.pojo.Submission;
-import com.lee.ficss.service.PaperService;
-import com.lee.ficss.service.SlideService;
-import com.lee.ficss.service.SubmissionService;
-import com.lee.ficss.service.TopicService;
+import com.lee.ficss.service.*;
+import com.lee.ficss.util.DataMap;
 import com.lee.ficss.util.DateFormatter;
 import com.lee.ficss.util.RandomIDBuilder;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +37,8 @@ public class SubmissionController {
     private PaperService paperService;
     @Autowired
     private SlideService slideService;
+    @Autowired
+    private UserService userService;
     @Autowired
     private RandomIDBuilder randomIDBuilder;
     @Autowired
@@ -68,46 +68,46 @@ public class SubmissionController {
      * @param model         Model for attaching attributes
      * @return              error/500.html for the IOException caused by file transfer
      */
-    @RequestMapping(value = "create")
-    public String create(@RequestParam("title") String title, @RequestParam("abstractText") String abstractText,
-                         @RequestParam("keyword") String keyword, @RequestParam("topic") String[] topic,
-                         @RequestParam("paper") MultipartFile paper, @RequestParam("slide") MultipartFile slide,
-                         @RequestParam("email") String email, Model model){
+    @ResponseBody
+    @PostMapping(value = "create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public DataMap create(@RequestParam("title") String title, @RequestParam("abstractText") String abstractText,
+                          @RequestParam("keyword") String keyword, @RequestParam("topic") String[] topic,
+                          @RequestParam("paper") MultipartFile paper, @RequestParam("slide") MultipartFile slide,
+                          @RequestParam("email") String email, Model model){
+        String loginEmail = (String)SecurityUtils.getSubject().getSession().getAttribute("email");
+        String userID = userService.getUserByEmail(loginEmail).getUserID();
         /*
             In case of the empty file, but the html <input> element
             is required, so this may not happen
          */
-        if (!paper.isEmpty() && !slide.isEmpty()) {
+        if (paper.isEmpty() || slide.isEmpty()) {
             return "error/500";
         }
 
         /*
             Set the location of folders which keep the files
          */
-        StringBuffer paperFile = new StringBuffer(PAPER_LOCATION);
-        StringBuffer slideFile = new StringBuffer(SLIDE_LOCATION);
+        StringBuffer paperString = new StringBuffer(PAPER_LOCATION);
+        StringBuffer slideString = new StringBuffer(SLIDE_LOCATION);
         /*
             Get the name of file, if the file name HanxiangLi.pdf,
             the string will be "HanxiangLi.pdf"
          */
         String paperFileName = paper.getOriginalFilename();
         String slideFileName = slide.getOriginalFilename();
-        if (paperFileName != null) {
-            String author = paperFileName.substring(0, paperFile.indexOf("."));
-        }
 
         /*
             Append the file name to the StringBuffer
          */
-        paperFile.append("\\").append(paperFileName);
-        slideFile.append("\\").append(slideFileName);
+        paperString.append("\\").append(paperFileName);
+        slideString.append("\\").append(slideFileName);
 
         /*
             Set the path of files, like
             "C:\\Users\\94545\\Desktop\\Papers\\HanxiangLi.pdf"
          */
-        String paperLocation = paperFile.toString();
-        String slideLocation = slideFile.toString();
+        String paperLocation = paperString.toString();
+        String slideLocation = slideString.toString();
 
         /*
             Make sure the parent folders exist
@@ -160,9 +160,10 @@ public class SubmissionController {
         /*
             TODO
         */
-        Submission submission = new Submission("xxx", submissionID, title, abstractText, keyword,
-                stringBuilder.toString(), email, paperFileID, slideFileID, now, now);
-        submissionService.createSubmission(submission);
+        paperService.createPaper(new Paper(paperFileID, userID, paperFileName, paperLocation, now, now));
+        slideService.createSlide(new Slide(slideFileID, userID, slideFileName, slideLocation, now, now));
+        submissionService.createSubmission(new Submission(submissionID, userID, title, abstractText, keyword,
+                stringBuilder.toString(), email, paperFileID, slideFileID, now, now));
         model.addAttribute("topics", topicService.getAllTopics());
         model.addAttribute("submission", new Submission());
         model.addAttribute("message", 1);

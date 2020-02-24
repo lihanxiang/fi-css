@@ -7,8 +7,8 @@ public class User {
 
     private int id;
     private String userID;
-    private String ChineseName;
-    private String EnglishName;
+    private String cnName;
+    private String enName;
     private String password;
     private String email;
     private String phone;
@@ -18,10 +18,10 @@ public class User {
     public User() {
     }
 
-    public User(String chineseName, String englishName, String password,
+    public User(String cnName, String enName, String password,
                 String email, String phone, String role) {
-        ChineseName = chineseName;
-        EnglishName = englishName;
+        this.cnName = cnName;
+        this.enName = enName;
         this.password = password;
         this.email = email;
         this.phone = phone;

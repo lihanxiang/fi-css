@@ -28,10 +28,11 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition(){
         DefaultShiroFilterChainDefinition definition = new DefaultShiroFilterChainDefinition();
-        /*
-        definition.addPathDefinition("/auth/login-page", "anon");
-        definition.addPathDefinition("/auth/login", "anon");
-        definition.addPathDefinition("/auth/logout", "logout");
+
+        definition.addPathDefinition("/user/login-form", "anon");
+        definition.addPathDefinition("/submission/**", "authc");
+        definition.addPathDefinition("/user/logout", "logout");
+        /*definition.addPathDefinition("/auth/login", "anon");
         definition.addPathDefinition("/student/**", "authc");
         definition.addPathDefinition("/teacher/**", "authc");
          */

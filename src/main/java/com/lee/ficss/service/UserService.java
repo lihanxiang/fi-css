@@ -1,14 +1,14 @@
 package com.lee.ficss.service;
 
+import com.lee.ficss.exception.UserException;
 import com.lee.ficss.pojo.User;
 import com.lee.ficss.util.DataMap;
 
-import java.util.List;
 import java.util.Set;
 
 public interface UserService {
 
-    void createUser(User user);
+    void createUser(User user) throws UserException;
 
     // Update
     void editUserInfo(User user);
@@ -22,13 +22,11 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
-    List<User> getUserByChineseName(String ChineseName);
-
-    List<User> getUserByEnglishName(String EnglishName);
-
     Set<String> getRolesByEmail(String email);
 
     DataMap getAllCandidates();
+
+    DataMap getCandidate(String ChineseName, String EnglishName, String email, String phone);
 
     // Delete
     void deleteUser(User user);

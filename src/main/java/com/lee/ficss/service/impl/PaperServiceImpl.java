@@ -37,8 +37,8 @@ public class PaperServiceImpl implements PaperService {
     }
 
     @Override
-    public List<Paper> getPapers(String author, String paperTitle, String commitTime) {
-        return paperMapper.getPapers(author, paperTitle, commitTime);
+    public List<Paper> getPapers(String paperTitle, String commitTime) {
+        return paperMapper.getPapers(paperTitle, commitTime);
     }
 
     @Override

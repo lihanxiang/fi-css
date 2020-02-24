@@ -1,5 +1,6 @@
 package com.lee.ficss.service.impl;
 
+import com.lee.ficss.exception.UserException;
 import com.lee.ficss.mapper.UserMapper;
 import com.lee.ficss.pojo.User;
 import com.lee.ficss.service.UserService;
@@ -27,7 +28,10 @@ public class UserServiceImpl implements UserService {
     private Encryption encryption;
 
     @Override
-    public void createUser(User user) {
+    public void createUser(User user) throws UserException {
+        if (userMapper.getUserByEmail(user.getEmail()) != null){
+            throw new UserException("This email is already exists!");
+        }
         user.setUserID(randomIDBuilder.generateRandomId());
         encryption.encryptPassword(user);
         userMapper.createUser(user);
@@ -59,13 +63,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUserByChineseName(String ChineseName) {
-        return userMapper.getUserByChineseName(ChineseName);
-    }
-
-    @Override
-    public List<User> getUserByEnglishName(String EnglishName) {
-        return userMapper.getUserByEnglishName(EnglishName);
+    public DataMap getCandidate(String ChineseName, String EnglishName, String email, String phone) {
+        List<User> candidates = userMapper.getCandidate(ChineseName, EnglishName, email, phone);
+        JSONObject resultJson = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject;
+        for (User candidate : candidates){
+            jsonObject = new JSONObject();
+            jsonObject.put("ChineseName", candidate.getCnName());
+            jsonObject.put("EnglishName", candidate.getEnName());
+            jsonObject.put("email", candidate.getEmail());
+            jsonObject.put("phone", candidate.getPhone());
+            jsonArray.add(jsonObject);
+        }
+        resultJson.put("result", jsonArray);
+        return DataMap.success().setData(resultJson);
     }
 
     @Override
@@ -75,15 +87,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DataMap getAllCandidates() {
-        List<User> candidates = userMapper.getUsersByRole("candidates");
+        List<User> candidates = userMapper.getUsersByRole("candidate");
         JSONObject resultJson = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject;
         for (User candidate : candidates){
             jsonObject = new JSONObject();
             jsonObject.put("email", candidate.getEmail());
-            jsonObject.put("ChineseName", candidate.getChineseName());
-            jsonObject.put("EnglishName", candidate.getEnglishName());
+            jsonObject.put("ChineseName", candidate.getCnName());
+            jsonObject.put("EnglishName", candidate.getEnName());
             jsonArray.add(jsonObject);
         }
         resultJson.put("result", jsonArray);

@@ -14,9 +14,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="HTML File" />
         <option value="JavaScript File" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -39,7 +39,7 @@
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/static/css" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/static/js/admin" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -49,36 +49,24 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\工作\fi-css\src\main\resources\static\js\admin" />
       <recent name="C:\工作\fi-css\src\main\resources\static\css" />
-      <recent name="C:\工作\fi-css\src\main\java\com\lee\ficss\shiro" />
+      <recent name="C:\工作\fi-css\src\main\resources\static" />
       <recent name="C:\工作\fi-css\src\main\resources\static\js" />
       <recent name="C:\工作\fi-css\src\main\resources\static\img" />
-      <recent name="C:\工作\fi-css" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.lee.ficss.util" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\工作\fi-css\src\main\resources\templates\error" />
+      <recent name="C:\工作\fi-css\src\main\resources\static\js\candidate" />
+      <recent name="C:\工作\fi-css\src\main\resources\templates" />
+      <recent name="C:\工作\fi-css\src\main\resources\static\js" />
+      <recent name="C:\工作\fi-css\src\main\resources\templates\admin" />
+      <recent name="C:\工作\fi-css\src\main\resources\templates\common" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.FiCssApplication">
-    <configuration name="FiCssApplicationTests.createPopic" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="fi-css" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.lee.ficss.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.lee.ficss" />
-      <option name="MAIN_CLASS_NAME" value="com.lee.ficss.FiCssApplicationTests" />
-      <option name="METHOD_NAME" value="createPopic" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="FiCssApplicationTests.createTopic" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="fi-css" />
       <extension name="coverage">
@@ -143,6 +131,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="FiCssApplicationTests.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="fi-css" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lee.ficss.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lee.ficss" />
+      <option name="MAIN_CLASS_NAME" value="com.lee.ficss.FiCssApplicationTests" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="FiCssApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="fi-css" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.lee.ficss.FiCssApplication" />
@@ -152,11 +156,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.FiCssApplicationTests.getUserByEmail" />
-        <item itemvalue="JUnit.FiCssApplicationTests.createUser" />
-        <item itemvalue="JUnit.FiCssApplicationTests.getTopics" />
         <item itemvalue="JUnit.FiCssApplicationTests.createTopic" />
-        <item itemvalue="JUnit.FiCssApplicationTests.createPopic" />
+        <item itemvalue="JUnit.FiCssApplicationTests.test" />
+        <item itemvalue="JUnit.FiCssApplicationTests.createUser" />
+        <item itemvalue="JUnit.FiCssApplicationTests.getUserByEmail" />
+        <item itemvalue="JUnit.FiCssApplicationTests.getTopics" />
       </list>
     </recent_temporary>
   </component>
@@ -179,6 +183,12 @@
       <workItem from="1582165754122" duration="159000" />
       <workItem from="1582166351911" duration="210000" />
       <workItem from="1582166624999" duration="15357000" />
+      <workItem from="1582246632505" duration="14325000" />
+      <workItem from="1582332943661" duration="7796000" />
+      <workItem from="1582357357970" duration="9261000" />
+      <workItem from="1582415105237" duration="13710000" />
+      <workItem from="1582434245595" duration="17374000" />
+      <workItem from="1582509429029" duration="12750000" />
     </task>
     <servers />
   </component>
@@ -190,69 +200,89 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1032" y="182" key="#Inspections/0.0.1920.1040@0.0.1920.1040" timestamp="1582203699245" />
-    <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser" timestamp="1582203866666">
+    <state x="673" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1582265754763">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1582203866666" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1582183298698">
+    <state x="673" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1582265754763" />
+    <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser" timestamp="1582423163666">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582183298698" />
-    <state width="1877" height="349" key="GridCell.Tab.0.bottom" timestamp="1582204928545">
+    <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1582423163666" />
+    <state x="1170" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1582423132536">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928545" />
-    <state width="1877" height="349" key="GridCell.Tab.0.center" timestamp="1582204928545">
+    <state x="1170" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1582423132536" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1582367396132">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928545" />
-    <state width="1877" height="349" key="GridCell.Tab.0.left" timestamp="1582204928545">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1582367396132" />
+    <state width="1877" height="343" key="GridCell.Tab.0.bottom" timestamp="1582535084611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928545" />
-    <state width="1877" height="349" key="GridCell.Tab.0.right" timestamp="1582204928545">
+    <state width="1877" height="343" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084611" />
+    <state width="1877" height="343" key="GridCell.Tab.0.center" timestamp="1582535084611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928545" />
-    <state width="1877" height="349" key="GridCell.Tab.1.bottom" timestamp="1582204928546">
+    <state width="1877" height="343" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084611" />
+    <state width="1877" height="343" key="GridCell.Tab.0.left" timestamp="1582535084611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928546" />
-    <state width="1877" height="349" key="GridCell.Tab.1.center" timestamp="1582204928546">
+    <state width="1877" height="343" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084611" />
+    <state width="1877" height="343" key="GridCell.Tab.0.right" timestamp="1582535084611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928546" />
-    <state width="1877" height="349" key="GridCell.Tab.1.left" timestamp="1582204928546">
+    <state width="1877" height="343" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084611" />
+    <state width="1877" height="343" key="GridCell.Tab.1.bottom" timestamp="1582535084611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928546" />
-    <state width="1877" height="349" key="GridCell.Tab.1.right" timestamp="1582204928546">
+    <state width="1877" height="343" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084611" />
+    <state width="1877" height="343" key="GridCell.Tab.1.center" timestamp="1582535084611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928546" />
-    <state width="1877" height="349" key="GridCell.Tab.2.bottom" timestamp="1582204928535">
+    <state width="1877" height="343" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084611" />
+    <state width="1877" height="343" key="GridCell.Tab.1.left" timestamp="1582535084611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928535" />
-    <state width="1877" height="349" key="GridCell.Tab.2.center" timestamp="1582204928535">
+    <state width="1877" height="343" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084611" />
+    <state width="1877" height="343" key="GridCell.Tab.1.right" timestamp="1582535084611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928535" />
-    <state width="1877" height="349" key="GridCell.Tab.2.left" timestamp="1582204928535">
+    <state width="1877" height="343" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084611" />
+    <state width="1877" height="343" key="GridCell.Tab.2.bottom" timestamp="1582535084612">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928535" />
-    <state width="1877" height="349" key="GridCell.Tab.2.right" timestamp="1582204928535">
+    <state width="1877" height="343" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084612" />
+    <state width="1877" height="343" key="GridCell.Tab.2.center" timestamp="1582535084612">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="349" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582204928535" />
+    <state width="1877" height="343" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084612" />
+    <state width="1877" height="343" key="GridCell.Tab.2.left" timestamp="1582535084611">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="343" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084611" />
+    <state width="1877" height="343" key="GridCell.Tab.2.right" timestamp="1582535084612">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="343" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1582535084612" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1582166561356">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1582166561356" />
+    <state x="681" y="261" width="540" height="524" key="StructurePopup" timestamp="1582356409221">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="681" y="261" width="540" height="524" key="StructurePopup/0.0.1920.1040@0.0.1920.1040" timestamp="1582356409221" />
     <state x="515" y="221" key="new project wizard" timestamp="1582166530676">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="515" y="221" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1582166530676" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1582437091552">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1582437091552" />
+    <state x="1111" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1582510318568">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1111" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1582510318568" />
   </component>
 </project>
