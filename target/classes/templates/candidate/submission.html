@@ -41,7 +41,7 @@
 
                 </div>
                 <div>
-                    <form action="" th:action="@{/submission/create}" enctype="multipart/form-data" method="post">
+                    <form action="" th:action="@{/submission/submit}" enctype="multipart/form-data" method="post">
                         <br><div class="alert alert-primary" style="margin: 5%" role="alert">
                             <h4 class="alert-heading">Title and Abstract</h4>
                             <p>The title and the abstract should be entered as plain text, the should not contain HTML
@@ -93,9 +93,10 @@
                                 <h6>Please select <b>at least one</b> topic relevant to your submission from the following list</h6><br>
                             </div>
                             <div class="form-check" th:each="topic : ${topics}">
-                                <label class="form-check-label" for="topic"></label>
-                                <input class="form-check-input" type="checkbox" id="topic" name="topic"
-                                       th:value="${topic}" th:text="${topic}" th:checked="${topicStat.index} eq 0">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" id="topic" type="checkbox" name="topic"
+                                           th:value="${topic}" th:text="${topic}" th:checked="${topicStat.index} eq 0">
+                                </label>
                             </div><br>
                         </div><br>
 
@@ -122,8 +123,8 @@
                                 <h6>The paper MUST be in PDF and the file name MUST be your English name, e.g.,
                                     TaimanChan.pdf</h6><br>
                                 <div class="file-loading">
-                                    <input id="paper" class="file" type="file" multiple name="paper"
-                                           data-min-file-count="1" data-theme="fas" required="required">
+                                    <input id="paper" class="file" type="file" name="paper"
+                                           data-theme="fas" required="required">
                                 </div>
                             </div><br>
                         </div>
@@ -137,8 +138,8 @@
                                 <h6>The slides file MUST be in PPT or PDF and the file name MUST be your English name, e.g.,
                                     TaimanChan.pptx.</h6><br>
                                 <div class="file-loading">
-                                    <input id="slide" class="file" type="file" multiple name="slide"
-                                           data-min-file-count="1" data-theme="fas" required="required">
+                                    <input id="slide" class="file" type="file" name="slide"
+                                           data-theme="fas" required="required">
                                 </div>
                             </div><br>
                         </div>

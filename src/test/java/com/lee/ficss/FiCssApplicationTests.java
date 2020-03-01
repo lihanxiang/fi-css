@@ -41,15 +41,15 @@ class FiCssApplicationTests {
 
     @Test
     public void createUser() throws UserException {
-        //userService.createUser(new User("1", "1", "1", "1","1", "candidate"));
-        userService.createUser(new User("李汉祥", "Hanxiang Li", "test",
+        userService.createUser(new User("1", "1", "1", "1@1.com","1", "candidate"));
+        /*userService.createUser(new User("李汉祥", "Hanxiang Li", "test",
                 "945457758@qq.com","15059325230", "candidate"));
         userService.createUser(new User("潘晋锐", "Jinrui Pan", "111",
                 "11@11.com","11111", "candidate"));
         userService.createUser(new User("测试账户", "Test", "test",
                 "test@test.com","test", "candidate"));
         userService.createUser(new User("管理员账户", "Admin", "admin",
-                "admin@admin.com","admin", "admin"));
+                "admin@admin.com","admin", "admin"));*/
     }
 
     @Test

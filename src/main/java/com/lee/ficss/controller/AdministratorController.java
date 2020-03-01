@@ -21,6 +21,6 @@ public class AdministratorController {
     public String searchCandidate(@RequestParam("cnName") String cnName, @RequestParam("enName") String enName,
                                   @RequestParam("email") String email, @RequestParam("phone") String phone){
         DataMap dataMap = userService.getCandidate(cnName, enName, email, phone);
-        return JsonResult.build(dataMap).toJSON();
+        return JsonResult.build(dataMap).toJSONString();
     }
 }

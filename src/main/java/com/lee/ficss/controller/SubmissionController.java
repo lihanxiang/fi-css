@@ -6,6 +6,7 @@ import com.lee.ficss.pojo.Submission;
 import com.lee.ficss.service.*;
 import com.lee.ficss.util.DataMap;
 import com.lee.ficss.util.DateFormatter;
+import com.lee.ficss.util.JsonResult;
 import com.lee.ficss.util.RandomIDBuilder;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,32 +58,15 @@ public class SubmissionController {
      * And then use ID builder to set up the random ID for paper, slide and the
      * submission
      *
-     *
-     * @param title         Title of the paper
-     * @param abstractText  Abstract of the paper
-     * @param keyword       Keywords of the paper
-     * @param topic         Topics of the paper
-     * @param paper         Paper file
-     * @param slide         Slide file
-     * @param email         Email of the submitter
-     * @param model         Model for attaching attributes
      * @return              error/500.html for the IOException caused by file transfer
      */
     @ResponseBody
-    @PostMapping(value = "create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public DataMap create(@RequestParam("title") String title, @RequestParam("abstractText") String abstractText,
-                          @RequestParam("keyword") String keyword, @RequestParam("topic") String[] topic,
-                          @RequestParam("paper") MultipartFile paper, @RequestParam("slide") MultipartFile slide,
-                          @RequestParam("email") String email, Model model){
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String create(@RequestParam("title") String title, @RequestParam("abstractText") String abstractText,
+                         @RequestParam("keyword") String keyword, @RequestParam("topic") String topic,
+                         @RequestParam("paper") MultipartFile paper, @RequestParam("slide") MultipartFile slide){
         String loginEmail = (String)SecurityUtils.getSubject().getSession().getAttribute("email");
         String userID = userService.getUserByEmail(loginEmail).getUserID();
-        /*
-            In case of the empty file, but the html <input> element
-            is required, so this may not happen
-         */
-        if (paper.isEmpty() || slide.isEmpty()) {
-            return "error/500";
-        }
 
         /*
             Set the location of folders which keep the files
@@ -123,13 +107,12 @@ public class SubmissionController {
 
         /*
             Transfer the files to specific folders
-         */
+        */
         try {
             paper.transferTo(new File(paperLocation));
             slide.transferTo(new File(slideLocation));
         } catch (IOException e){
             e.printStackTrace();
-            return "error/500";
         }
 
         /*
@@ -145,29 +128,17 @@ public class SubmissionController {
          */
         String now = dateFormatter.formatDateToString(new Date());
 
+
         /*
             Use a string to replace the topic array which will be
             stored in database, topics are separated by semicolons
-         */
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String t : topic){
-            stringBuilder.append(t).append(";");
-        }
-        stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+            */
 
-        //paperService.createPaper(new Paper(paperFileID, ));
-
-        /*
-            TODO
-        */
         paperService.createPaper(new Paper(paperFileID, userID, paperFileName, paperLocation, now, now));
         slideService.createSlide(new Slide(slideFileID, userID, slideFileName, slideLocation, now, now));
-        submissionService.createSubmission(new Submission(submissionID, userID, title, abstractText, keyword,
-                stringBuilder.toString(), email, paperFileID, slideFileID, now, now));
-        model.addAttribute("topics", topicService.getAllTopics());
-        model.addAttribute("submission", new Submission());
-        model.addAttribute("message", 1);
-        return "candidate/submission";
+        DataMap dataMap = submissionService.createSubmission(new Submission(submissionID, userID, title,
+                abstractText, keyword, topic, loginEmail, paperFileID, slideFileID, now, now));
+        return JsonResult.build(dataMap).toJSONString();
     }
 
     @RequestMapping(value = "edit")
@@ -177,12 +148,12 @@ public class SubmissionController {
                        @RequestParam("slide") MultipartFile slide){
 
 
-        return "";
+        return "candidate/submission";
     }
 
-    @RequestMapping(value = "submission/{submissionID}")
+    @RequestMapping(value = "{submissionID}")
     public String submission(@PathVariable("submissionID") String submissionID, Model model){
         model.addAttribute("submission", submissionService.getSubmissionByID(submissionID));
-        return "";
+        return "candidate/submission";
     }
 }

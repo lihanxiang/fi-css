@@ -90,7 +90,7 @@ public class JsonResult {
             return this;
         }
 
-        public String toJSON(){
+        public String toJSONString(){
             return JSON.toJSONString(this);
         }
     }

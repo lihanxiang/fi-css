@@ -1,13 +1,14 @@
 package com.lee.ficss.service;
 
 import com.lee.ficss.pojo.Submission;
+import com.lee.ficss.util.DataMap;
 
 import java.util.List;
 
 public interface SubmissionService {
 
     //Insert
-    void createSubmission(Submission submission);
+    DataMap createSubmission(Submission submission);
 
     //Update
     void editSubmission(Submission submission);
@@ -15,11 +16,11 @@ public interface SubmissionService {
     //Select
     Submission getSubmissionByID(String submissionID);
 
-    List<Submission> getSubmissionBySubmitterID(String submitterID);
+    DataMap getSubmissionBySubmitterID(String submitterID);
 
-    List<Submission> getSubmissionsByPaper(String paperFileID);
+    DataMap getSubmissionsByPaper(String paperFileID);
 
-    List<Submission> getSubmissions(String keyword, String topic, String commitTime);
+    DataMap getSubmissions(String keyword, String topic, String commitTime);
 
     //Delete
     void deleteSubmission(String submissionID);

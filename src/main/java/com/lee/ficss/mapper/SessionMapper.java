@@ -26,10 +26,10 @@ public interface SessionMapper {
     Session getSessionByID(String sessionID);
 
     @Select("<script>" +
-            "SELECT * FROM session WHERE" +
-            "<if test='sessionName != \"ignore\"'>session_name = #{sessionName}</if>" +
-            "<if test='sessionRoom != \"ignore\"'>session_room = #{sessionRoom}</if>" +
-            "<if test='sessionDate != \"ignore\"'>session_date = #{sessionDate}</if>" +
+            "SELECT * FROM session WHERE 1 = 1" +
+            "<if test='sessionName != \"ignore\"'>AND session_name = #{sessionName}</if>" +
+            "<if test='sessionRoom != \"ignore\"'>AND session_room = #{sessionRoom}</if>" +
+            "<if test='sessionDate != \"ignore\"'>AND session_date = #{sessionDate}</if>" +
             "ORDER BY session_date" +
             "</script>")
     List<Session> getSessions(@Param("sessionName") String sessionName, @Param("sessionRoom") String sessionRoom,

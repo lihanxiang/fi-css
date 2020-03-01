@@ -13,7 +13,7 @@ public interface SubmissionMapper {
     //Insert
     @Insert("INSERT INTO submission (submission_id, submitter_id, title, abstract_text, keyword, " +
             "topic, email, paper_file_id, slide_file_id, commit_time, last_modified)" +
-            "VALUE (#{submitterID}, #{submissionID}, #{title}, #{abstractText}, #{keyword}, #{topic}, " +
+            "VALUE (#{submissionID}, #{submitterID}, #{title}, #{abstractText}, #{keyword}, #{topic}, " +
             "#{email}, #{paperFileID}, #{slideFileID}, #{commitTime}, #{lastModified})")
     void createSubmission(Submission submission);
 
@@ -31,14 +31,17 @@ public interface SubmissionMapper {
     @Select("SELECT * FROM submission WHERE submitter_id = #{submitterID}")
     List<Submission> getSubmissionBySubmitterID(String submitterID);
 
+    @Select("SELECT COUNT(*) FROM submission WHERE submitter_id = #{submitterID}")
+    int getSubmissionCountBySubmitterID(String submitterID);
+
     @Select("SELECT * FROM submission WHERE paper_file_id = #{paperFileID}")
-    List<Submission> getSubmissionsByPaper(String paperFileID);
+    Submission getSubmissionsByPaper(String paperFileID);
 
     @Select("<script>" +
-            "SELECT * FROM session WHERE" +
-            "<if test='keyword != \"ignore\"'>keyword = LIKE CONCAT('%', #{keyword}, '%')</if>" +
-            "<if test='topic != \"ignore\"'>topic LIKE CONCAT('%', #{topic}, '%')</if>" +
-            "<if test='commitTime != \"ignore\"'>commitTime LIKE CONCAT(#{commitTime}, '%')</if>" +
+            "SELECT * FROM session WHERE 1 = 1" +
+            "<if test='keyword != \"ignore\"'>AND keyword = LIKE CONCAT('%', #{keyword}, '%')</if>" +
+            "<if test='topic != \"ignore\"'>AND topic LIKE CONCAT('%', #{topic}, '%')</if>" +
+            "<if test='commitTime != \"ignore\"'>AND commitTime LIKE CONCAT(#{commitTime}, '%')</if>" +
             "ORDER BY last_modified" +
             "</script>")
     List<Submission> getSubmissions(@Param("keyword") String keyword, @Param("topic") String topic,

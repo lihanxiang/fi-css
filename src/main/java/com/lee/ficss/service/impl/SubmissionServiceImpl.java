@@ -1,8 +1,16 @@
 package com.lee.ficss.service.impl;
 
+import com.lee.ficss.constant.StatusCode;
+import com.lee.ficss.mapper.PaperMapper;
+import com.lee.ficss.mapper.SlideMapper;
 import com.lee.ficss.mapper.SubmissionMapper;
+import com.lee.ficss.mapper.UserMapper;
 import com.lee.ficss.pojo.Submission;
 import com.lee.ficss.service.SubmissionService;
+import com.lee.ficss.util.DataMap;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,14 +19,21 @@ import java.util.List;
 public class SubmissionServiceImpl implements SubmissionService {
 
     private final SubmissionMapper submissionMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private PaperMapper paperMapper;
+    @Autowired
+    private SlideMapper slideMapper;
 
     public SubmissionServiceImpl(SubmissionMapper submissionMapper) {
         this.submissionMapper = submissionMapper;
     }
 
     @Override
-    public void createSubmission(Submission submission) {
+    public DataMap createSubmission(Submission submission) {
         submissionMapper.createSubmission(submission);
+        return DataMap.success(StatusCode.PAPER_SUBMITTED_SUCCESSFULLY);
     }
 
     @Override
@@ -32,18 +47,69 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public List<Submission> getSubmissionBySubmitterID(String submitterID) {
-        return submissionMapper.getSubmissionBySubmitterID(submitterID);
+    public DataMap getSubmissionBySubmitterID(String submitterID) {
+        List<Submission> submissions = submissionMapper.getSubmissionBySubmitterID(submitterID);
+        if (submissions.isEmpty()){
+            return DataMap.fail(StatusCode.SUBMISSION_NOT_FOUND);
+        } else {
+            JSONObject resultJson = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jsonObject;
+            for (Submission s : submissions){
+                jsonObject = new JSONObject();
+                jsonObject.put("submitter", userMapper.getUserByUserID(s.getSubmitterID()).getEnName());
+                jsonObject.put("abstractText", s.getAbstractText());
+                jsonObject.put("keyword", s.getKeyword());
+                jsonObject.put("topic", s.getTopic());
+                String paperFilePath = paperMapper.getPaperByFileID(s.getPaperFileID()).getPaperFilePath();
+                String slideFilePath = slideMapper.getSlideByFileID(s.getPaperFileID()).getSlideFilePath();
+                jsonObject.put("paper", paperFilePath);
+                jsonObject.put("slide", slideFilePath);
+                jsonObject.put("commitTime", s.getCommitTime());
+                jsonObject.put("lastModified", s.getLastModified());
+                jsonArray.add(jsonObject);
+            }
+            resultJson.put("result", jsonArray);
+            return DataMap.success().setData(resultJson);
+        }
     }
 
     @Override
-    public List<Submission> getSubmissionsByPaper(String paperFileID) {
-        return submissionMapper.getSubmissionsByPaper(paperFileID);
+    public DataMap getSubmissionsByPaper(String paperFileID) {
+        Submission s = submissionMapper.getSubmissionsByPaper(paperFileID);
+        if (s == null){
+            return DataMap.fail(StatusCode.SUBMISSION_NOT_FOUND);
+        } else {
+            return DataMap.success().setData(s);
+        }
     }
 
     @Override
-    public List<Submission> getSubmissions(String keyword, String topic, String commitTime) {
-        return submissionMapper.getSubmissions(keyword, topic, commitTime);
+    public DataMap getSubmissions(String keyword, String topic, String commitTime) {
+        List<Submission> submissions = submissionMapper.getSubmissions(keyword, topic, commitTime);
+        if (submissions.isEmpty()){
+            return DataMap.fail(StatusCode.SUBMISSION_NOT_FOUND);
+        } else {
+            JSONObject resultJson = new JSONObject();
+            JSONArray jsonArray = new JSONArray();
+            JSONObject jsonObject;
+            for (Submission s : submissions){
+                jsonObject = new JSONObject();
+                jsonObject.put("submitter", userMapper.getUserByUserID(s.getSubmitterID()).getEnName());
+                jsonObject.put("abstractText", s.getAbstractText());
+                jsonObject.put("keyword", s.getKeyword());
+                jsonObject.put("topic", s.getTopic());
+                String paperFilePath = paperMapper.getPaperByFileID(s.getPaperFileID()).getPaperFilePath();
+                String slideFilePath = slideMapper.getSlideByFileID(s.getPaperFileID()).getSlideFilePath();
+                jsonObject.put("paper", paperFilePath);
+                jsonObject.put("slide", slideFilePath);
+                jsonObject.put("commitTime", s.getCommitTime());
+                jsonObject.put("lastModified", s.getLastModified());
+                jsonArray.add(jsonObject);
+            }
+            resultJson.put("result", jsonArray);
+            return DataMap.success().setData(resultJson);
+        }
     }
 
     @Override

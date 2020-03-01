@@ -37,9 +37,9 @@ public interface PaperMapper {
     List<Paper> getPaperBySubmitterID(String submitterID);
 
     @Select("<script>" +
-            "SELECT * FROM paper WHERE" +
-            "<if test='paperTitle != \"ignore\"'>paper_title LIKE CONCAT('%', #{paperTitle}, '%')</if>" +
-            "<if test='commitTime != \"ignore\"'>commitTime LIKE CONCAT(#{commitTime}, '%')</if>" +
+            "SELECT * FROM paper WHERE 1 = 1" +
+            "<if test='paperTitle != \"ignore\"'>AND paper_title LIKE CONCAT('%', #{paperTitle}, '%')</if>" +
+            "<if test='commitTime != \"ignore\"'>AND commitTime LIKE CONCAT(#{commitTime}, '%')</if>" +
             "ORDER BY last_modified" +
             "</script>")
     @ResultMap(value = "resultMap")

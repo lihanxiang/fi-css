@@ -37,9 +37,9 @@ public interface SlideMapper {
     List<Slide> getSlideBySubmitter(String submitterID);
 
     @Select("<script>" +
-            "SELECT * FROM slide WHERE " +
-            "<if test='slideTitle != \"ignore\"'>slide_title LIKE CONCAT('%', #{slideTitle}, '%')</if>" +
-            "<if test='commitTime != \"ignore\"'>commitTime LIKE CONCAT(#{commitTime}, '%')</if>" +
+            "SELECT * FROM slide WHERE 1 = 1" +
+            "<if test='slideTitle != \"ignore\"'>AND slide_title LIKE CONCAT('%', #{slideTitle}, '%')</if>" +
+            "<if test='commitTime != \"ignore\"'>AND commitTime LIKE CONCAT(#{commitTime}, '%')</if>" +
             "ORDER BY last_modified" +
             "</script>")
     @ResultMap(value = "resultMap")

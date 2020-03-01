@@ -30,8 +30,9 @@ public class ShiroConfig {
         DefaultShiroFilterChainDefinition definition = new DefaultShiroFilterChainDefinition();
 
         definition.addPathDefinition("/user/login-form", "anon");
-        definition.addPathDefinition("/submission/**", "authc");
         definition.addPathDefinition("/user/logout", "logout");
+        definition.addPathDefinition("/submission/**", "authc");
+        definition.addPathDefinition("/candidate/**", "authc");
         /*definition.addPathDefinition("/auth/login", "anon");
         definition.addPathDefinition("/student/**", "authc");
         definition.addPathDefinition("/teacher/**", "authc");

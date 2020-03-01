@@ -14,102 +14,41 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid">
-					<!-- OVERVIEW -->
-					<div class="panel panel-headline">
-						<div class="panel-heading">
-							<h3 class="panel-title">Weekly Overview</h3>
-							<p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-3">
-									<div class="metric">
-										<span class="icon"><i class="fa fa-download"></i></span>
-										<p>
-											<span class="number">1,252</span>
-											<span class="title">Downloads</span>
-										</p>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric">
-										<span class="icon"><i class="fa fa-shopping-bag"></i></span>
-										<p>
-											<span class="number">203</span>
-											<span class="title">Sales</span>
-										</p>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric">
-										<span class="icon"><i class="fa fa-eye"></i></span>
-										<p>
-											<span class="number">274,678</span>
-											<span class="title">Visits</span>
-										</p>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric">
-										<span class="icon"><i class="fa fa-bar-chart"></i></span>
-										<p>
-											<span class="number">35%</span>
-											<span class="title">Conversions</span>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-9">
-									<div id="headline-chart" class="ct-chart"></div>
-								</div>
-								<div class="col-md-3">
-									<div class="weekly-summary text-right">
-										<span class="number">2,315</span> <span class="percentage"><i class="fa fa-caret-up text-success"></i> 12%</span>
-										<span class="info-label">Total Sales</span>
-									</div>
-									<div class="weekly-summary text-right">
-										<span class="number">$5,758</span> <span class="percentage"><i class="fa fa-caret-up text-success"></i> 23%</span>
-										<span class="info-label">Monthly Income</span>
-									</div>
-									<div class="weekly-summary text-right">
-										<span class="number">$65,938</span> <span class="percentage"><i class="fa fa-caret-down text-danger"></i> 8%</span>
-										<span class="info-label">Total Income</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- END OVERVIEW -->
 					<div class="row">
-						<div class="col-md-6">
+						<div>
 							<div class="panel">
 								<div class="panel-heading">
-									<h3 class="panel-title">new Submission</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse">
-											<i class="lnr lnr-chevron-up"></i>
-										</button>
-									</div>
+									<h2 class="panel-title">new Submission</h2>
 								</div>
-								<form id="form">
-									<div class="panel-body">
+								<div class="panel-body">
+									<div class="col-md-4">
 										<div class="form-group">
-											<label for="title">Title</label>
-											<input type="text" class="form-control" id="title"
-												   name="title" placeholder="Enter" required="required"><br>
+											<label for="title">Title</label><br>
+											<div class="alert alert-info alert-dismissible" role="alert">
+												<button type="button" class="close" data-dismiss="alert"
+														aria-label="Close">
+													<span aria-hidden="true">&times</span>
+												</button>
+												<i class="fa fa-info-circle"></i> Title of you Paper
+											</div>
+											<input type="text" class="form-control" id="title" placeholder="Enter"><br>
 										</div>
 
 										<div class="form-group">
 											<label for="abstractText">Abstract</label>
-											<input type="text" class="form-control" id="abstractText"
-												   name="abstractText" placeholder="Enter" required="required"><br>
+											<div class="alert alert-info alert-dismissible" role="alert">
+												<button type="button" class="close" data-dismiss="alert"
+														aria-label="Close">
+													<span aria-hidden="true">&times</span>
+												</button>
+												<i class="fa fa-info-circle"></i> Abstract of your paper
+											</div>
+											<textarea class="form-control" id="abstractText" style="resize: none"
+													  rows="8"></textarea><br>
 										</div>
 
 										<div class="form-group">
 											<label for="keyword">Keyword</label>
-											<input type="text" class="form-control" id="keyword"
-												   name="keyword" placeholder="Enter" required="required"><br>
 											<div class="alert alert-info alert-dismissible" role="alert">
 												<button type="button" class="close" data-dismiss="alert"
 														aria-label="Close">
@@ -118,18 +57,13 @@
 												<i class="fa fa-info-circle"></i> Specify <b>at least three</b> keywords,
 												which are separated by semicolons.
 											</div>
+											<input type="text" class="form-control" id="keyword" placeholder="Enter"><br>
 										</div>
 
 										<div class="form-group">
 											<h5>
 												Topics
 											</h5>
-											<div class="form-check" th:each="topic : ${topics}">
-												<label class="fancy-checkbox">
-													<input type="checkbox" th:value="${topic}" th:checked="${topicStat.index} eq 0">
-													<span th:text="${topic}"></span>
-												</label>
-											</div>
 											<div class="alert alert-info alert-dismissible" role="alert">
 												<button type="button" class="close" data-dismiss="alert"
 														aria-label="Close">
@@ -138,122 +72,49 @@
 												<i class="fa fa-info-circle"></i> Select <b>at least one</b> topic relevant to
 												your submission from the following list
 											</div>
-										</div>
-
-
+											<div class="form-check" th:each="topic : ${topics}">
+												<label class="fancy-checkbox">
+													<input type="checkbox" th:value="${topic}" name="topic"
+														   th:checked="${topicStat.index} eq 0">
+													<span th:text="${topic}"></span>
+												</label>
+											</div>
+										</div><br>
+									</div>
+									<div class="col-md-4">
 										<div class="form-group">
 											<h5>
 												Paper
-												<span class="require">*</span>
 											</h5>
 											<h6>The paper MUST be in PDF and the file name MUST be your English name, e.g.,
 												TaimanChan.pdf</h6><br>
 											<div class="file-loading">
-												<input id="paper" class="file" type="file" name="paper" data-theme="fas"
-													   data-browse-on-zone-click="true" required="required">
+												<input id="paper" class="file" type="file" data-theme="fas"
+													   name="paper" data-browse-on-zone-click="true">
 											</div>
 										</div><br>
 
 										<div class="form-group">
 											<h5>
 												Slide
-												<span class="require">*</span>
 											</h5>
 											<h6>The slides file MUST be in PPT or PDF and the file name MUST be your
 												English name, e.g., TaimanChan.pptx.</h6><br>
 											<div class="file-loading">
-												<input id="slide" class="file" type="file" name="slide" data-theme="fas"
-													   data-browse-on-zone-click="true" required="required">
+												<input id="slide" class="file" type="file" data-theme="fas"
+													   name="slide" data-browse-on-zone-click="true">
 											</div>
 										</div><br>
-
-										<div>
-											<label for="email">Email</label>
-											<input type="email" class="form-control" id="email"
-												   name="email" placeholder="Enter" required="required"><br>
-										</div>
-
-										<button type="submit" class="btn btn-primary create-submission">Submit</button>
+										<button type="submit" style="float:right"
+												class="btn btn-primary create-submission" >
+											Submit
+										</button>
 									</div>
-								</form>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="panel panel-headline">
-								<div class="panel-heading">
-									<h3 class="panel-title">Panel Headline</h3>
-									<p class="panel-subtitle">Panel to display most important information</p>
-								</div>
-								<div class="panel-body">
-									<h4>Panel Content</h4>
-									<p>Objectively network visionary methodologies via best-of-breed users.
-										Phosfluorescently initiate go forward leadership skills before an expanded
-										array of infomediaries. Monotonectally incubate web-enabled communities
-										rather than process-centric.Objectively network visionary methodologies via best-of-breed users.
-										Phosfluorescently initiate go forward leadership skills before an expanded
-										array of infomediaries. Monotonectally incubate web-enabled communities
-										rather than process-centric.Objectively network visionary methodologies via best-of-breed users.
-										Phosfluorescently initiate go forward leadership skills before an expanded
-										array of infomediaries. Monotonectally incubate web-enabled communities
-										rather than process-centric</p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-7">
-							<!-- TODO LIST -->
-							<div class="panel">
-								<div class="panel-heading">
-									<h3 class="panel-title">To-Do List</h3>
-									<div class="right">
-										<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-										
+									<div id="toastr" style="display: none">
+										<button type="button" id="btn-success" class="btn btn-success btn-toastr" data-context="success" data-message="" data-position="top-right">Success Info</button>
+										<button type="button" id="btn-warning" class="btn btn-warning btn-toastr" data-context="warning" data-message="" data-position="top-right">Warning Info</button>
+										<button type="button" id="btn-danger" class="btn btn-danger btn-toastr" data-context="error" data-message="" data-position="top-right">Error Info</button>
 									</div>
-								</div>
-								<div class="panel-body">
-									<ul class="list-unstyled todo-list">
-										<li>
-											<label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-											</label>
-											<p>
-												<span class="title">Restart Server</span>
-												<span class="short-description">Dynamically integrate client-centric technologies without cooperative resources.</span>
-												<span class="date">Oct 9, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i class="icon-software icon-software-pencil"></i></a> <a href="#"><i class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div>
-										</li>
-										<li>
-											<label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-											</label>
-											<p>
-												<span class="title">Retest Upload Scenario</span>
-												<span class="short-description">Compellingly implement clicks-and-mortar relationships without highly efficient metrics.</span>
-												<span class="date">Oct 23, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i class="icon-software icon-software-pencil"></i></a> <a href="#"><i class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div>
-										</li>
-										<li>
-											<label class="control-inline fancy-checkbox">
-												<input type="checkbox"><span></span>
-											</label>
-											<p>
-												<strong>Functional Spec Meeting</strong>
-												<span class="short-description">Monotonectally formulate client-focused core competencies after parallel web-readiness.</span>
-												<span class="date">Oct 11, 2016</span>
-											</p>
-											<div class="controls">
-												<a href="#"><i class="icon-software icon-software-pencil"></i></a> <a href="#"><i class="icon-arrows icon-arrows-circle-remove"></i></a>
-											</div>
-										</li>
-									</ul>
 								</div>
 							</div>
 						</div>
@@ -270,7 +131,7 @@
 		</footer>
 	</div>
 
-	<script th:replace="/candidate/common :: footer-script"></script>
 	<script type="application/javascript" src="/js/candidate/index.js"></script>
+	<script th:replace="/candidate/common :: footer-script"></script>
 </body>
 </html>

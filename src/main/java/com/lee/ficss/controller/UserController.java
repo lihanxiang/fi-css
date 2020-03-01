@@ -15,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import java.util.Set;
 
 @Controller
@@ -27,7 +30,9 @@ public class UserController {
     private RoleConverter roleConverter;
 
     @RequestMapping("/index")
-    public String index(){
+    public String index(Model model){
+        User user = userService.getUserByEmail((String)SecurityUtils.getSubject().getSession().getAttribute("email"));
+        //model.addAttribute("username", user.getEnName());
         return "admin/index";
     }
 
@@ -38,7 +43,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public String login(@ModelAttribute User user, Model model){
+    public void login(@ModelAttribute User user, Model model,
+                      ServletRequest servletRequest, ServletResponse servletResponse){
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getEmail(), user.getPassword());
         Set<String> roleSet;
@@ -49,41 +55,26 @@ public class UserController {
             roleSet = roleConverter.convertRolesIntoRoleSet(loginUser.getRole());
             subject.getSession().setAttribute("email", email);
             model.addAttribute("EnglishName", loginUser.getEnName());
-
             String loginEmail = (String)SecurityUtils.getSubject().getSession().getAttribute("email");
-            System.out.println(loginEmail);
             String userID = userService.getUserByEmail(loginEmail).getUserID();
-            System.out.println(userID);
         } catch (AuthenticationException e){
             model.addAttribute("message", "Invalid Username or Password");
-            return "login";
         }
         /*if (roleSet.contains("teacher")){
             return "redirect:/teacher/home";
         }*/
-        return "redirect:/submission/form";
-    }
 
-    @RequestMapping(value = "/candidate-form")
-    public String candidateForm(){
-        return "candidate";
     }
 
     @ResponseBody
     @GetMapping(value = "/candidates", produces = MediaType.APPLICATION_JSON_VALUE)
     public String candidates(){
         DataMap dataMap = userService.getAllCandidates();
-        System.out.println(dataMap.getData());
-        return JsonResult.build(dataMap).toJSON();
+        return JsonResult.build(dataMap).toJSONString();
     }
 
     @RequestMapping(value = "/logout")
     public String logout(){
         return "login";
-    }
-
-    @RequestMapping(value = "/test")
-    public String test(){
-        return "test";
     }
 }
