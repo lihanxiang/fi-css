@@ -5,13 +5,14 @@ import com.lee.ficss.util.RandomIDBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 
 @Controller
 @RequestMapping("file")
@@ -65,4 +66,29 @@ public class FileController {
             return "file/uploadFail";
         }
     }
+
+    /*@RequestMapping(value = "download/{fileId}")
+    public String download(@PathVariable("fileId") String fileId, HttpServletResponse response){
+        //File file = new File("C:\\Users\\94545\\Desktop\\file set\\1.txt");
+        File file = new File(fileService.getFileByFileId(fileId).getPath());
+        response.setHeader("content-type", "application/octet-stream");
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("application/octet-stream");
+        response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
+
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
+            byte[] buff = new byte[1024];
+            OutputStream os = response.getOutputStream();
+            int i = 0;
+            while ((i = bis.read(buff)) != -1) {
+                os.write(buff, 0, i);
+                os.flush();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "file/500";
+        }
+        return "";
+    }*/
 }

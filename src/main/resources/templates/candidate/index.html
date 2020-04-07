@@ -13,15 +13,45 @@
 		<div class="main">
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
-				<div class="container-fluid">
-					<div class="row">
-						<div>
-							<div class="panel">
+				<div class="container-fluid" id="container">
+					<div id="index" class="row">
+						<!-- CONFERENCE LIST -->
+						<div id="conferences" class="col-md-6">
+							<div class="panel panel-headline">
+								<div class="panel-heading">
+									<h3 class="panel-title">Conference</h3>
+								</div>
+								<div class="panel-body conference-list">
+									<!-- INSERT DATA -->
+								</div>
+							</div>
+						</div>
+						<!-- END CONFERENCE LIST -->
+						<!-- SUBMISSION SNAPSHOT -->
+						<div id="submission-snapshot" class="col-md-6">
+							<div class="panel panel-headline">
+								<div class="panel-heading">
+									<h3 class="panel-title">Submission</h3>
+								</div>
+								<div class="panel-body submission-snapshot">
+
+								</div>
+							</div>
+						</div>
+						<!-- END SUBMISSION SNAPSHOT -->
+					</div>
+
+					<!-- EMPTY FORM -->
+					<div class="row" id="submission-form" style="display: none ">
+						<div class="panel">
 								<div class="panel-heading">
 									<h2 class="panel-title">new Submission</h2>
 								</div>
 								<div class="panel-body">
 									<div class="col-md-4">
+										<div class="form-group" style="display: none">
+											<input type="hidden" name="conferenceID" id="conference-id">
+										</div>
 										<div class="form-group">
 											<label for="title">Title</label><br>
 											<div class="alert alert-info alert-dismissible" role="alert">
@@ -32,6 +62,18 @@
 												<i class="fa fa-info-circle"></i> Title of you Paper
 											</div>
 											<input type="text" class="form-control" id="title" placeholder="Enter"><br>
+										</div>
+
+										<div class="form-group">
+											<label for="author">Author</label><br>
+											<div class="alert alert-info alert-dismissible" role="alert">
+												<button type="button" class="close" data-dismiss="alert"
+														aria-label="Close">
+													<span aria-hidden="true">&times</span>
+												</button>
+												<i class="fa fa-info-circle"></i> Authors of you Paper (separated by ;)
+											</div>
+											<input type="text" class="form-control" id="author" placeholder="Enter"><br>
 										</div>
 
 										<div class="form-group">
@@ -72,12 +114,8 @@
 												<i class="fa fa-info-circle"></i> Select <b>at least one</b> topic relevant to
 												your submission from the following list
 											</div>
-											<div class="form-check" th:each="topic : ${topics}">
-												<label class="fancy-checkbox">
-													<input type="checkbox" th:value="${topic}" name="topic"
-														   th:checked="${topicStat.index} eq 0">
-													<span th:text="${topic}"></span>
-												</label>
+											<div class="form-check" id="topic">
+
 											</div>
 										</div><br>
 									</div>
@@ -89,8 +127,7 @@
 											<h6>The paper MUST be in PDF and the file name MUST be your English name, e.g.,
 												TaimanChan.pdf</h6><br>
 											<div class="file-loading">
-												<input id="paper" class="file" type="file" data-theme="fas"
-													   name="paper" data-browse-on-zone-click="true">
+												<input id="paper" class="file" type="file" data-browse-on-zone-click="true">
 											</div>
 										</div><br>
 
@@ -101,8 +138,7 @@
 											<h6>The slides file MUST be in PPT or PDF and the file name MUST be your
 												English name, e.g., TaimanChan.pptx.</h6><br>
 											<div class="file-loading">
-												<input id="slide" class="file" type="file" data-theme="fas"
-													   name="slide" data-browse-on-zone-click="true">
+												<input id="slide" class="file" type="file" data-browse-on-zone-click="true">
 											</div>
 										</div><br>
 										<button type="submit" style="float:right"
@@ -115,10 +151,15 @@
 										<button type="button" id="btn-warning" class="btn btn-warning btn-toastr" data-context="warning" data-message="" data-position="top-right">Warning Info</button>
 										<button type="button" id="btn-danger" class="btn btn-danger btn-toastr" data-context="error" data-message="" data-position="top-right">Error Info</button>
 									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
 					</div>
+					<!-- END EMPTY FORM -->
 				</div>
 			</div>
 		</div>
@@ -131,7 +172,7 @@
 		</footer>
 	</div>
 
-	<script type="application/javascript" src="/js/candidate/index.js"></script>
+
 	<script th:replace="/candidate/common :: footer-script"></script>
 </body>
 </html>

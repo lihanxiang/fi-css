@@ -1,5 +1,6 @@
 package com.lee.ficss.service.impl;
 
+import com.lee.ficss.constant.StatusCode;
 import com.lee.ficss.exception.UserException;
 import com.lee.ficss.mapper.UserMapper;
 import com.lee.ficss.pojo.User;
@@ -65,6 +66,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public DataMap getCandidate(String ChineseName, String EnglishName, String email, String phone) {
         List<User> candidates = userMapper.getCandidate(ChineseName, EnglishName, email, phone);
+        if (candidates.isEmpty()){
+            return DataMap.fail(StatusCode.CANDIDATE_NOT_FOUND);
+        }
         JSONObject resultJson = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject;

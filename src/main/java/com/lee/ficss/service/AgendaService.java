@@ -3,22 +3,37 @@ package com.lee.ficss.service;
 import com.lee.ficss.pojo.Agenda;
 import com.lee.ficss.util.DataMap;
 
-import java.util.List;
+import java.text.ParseException;
 
 public interface AgendaService {
 
     //Insert
-    void createAgenda(Agenda agenda);
+    void createAgenda(String conferenceID, String agendaName, String agendaDate);
 
     //Update
     void editAgendaInfo(Agenda agenda);
 
-    void editAgendaStatus(int status);
-
     //SELECT
-    Agenda getAgendaByID(String agendaID);
+    DataMap getAgendaByID(String agendaID);
 
-    DataMap getAgenda(String eventDate, String eventStartTime, String eventEndTime, String room);
+    DataMap getAgendasInConference(String conferenceID);
+
+    DataMap getFirstDayInConference(String conferenceID);
+
+    String getNextDayAgendaID(String agendaID) throws ParseException;
+
+    String getPreviousDayAgendaID(String agendaID) throws ParseException;
+
+
+    boolean isFirstDay(String conferenceID, String date);
+
+    boolean isLastDay(String conferenceID, String date);
+
+    DataMap getValidAgendaList(String date);
+
+    DataMap getPreviousAgendaList(String date);
+
+    //DataMap getAgendaDetail(String agendaID);
 
     //Delete
     void deleteAgenda(String agendaID);

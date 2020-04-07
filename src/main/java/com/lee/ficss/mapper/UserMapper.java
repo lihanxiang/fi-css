@@ -49,6 +49,8 @@ public interface UserMapper {
     List<User> getCandidate(@Param("cnName") String cnName, @Param("enName") String enName,
                        @Param("email") String email, @Param("phone") String phone);
 
+    @Select("SELECT COUNT(*) FROM user WHERE role = 'candidate'")
+    int getCandidateCount();
 
     @Select("SELECT * FROM user WHERE role like CONCAT('%', #{role}, '%')")
     @ResultMap(value = "resultMap")

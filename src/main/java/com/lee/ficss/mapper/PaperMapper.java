@@ -15,6 +15,10 @@ public interface PaperMapper {
             "VALUE (#{paperFileID}, #{submitterID}, #{paperTitle}, #{paperFilePath}, #{commitTime}, #{lastModified})")
     void createPaper(Paper paper);
 
+    @Insert("INSERT INTO session_paper (session_id, paper_file_id)" +
+            "VALUE (#{sessionID}, #{paperFileId})")
+    void addPaperToSession(@Param("sessionID") String sessionID, @Param("paperFileId") String paperFileId);
+
     //Update
     @Insert("UPDATE paper SET paper_title = #{paperTitle}, paper_file_path = #{paperFilePath}, " +
             "last_modified = #{lastModified} WHERE paper_file_id = #{paperFileID}")
@@ -32,20 +36,35 @@ public interface PaperMapper {
     })
     Paper getPaperByFileID(String paperFileID);
 
+    @Select("SELECT paper_file_id FROM session_paper WHERE session_id = #{sessionID}" )
+    List<String> getPaperIDsInSession(String sessionID);
+
+    @Select("SELECT paper_file_id FROM submission WHERE conference_id = #{conferenceID} AND paper_file_id NOT IN" +
+            "(SELECT paper_file_id FROM session_paper)")
+    List<String> getAvailablePaperIDs(String conferenceID);
+
     @Select("SELECT * FROM paper WHERE submitter_id = #{submitterID}")
-    @ResultMap(value = "resultMap")
     List<Paper> getPaperBySubmitterID(String submitterID);
 
     @Select("<script>" +
-            "SELECT * FROM paper WHERE 1 = 1" +
-            "<if test='paperTitle != \"ignore\"'>AND paper_title LIKE CONCAT('%', #{paperTitle}, '%')</if>" +
-            "<if test='commitTime != \"ignore\"'>AND commitTime LIKE CONCAT(#{commitTime}, '%')</if>" +
-            "ORDER BY last_modified" +
+            "SELECT * FROM submission WHERE 1 = 1" +
+            "<if test='title != \"ignore\"'>AND title LIKE CONCAT('%', #{title}, '%')</if>" +
+            "<if test='author != \"ignore\"'>AND author LIKE CONCAT('%', #{author}, '%')</if>" +
+            "<if test='keyword != \"ignore\"'>AND keyword LIKE CONCAT('%', #{keyword}, '%')</if>" +
+            "<if test='topic != \"ignore\"'>AND topic LIKE CONCAT(#{topic}, '%')</if>" +
+            "ORDER BY commit_time" +
             "</script>")
     @ResultMap(value = "resultMap")
-    List<Paper> getPapers(@Param("paperTitle")String paperTitle, @Param("commitTime")String commitTime);
+    List<Paper> searchPapers(@Param("title") String title, @Param("author") String author,
+                             @Param("keyword") String keyword, @Param("topic") String topic);
 
     //Delete
     @Delete("DELETE FROM paper WHERE paper_file_id = #{paperFileID}")
     void deletePaper(String paperFileID);
+
+    @Delete("DELETE FROM session_paper WHERE paper_file_id = #{paperFileID}")
+    void deletePaperInSession(String paperFileID);
+
+    @Delete("DELETE FROM submission WHERE paper_file_id = #{paperFileID}")
+    void deletePaperInSubmission(String paperFileID);
 }

@@ -20,8 +20,6 @@
         <script src="/js/plugins/piexif.js" type="text/javascript"></script>
         <script src="/js/plugins/sortable.js" type="text/javascript"></script>
         <script src="/js/fileinput.js" type="text/javascript"></script>
-        <script src="/js/locales/fr.js" type="text/javascript"></script>
-        <script src="/js/locales/es.js" type="text/javascript"></script>
         <script src="/themes/fas/theme.js" type="text/javascript"></script>
         <script src="/themes/explorer-fas/theme.js" type="text/javascript"></script>
     </th:block>
@@ -60,7 +58,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="#"><i class="lnr lnr-user"></i><span>My Profile</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-exit"></i><span>Logout</span></a></li>
+                                <li><a href="/user/logout"><i class="lnr lnr-exit"></i><span>Logout</span></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -74,21 +72,29 @@
             <nav>
                 <ul class="nav">
                     <li><a href="" class="active"><i class="lnr lnr-home"></i><span>Dashboard</span></a></li>
-                    <!--<li><a href="" class=""><i class="lnr lnr-code"></i> <span>Submission</span></a></li>
-                    <li><a href="" class=""><i class="lnr lnr-chart-bars"></i> <span>Charts</span></a></li>
-                    <li><a href="" class=""><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>
-                    <li><a href="" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li>
                     <li>
-                        <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
-                        <div id="subPages" class="collapse ">
-                            <ul class="nav">
-                                <li><a href="page-profile.html" class="">Profile</a></li>
-                                <li><a href="../login.html" class="">Login</a></li>
-                                <li><a href="page-lockscreen.html" class="">Lockscreen</a></li>
-                            </ul>
-                        </div>
-                    </li>-->
-                    <li><a href="" class=""><i class="lnr lnr-file-empty"></i> <span>Submission</span></a></li>
+                        <a href="#submission" data-toggle="collapse" class="collapsed">
+                            <i class="lnr lnr-file-empty"></i>
+                            <span>Submission</span>
+                            <i class="icon-submenu lnr lnr-chevron-left"></i>
+                        </a>
+                            <div id="submission" class="collapse ">
+                                <ul class="nav">
+                                    <li>
+                                        <a href="javascript:void(0)" id="empty-form">
+                                            <i class="lnr lnr-plus-circle"></i>
+                                            New Submission
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" id="my-submissions">
+                                            <i class="lnr lnr-menu-circle"></i>
+                                            My Submissions
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -101,5 +107,9 @@
         <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <script src="/assets/vendor/toastr/toastr.min.js"></script>
         <script src="/assets/scripts/klorofil-common.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.1/dist/jquery.validate.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.js"></script>
+        <script type="application/javascript" src="/js/candidate/index.js"></script>
+        <script type="application/javascript" src="/js/candidate/submission.js"></script>
     </div>
 </html>

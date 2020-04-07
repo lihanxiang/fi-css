@@ -10,6 +10,8 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -29,41 +32,41 @@ public class UserController {
     @Autowired
     private RoleConverter roleConverter;
 
-    @RequestMapping("/index")
-    public String index(Model model){
-        User user = userService.getUserByEmail((String)SecurityUtils.getSubject().getSession().getAttribute("email"));
-        //model.addAttribute("username", user.getEnName());
-        return "admin/index";
-    }
-
     @RequestMapping(value = "login-form", method = RequestMethod.GET)
-    public String loginPage(Model model){
-        model.addAttribute("user", new User());
-        return "login";
+    public String loginPage(){
+        return "index";
     }
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public void login(@ModelAttribute User user, Model model,
+    public String login(@ModelAttribute User user, Model model,
                       ServletRequest servletRequest, ServletResponse servletResponse){
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getEmail(), user.getPassword());
-        Set<String> roleSet;
+        Set<String> roleSet = new HashSet<>();
         try {
             subject.login(token);
             String email = user.getEmail();
             User loginUser = userService.getUserByEmail(email);
             roleSet = roleConverter.convertRolesIntoRoleSet(loginUser.getRole());
-            subject.getSession().setAttribute("email", email);
+            subject.getSession().setAttribute("loginEmail", email);
             model.addAttribute("EnglishName", loginUser.getEnName());
-            String loginEmail = (String)SecurityUtils.getSubject().getSession().getAttribute("email");
-            String userID = userService.getUserByEmail(loginEmail).getUserID();
+            String loginEmail = (String)SecurityUtils.getSubject().getSession().getAttribute("loginEmail");
         } catch (AuthenticationException e){
             model.addAttribute("message", "Invalid Username or Password");
         }
-        /*if (roleSet.contains("teacher")){
-            return "redirect:/teacher/home";
-        }*/
+        //SavedRequest savedRequest = WebUtils.getSavedRequest(servletRequest);
+        if (roleSet.contains("admin")){
+            return "redirect:/admin/index";
+        } else {
+            return "redirect:/candidate/index";
+        }
+        /*if (savedRequest == null){
 
+        } else {
+            return "redirect:" + savedRequest.getRequestUrl();
+        }
+
+         */
     }
 
     @ResponseBody
@@ -75,6 +78,6 @@ public class UserController {
 
     @RequestMapping(value = "/logout")
     public String logout(){
-        return "login";
+        return "redirect:/user/login-form";
     }
 }

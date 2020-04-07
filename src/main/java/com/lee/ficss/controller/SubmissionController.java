@@ -1,5 +1,6 @@
 package com.lee.ficss.controller;
 
+import com.lee.ficss.constant.StatusCode;
 import com.lee.ficss.pojo.Paper;
 import com.lee.ficss.pojo.Slide;
 import com.lee.ficss.pojo.Submission;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This is the controller that execute all the operations
@@ -27,29 +29,41 @@ import java.util.Date;
 @RequestMapping("submission")
 public class SubmissionController {
 
+    /**
+     * Set the location folders which are used to store the file in submission
+     */
     private static final String PAPER_LOCATION = "C:\\Users\\94545\\Desktop\\Papers";
     private static final String SLIDE_LOCATION = "C:\\Users\\94545\\Desktop\\Slides";
 
-    @Autowired
-    private TopicService topicService;
-    @Autowired
-    private SubmissionService submissionService;
-    @Autowired
-    private PaperService paperService;
-    @Autowired
-    private SlideService slideService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RandomIDBuilder randomIDBuilder;
-    @Autowired
-    private DateFormatter dateFormatter;
+    /**
+     * Dependency injection (DI) is a process whereby objects define their dependencies,
+     * that is, the other objects they work with, only through constructor arguments
+     */
+    private final ConferenceService conferenceService;
+    private final SubmissionService submissionService;
+    private final PaperService paperService;
+    private final SlideService slideService;
+    private final UserService userService;
+    private final RandomIDBuilder randomIDBuilder;
+    private final DateFormatter dateFormatter;
 
+    public SubmissionController(SubmissionService submissionService, PaperService paperService,
+                                SlideService slideService, UserService userService,
+                                RandomIDBuilder randomIDBuilder, DateFormatter dateFormatter, ConferenceService conferenceService) {
+        this.submissionService = submissionService;
+        this.paperService = paperService;
+        this.slideService = slideService;
+        this.userService = userService;
+        this.randomIDBuilder = randomIDBuilder;
+        this.dateFormatter = dateFormatter;
+        this.conferenceService = conferenceService;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "form", method = RequestMethod.GET)
-    public String form(Model model){
-        model.addAttribute("topics", topicService.getAllTopics());
-        model.addAttribute("submission", new Submission());
-        return "candidate/submission";
+    public String form(@RequestParam("conferenceID") String conferenceID){
+        DataMap dataMap = submissionService.getEmptyForm(conferenceID);
+        return JsonResult.build(dataMap).toJSONString();
     }
 
     /**
@@ -62,11 +76,16 @@ public class SubmissionController {
      */
     @ResponseBody
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String create(@RequestParam("title") String title, @RequestParam("abstractText") String abstractText,
+    public String create(@RequestParam("conferenceID") String conferenceID, @RequestParam("title") String title,
+                         @RequestParam("author") String author, @RequestParam("abstractText") String abstractText,
                          @RequestParam("keyword") String keyword, @RequestParam("topic") String topic,
                          @RequestParam("paper") MultipartFile paper, @RequestParam("slide") MultipartFile slide){
-        String loginEmail = (String)SecurityUtils.getSubject().getSession().getAttribute("email");
+        String loginEmail = (String)SecurityUtils.getSubject().getSession().getAttribute("loginEmail");
         String userID = userService.getUserByEmail(loginEmail).getUserID();
+
+        if (submissionService.checkIfSubmissionExist(conferenceID, userID) > 0){
+            return JsonResult.build(DataMap.fail(StatusCode.ONLY_ONE_SUBMISSION_IN_EACH_CONFERENCE)).toJSONString();
+        }
 
         /*
             Set the location of folders which keep the files
@@ -81,9 +100,11 @@ public class SubmissionController {
         String slideFileName = slide.getOriginalFilename();
 
         /*
-            Append the file name to the StringBuffer
+            Append the conference name and the file name to the StringBuffer
          */
+        paperString.append("\\").append(conferenceService.getConferenceByID(conferenceID).getConferenceName());
         paperString.append("\\").append(paperFileName);
+        slideString.append("\\").append(conferenceService.getConferenceByID(conferenceID).getConferenceName());
         slideString.append("\\").append(slideFileName);
 
         /*
@@ -97,12 +118,18 @@ public class SubmissionController {
             Make sure the parent folders exist
          */
         File p = new File(paperLocation);
-        File s = new File(paperLocation);
+        File s = new File(slideLocation);
         if (!p.getParentFile().exists()) {
             p.getParentFile().mkdirs();
         }
+        if (p.exists()){
+            return JsonResult.build(DataMap.fail(StatusCode.FILE_ALREADY_EXIST)).toJSONString();
+        }
         if (!s.getParentFile().exists()) {
             s.getParentFile().mkdirs();
+        }
+        if (s.exists()){
+            return JsonResult.build(DataMap.fail(StatusCode.FILE_ALREADY_EXIST)).toJSONString();
         }
 
         /*
@@ -128,7 +155,6 @@ public class SubmissionController {
          */
         String now = dateFormatter.formatDateToString(new Date());
 
-
         /*
             Use a string to replace the topic array which will be
             stored in database, topics are separated by semicolons
@@ -136,16 +162,24 @@ public class SubmissionController {
 
         paperService.createPaper(new Paper(paperFileID, userID, paperFileName, paperLocation, now, now));
         slideService.createSlide(new Slide(slideFileID, userID, slideFileName, slideLocation, now, now));
-        DataMap dataMap = submissionService.createSubmission(new Submission(submissionID, userID, title,
-                abstractText, keyword, topic, loginEmail, paperFileID, slideFileID, now, now));
+        submissionService.createSubmission(new Submission(conferenceID, submissionID, userID, title,
+                author, abstractText, keyword, topic, loginEmail, paperFileID, slideFileID, now, now));
+        return JsonResult.build().toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/detail", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String detail(@RequestParam("submissionID") String submissionID){
+        DataMap dataMap = submissionService.getSubmissionByID(submissionID);
+        System.out.println(submissionID);
         return JsonResult.build(dataMap).toJSONString();
     }
 
     @RequestMapping(value = "edit")
-    public String edit(Model model, @RequestParam("title") String title, @RequestParam("abstractText") String abstractText,
-                       @RequestParam("keyword") String keyword, @RequestParam("topic") String[] topic,
-                       @RequestParam("email") String email, @RequestParam("paper") MultipartFile paper,
-                       @RequestParam("slide") MultipartFile slide){
+    public String edit(@RequestParam("submissionID") String submissionID, @RequestParam("title") String title,
+                       @RequestParam("abstractText") String abstractText, @RequestParam("keyword") String keyword,
+                       @RequestParam("topic") String topic, @RequestParam("email") String email,
+                       @RequestParam("paper") MultipartFile paper, @RequestParam("slide") MultipartFile slide){
 
 
         return "candidate/submission";
@@ -155,5 +189,12 @@ public class SubmissionController {
     public String submission(@PathVariable("submissionID") String submissionID, Model model){
         model.addAttribute("submission", submissionService.getSubmissionByID(submissionID));
         return "candidate/submission";
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/submission-detail-in-conference", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String submissionDetailInConference(@RequestParam("conferenceID") String conferenceID){
+        DataMap dataMap = submissionService.getSubmissionInConference(conferenceID);
+        return JsonResult.build(dataMap).toJSONString();
     }
 }
