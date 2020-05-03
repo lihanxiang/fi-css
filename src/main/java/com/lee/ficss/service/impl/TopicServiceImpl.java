@@ -9,7 +9,6 @@ import com.lee.ficss.util.DateFormatter;
 import com.lee.ficss.util.RandomIDBuilder;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -33,7 +32,7 @@ public class TopicServiceImpl implements TopicService {
         if (topicMapper.checkIfTopicExist(conferenceID, topicName) > 0){
             return DataMap.fail(StatusCode.TOPIC_ALREADY_EXIST);
         }
-        topicMapper.createTopic(new Topic(conferenceID, randomIDBuilder.generateRandomId(),
+        topicMapper.createTopic(new Topic(conferenceID, randomIDBuilder.generateRandomID(),
                 topicName, 0, dateFormatter.formatDateToString(new Date())));
         return getAllTopicsOrderByName(conferenceID);
     }

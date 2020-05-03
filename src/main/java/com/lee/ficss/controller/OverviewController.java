@@ -3,13 +3,14 @@ package com.lee.ficss.controller;
 
 import com.lee.ficss.service.OverviewService;
 import com.lee.ficss.util.JsonResult;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequiresRoles("admin")
 @RequestMapping("overview")
 public class OverviewController {
 

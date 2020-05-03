@@ -1,4 +1,3 @@
-
 function newSessionForm(eventID) {
     var modal = $('#modal');
     modal.empty();
@@ -145,7 +144,7 @@ function editSession() {
 
     $.ajax({
         type: 'post',
-        url: '/session/first-session',
+        url: '/session/edit',
         dataType: 'json',
         data: {
             sessionID: sessionID,
@@ -157,9 +156,10 @@ function editSession() {
         cache: false,
         success: function () {
             getSessionByID(sessionID);
+            notificationMessage("success", "Edit session success");
         },
-        error:function (data) {
-            notificationMessage("danger", data['message']);
+        error:function () {
+            notificationMessage("danger", "Edit session fail");
         }
     })
 }
@@ -174,6 +174,7 @@ function getFirstSession(eventID) {
         },
         cache: false,
         success: function (data) {
+            $('#availablePaper').empty();
             var selectedPaper = $('#selectedPaper');
             selectedPaper.empty();
             if (data['status'] == 403){
@@ -193,16 +194,28 @@ function getFirstSession(eventID) {
                 var object = data['data']['result'];
                 selectedPaper.append('<div class="panel">' +
                                         '<div class="panel-heading">' +
-                                            '<h3 class="panel-title">' + object['sessionName'] +'</h3>' +
-                                            '<p class="panel-subtitle">Room ' + object['sessionRoom'] + '</p>' +
+                                            '<div>' +
+                                                '<h3 class="panel-title">' + object['sessionName'] +'</h3>' +
+                                            '</div>' +
                                             '<div class="right">' +
-                                                '<button type="button" class="new-session-form" id="' + eventID + '">' +
-                                                    '<i class="lnr lnr-plus-circle"></i>' +
-                                                    '<span> New</span>' +
+                                                '<button type="button" class="new-session-form" id="' + object['eventID'] + '">' +
+                                                '<i class="lnr lnr-plus-circle"></i>' +
+                                                '<span> New </span>' +
+                                                '</button><br>' +
+                                                '<button type="button" class="edit-session-form" id="' + object['sessionID'] + '">' +
+                                                    '<i class="lnr lnr-pencil"></i>' +
+                                                    '<span> Edit </span>' +
+                                                '</button><br>' +
+                                                '<button type="button" class="download-session" id="' + object['sessionID'] + '">' +
+                                                '<i class="lnr lnr-download"></i>' +
+                                                '<span> Download </span>' +
                                                 '</button>' +
                                             '</div>' +
                                         '</div>' +
                                         '<div class="panel-body">' +
+                                            '<p >Room: ' + object['sessionRoom'] + '</p>' +
+                                            '<p >Reviewer: ' + object['sessionReviewer'] + '</p>' +
+                                            '<p>Chair: ' + object['sessionChair'] + '</p>' +
                                             '<div class="paper-list" style="overflow: auto; word-break: break-all;word-wrap: break-word;">' +
                                             '</div>' +
                                             '<div style="margin-bottom: 5%">' +
@@ -240,25 +253,32 @@ function getSessionByID(sessionID) {
         },
         cache: false,
         success: function (data) {
+            $('#availablePaper').empty();
             var selectedPaper = $('#selectedPaper');
             selectedPaper.empty();
             var object = data['data']['result'];
             selectedPaper.append('<div class="panel">' +
                                     '<div class="panel-heading">' +
                                         '<h3 class="panel-title">' + object['sessionName'] +'</h3>' +
-                                        '<p class="panel-subtitle">Room ' + object['sessionRoom'] + '</p>' +
                                         '<div class="right">' +
-                                            '<button type="button" class="edit-session-form" id="' + object['sessionID'] + '">' +
-                                                '<i class="lnr lnr-pencil"></i>' +
-                                                '<span> Edit</span>' +
-                                            '</button>' +
                                             '<button type="button" class="new-session-form" id="' + object['eventID'] + '">' +
-                                                '<i class="lnr lnr-plus-circle"></i>' +
-                                                '<span> New</span>' +
+                                            '<i class="lnr lnr-plus-circle"></i>' +
+                                            '<span> New </span>' +
+                                            '</button><br>' +
+                                            '<button type="button" class="edit-session-form" id="' + object['sessionID'] + '">' +
+                                            '<i class="lnr lnr-pencil"></i>' +
+                                            '<span> Edit </span>' +
+                                            '</button><br>' +
+                                            '<button type="button" class="download-session" id="' + object['sessionID'] + '">' +
+                                            '<i class="lnr lnr-download"></i>' +
+                                            '<span> Download </span>' +
                                             '</button>' +
                                         '</div>' +
                                     '</div>' +
                                     '<div class="panel-body">' +
+                                        '<p >Room: ' + object['sessionRoom'] + '</p>' +
+                                        '<p >Reviewer: ' + object['sessionReviewer'] + '</p>' +
+                                        '<p>Chair: ' + object['sessionChair'] + '</p>' +
                                         '<div class="paper-list" style="overflow: auto; word-break: break-all;word-wrap: break-word;"></div>' +
                                         '<div style="margin-bottom: 5%">' +
                                             '<div class="col-sm-4">' +
@@ -319,13 +339,14 @@ function getPapersInSession(sessionID) {
                     ul.append('<li>' +
                                 '<p>' +
                                     '<span class="title">' + object['paperTitle'] + '</span>' +
-                                    '<a href="javascript:void(0)" class="submission-detail" ' +
-                                    'id="' + object['submissionID'] + '" style="float: right">' +
-                                    '<span class="lnr lnr-pointer-right"> Detail</span>' +
-                                    '</a>' +
                                     '<a href="javascript:void(0)" class="remove-paper" ' +
-                                    'id="' + object['paperFileID'] + '" style="float: right">' +
+                                    'id="' + sessionID + ';' + object['paperFileID'] + '" ' +
+                                    'style="float: right">' +
                                     '<span class="lnr lnr-trash"> Remove</span>' +
+                                    '</a>' +
+                                    '<a href="javascript:void(0)" class="submission-detail" ' +
+                                    'id="' + object['submissionID'] + '" style="float: right; margin-right: 5%">' +
+                                    '<span class="lnr lnr-pointer-right"> Detail</span>' +
                                     '</a>' +
                                     '<span class="short-description">' + object['author'] + '</span>' +
                                 '</p>' +
@@ -378,5 +399,11 @@ conferenceDiv.on("click", "#editSession", function () {
 conferenceDiv.on("click", ".get-session-by-id", function () {
     var sessionID = $(this).attr('id');
     getSessionByID(sessionID);
+});
+
+conferenceDiv.on("click", ".download-session", function () {
+    var agendaID = $(this).attr('id');
+    $('#downloadSession').attr('href', '/session/download/' + agendaID);
+    document.getElementById('downloadSession').click();
 });
 

@@ -14,152 +14,189 @@
 			<!-- MAIN CONTENT -->
 			<div class="main-content">
 				<div class="container-fluid" id="container">
-					<div id="index" class="row">
+					<div id="index">
 						<!-- CONFERENCE LIST -->
-						<div id="conferences" class="col-md-6">
-							<div class="panel panel-headline">
-								<div class="panel-heading">
-									<h3 class="panel-title">Conference</h3>
-								</div>
-								<div class="panel-body conference-list">
-									<!-- INSERT DATA -->
-								</div>
-							</div>
-						</div>
-						<!-- END CONFERENCE LIST -->
-						<!-- SUBMISSION SNAPSHOT -->
-						<div id="submission-snapshot" class="col-md-6">
-							<div class="panel panel-headline">
-								<div class="panel-heading">
-									<h3 class="panel-title">Submission</h3>
-								</div>
-								<div class="panel-body submission-snapshot">
+						<div class="row">
+							<div class="col-md-6 conference-list">
 
-								</div>
+							</div>
+							<!-- END CONFERENCE LIST -->
+							<div class="col-md-6" id="conference-detail">
+
 							</div>
 						</div>
-						<!-- END SUBMISSION SNAPSHOT -->
+						<div class="row">
+							<div id="agenda-detail" class="col-md-6">
+
+							</div>
+							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+									data-target="#submissionDetailModal" id="submissionDetail"></button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+									data-target="#changePasswordModal" id="changePasswordForm"></button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+									data-target="#profileModal" id="profileForm"></button>
+							<div id="modal">
+
+							</div>
+							<div id="download">
+								<a id="downloadAgenda" style="display: none"></a>
+								<a id="downloadSession" style="display: none"></a>
+							</div>
+						</div>
 					</div>
 
 					<!-- EMPTY FORM -->
 					<div class="row" id="submission-form" style="display: none ">
 						<div class="panel">
-								<div class="panel-heading">
-									<h2 class="panel-title">new Submission</h2>
+							<div class="panel-heading">
+								<h2 class="panel-title">new Submission</h2>
+							</div>
+							<div class="panel-body">
+								<div class="col-md-4">
+									<div class="form-group">
+										<input type="hidden" name="conferenceID" id="conference-id">
+									</div>
+									<div class="form-group">
+										<label for="title">Title</label><br>
+										<div class="alert alert-info alert-dismissible" role="alert">
+											<button type="button" class="close" data-dismiss="alert"
+													aria-label="Close">
+												<span aria-hidden="true">&times</span>
+											</button>
+											<i class="fa fa-info-circle"></i> Title of you Paper
+										</div>
+										<input type="text" class="form-control input" id="title" placeholder="Enter"><br>
+									</div>
+
+									<div class="form-group">
+										<label for="author">Author</label><br>
+										<div class="alert alert-info alert-dismissible" role="alert">
+											<button type="button" class="close" data-dismiss="alert"
+													aria-label="Close">
+												<span aria-hidden="true">&times</span>
+											</button>
+											<i class="fa fa-info-circle"></i> Authors of you Paper (separated by ;)
+										</div>
+										<input type="text" class="form-control input" id="author" placeholder="Enter" ><br>
+									</div>
+
+									<div class="form-group">
+										<label for="abstractText">Abstract</label>
+										<div class="alert alert-info alert-dismissible" role="alert">
+											<button type="button" class="close" data-dismiss="alert"
+													aria-label="Close">
+												<span aria-hidden="true">&times</span>
+											</button>
+											<i class="fa fa-info-circle"></i> Abstract of your paper
+										</div>
+										<textarea class="form-control input" id="abstractText" style="resize: none"
+												  rows="8" required></textarea><br>
+									</div>
+
+									<div class="form-group">
+										<label for="keyword">Keyword</label>
+										<div class="alert alert-info alert-dismissible" role="alert">
+											<button type="button" class="close" data-dismiss="alert"
+													aria-label="Close">
+												<span aria-hidden="true">&times</span>
+											</button>
+											<i class="fa fa-info-circle"></i> Specify <b>at least three</b> keywords,
+											which are separated by semicolons.
+										</div>
+										<input type="text" class="form-control input" id="keyword" placeholder="Enter"><br>
+									</div>
+
+									<div class="form-group">
+										<h5>
+											Topics
+										</h5>
+										<div class="alert alert-info alert-dismissible" role="alert">
+											<button type="button" class="close" data-dismiss="alert"
+													aria-label="Close">
+												<span aria-hidden="true">&times</span>
+											</button>
+											<i class="fa fa-info-circle"></i> Select <b>at least one</b> topic relevant to
+											your submission from the following list
+										</div>
+										<div class="form-check" id="topic">
+
+										</div>
+									</div><br>
 								</div>
-								<div class="panel-body">
-									<div class="col-md-4">
-										<div class="form-group" style="display: none">
-											<input type="hidden" name="conferenceID" id="conference-id">
+								<div class="col-md-4">
+									<div class="form-group">
+										<h5>
+											Paper
+										</h5>
+										<h6>The paper MUST be in PDF and the file name MUST be your English name, e.g.,
+											TaimanChan.pdf</h6><br>
+										<div class="file-loading">
+											<input id="paper" class="file" type="file" data-browse-on-zone-click="true">
 										</div>
-										<div class="form-group">
-											<label for="title">Title</label><br>
-											<div class="alert alert-info alert-dismissible" role="alert">
-												<button type="button" class="close" data-dismiss="alert"
-														aria-label="Close">
-													<span aria-hidden="true">&times</span>
-												</button>
-												<i class="fa fa-info-circle"></i> Title of you Paper
-											</div>
-											<input type="text" class="form-control" id="title" placeholder="Enter"><br>
+									</div><br>
+
+									<div class="form-group">
+										<h5>
+											Slide
+										</h5>
+										<h6>The slides file MUST be in PPT or PDF and the file name MUST be your
+											English name, e.g., TaimanChan.pptx.</h6><br>
+										<div class="file-loading">
+											<input id="slide" class="file" type="file" data-browse-on-zone-click="true">
 										</div>
+									</div><br>
+									<button type="submit" style="float:right"
+											class="btn btn-primary create-submission" >
+										Submit
+									</button>
+								</div>
+								<div id="toastr" style="display: none">
+									<button type="button" id="change-password-success" class="btn btn-success btn-toastr"
+											data-context="success" data-message="Change password success" data-position="top-right">
+									</button>
+									<button type="button" id="submission-warning" class="btn btn-warning btn-toastr"
+											data-context="warning" data-message="Please make sure you submit the right information.
+											These information can't be modified after you submit it" data-position="top-right">
+									</button>
+									<button type="button" id="wrong-password" class="btn btn-danger btn-toastr"
+											data-context="error" data-message="Wrong password" data-position="top-right">
+									</button>
+									<button type="button" id="title-cannot-be-empty" class="btn btn-danger btn-toastr"
+											data-context="error" data-message="Please enter the title" data-position="top-right">
+									</button>
+									<button type="button" id="author-cannot-be-empty" class="btn btn-danger btn-toastr"
+											data-context="error" data-message="Please enter the author" data-position="top-right">
+									</button>
+									<button type="button" id="abstract-cannot-be-empty" class="btn btn-danger btn-toastr"
+											data-context="error" data-message="Please enter the abstract" data-position="top-right">
+									</button>
+									<button type="button" id="keyword-cannot-be-empty" class="btn btn-danger btn-toastr"
+											data-context="error" data-message="Please enter the keywords" data-position="top-right">
+									</button>
+									<button type="button" id="topic-cannot-be-empty" class="btn btn-danger btn-toastr"
+											data-context="error" data-message="Please select the topic" data-position="top-right">
+									</button>
+									<button type="button" id="paper-cannot-be-empty" class="btn btn-danger btn-toastr"
+											data-context="error" data-message="Please select the paper file" data-position="top-right">
+									</button>
+									<button type="button" id="slide-cannot-be-empty" class="btn btn-danger btn-toastr"
+											data-context="error" data-message="Please select the slide file" data-position="top-right">
+									</button>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
 
-										<div class="form-group">
-											<label for="author">Author</label><br>
-											<div class="alert alert-info alert-dismissible" role="alert">
-												<button type="button" class="close" data-dismiss="alert"
-														aria-label="Close">
-													<span aria-hidden="true">&times</span>
-												</button>
-												<i class="fa fa-info-circle"></i> Authors of you Paper (separated by ;)
-											</div>
-											<input type="text" class="form-control" id="author" placeholder="Enter"><br>
-										</div>
-
-										<div class="form-group">
-											<label for="abstractText">Abstract</label>
-											<div class="alert alert-info alert-dismissible" role="alert">
-												<button type="button" class="close" data-dismiss="alert"
-														aria-label="Close">
-													<span aria-hidden="true">&times</span>
-												</button>
-												<i class="fa fa-info-circle"></i> Abstract of your paper
-											</div>
-											<textarea class="form-control" id="abstractText" style="resize: none"
-													  rows="8"></textarea><br>
-										</div>
-
-										<div class="form-group">
-											<label for="keyword">Keyword</label>
-											<div class="alert alert-info alert-dismissible" role="alert">
-												<button type="button" class="close" data-dismiss="alert"
-														aria-label="Close">
-													<span aria-hidden="true">&times</span>
-												</button>
-												<i class="fa fa-info-circle"></i> Specify <b>at least three</b> keywords,
-												which are separated by semicolons.
-											</div>
-											<input type="text" class="form-control" id="keyword" placeholder="Enter"><br>
-										</div>
-
-										<div class="form-group">
-											<h5>
-												Topics
-											</h5>
-											<div class="alert alert-info alert-dismissible" role="alert">
-												<button type="button" class="close" data-dismiss="alert"
-														aria-label="Close">
-													<span aria-hidden="true">&times</span>
-												</button>
-												<i class="fa fa-info-circle"></i> Select <b>at least one</b> topic relevant to
-												your submission from the following list
-											</div>
-											<div class="form-check" id="topic">
-
-											</div>
-										</div><br>
-									</div>
-									<div class="col-md-4">
-										<div class="form-group">
-											<h5>
-												Paper
-											</h5>
-											<h6>The paper MUST be in PDF and the file name MUST be your English name, e.g.,
-												TaimanChan.pdf</h6><br>
-											<div class="file-loading">
-												<input id="paper" class="file" type="file" data-browse-on-zone-click="true">
-											</div>
-										</div><br>
-
-										<div class="form-group">
-											<h5>
-												Slide
-											</h5>
-											<h6>The slides file MUST be in PPT or PDF and the file name MUST be your
-												English name, e.g., TaimanChan.pptx.</h6><br>
-											<div class="file-loading">
-												<input id="slide" class="file" type="file" data-browse-on-zone-click="true">
-											</div>
-										</div><br>
-										<button type="submit" style="float:right"
-												class="btn btn-primary create-submission" >
-											Submit
-										</button>
-									</div>
-									<div id="toastr" style="display: none">
-										<button type="button" id="btn-success" class="btn btn-success btn-toastr" data-context="success" data-message="" data-position="top-right">Success Info</button>
-										<button type="button" id="btn-warning" class="btn btn-warning btn-toastr" data-context="warning" data-message="" data-position="top-right">Warning Info</button>
-										<button type="button" id="btn-danger" class="btn btn-danger btn-toastr" data-context="error" data-message="" data-position="top-right">Error Info</button>
-									</div>
-									<div class="col-md-4">
-										<div class="form-group">
-
-										</div>
 									</div>
 								</div>
 							</div>
+						</div>
 					</div>
 					<!-- END EMPTY FORM -->
+					<div id="my-submission">
+						<div class="row">
+							<div id="my-submissions-list"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

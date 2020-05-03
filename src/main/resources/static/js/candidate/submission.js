@@ -1,61 +1,95 @@
-$('.conference-list').on('click', '.new-submission-button', function () {
-    var conferenceID = $(this).attr('id');
-    $('#index').empty();
-    getEmptySubmissionForm();
-    getTopicsInConference(conferenceID);
-    $('#conference-id').attr("value", conferenceID);
-});
+function submissionForm() {
+    var modal = $('#modal');
+    modal.empty();
+    $('#modal').append('<div class="modal fade" id="submissionDetailModal" tabindex="-1" role="dialog"' +
+        ' aria-labelledby="submissionDetailLabel" aria-hidden="true">' +
+        '<div class="modal-dialog" role="document">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header">' +
+        '<h3 class="modal-title" id="submissionDetailLabel" >Submission Detail</h3>' +
+        '</div>' +
+        '<div class="modal-body">' +
+        '<form>' +
+        '<div class="form-group">' +
+        '<input type="hidden" class="form-control" id="submissionID">' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="title" class="col-form-label">Title:</label>' +
+        '<input type="text" class="form-control" id="title" disabled>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="author" class="col-form-label">Author:</label>' +
+        '<input type="text" class="form-control" id="author" disabled>' +
+        '</div>' +
+        '<div class="form-group" style="word-wrap:break-word; word-break:break-all;">' +
+        '<label for="abstractText" class="col-form-label">Abstract:</label>' +
+        '<input type="text" class="form-control" id="abstractText" disabled>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="keyword" class="col-form-label">Keyword:</label>' +
+        '<input type="text" class="form-control" id="keyword" disabled>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<h5>Topics</h5>' +
+        '<div class="form-check" id="topic" disabled></div>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="email" class="col-form-label">Email:</label>' +
+        '<input type="email" class="form-control" id="email" disabled>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<p>Paper: </p>' +
+        '<a id="paper"></a>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<p>Slide: </p>' +
+        '<a id="slide"></a>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<p id="commitTime"></p>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<p id="lastModified"></p>' +
+        '</div>' +
+        '</form>' +
+        '</div>' +
+        '<div class="modal-footer">' +
+        '<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>')
+}
 
-$('.conference-list').on('click', '.my-submission-button', function () {
-    var submissionID = $(this).attr('id');
-    $('#index').empty();
-    getEmptySubmissionForm();
-    getMySubmission(submissionID);
-});
-
-function getMySubmission(submissionID){
-
+function submissionDetail(submissionID) {
     $.ajax({
-        type:'post',
-        url:'/submission/detail',
-        dataType:'json',
-        data:{
-            submissionID:submissionID
+        type: 'post',
+        url: '/submission/detail',
+        dataType: 'json',
+        data: {
+            submissionID: submissionID,
         },
-        cache:false,
-        success:function (data) {
+        cache: false,
+        success(data) {
             var object = data['data']['result'];
+            $('#submissionID').attr('value', object['submissionID']);
             $('#title').attr('value', object['title']);
-            $('#abstractText').append(object['abstractText']);
+            $('#author').attr('value', object['author']);
+            $('#abstractText').attr('value', object['abstractText']);
             $('#keyword').attr('value', object['keyword']);
-            getMyTopicsInSubmission(object['conferenceID'], object['topic']);
-            $('#paper').fileinput({
-                theme: 'fas',
-                showUpload: false,
-                showCaption: false,
-                fileType: "any",
-                previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
-                overwriteInitial: false,
-                initialPreviewAsData: true,
-                initialPreview: [
-                    "C:\\Users\\94545\\Desktop\\Papers\\11111111111\\lihanxiang.pdf"
-                ]
-            });
-            $('#slide').fileinput({
-                'theme': 'explorer-fas',
-                overwriteInitial: false,
-                initialPreviewAsData: true,
-                initialPreview:object['slideFilePath'],
-                initialPreviewConfig: {url: "{$url}"},
-            });
-        },
-        error:function () {
-            notificationMessage("danger","Sorry, loading you submission detail failed")
+            getTopicsInSubmission(object['conferenceID'], object['topic']);
+            $('#email').attr('value', object['email']);
+            $('#paper').append(object['paperTitle']);
+            $('#paper').attr('href', "/paper/download/" + object['paperFileID']);
+            $('#slide').append(object['slideTitle']);
+            $('#slide').attr('href', "/slide/download/" + object['slideFileID']);
+            $('#commitTime').append("Commit: " + object['commitTime']);
+            $('#lastModified').append("Last Modified: " + object['lastModified']);
         }
     })
 }
 
-function getMyTopicsInSubmission(conferenceID, topics) {
+function getTopicsInSubmission(conferenceID, topics) {
     var topic = $('#topic');
     topic.empty();
 
@@ -85,9 +119,6 @@ function getMyTopicsInSubmission(conferenceID, topics) {
                     }
                 }
             }
-        },
-        error:function () {
-
         }
     })
 }
@@ -109,117 +140,26 @@ function getTopicsInConference(conferenceID){
             $.each(data['data']['result'], function (index, object) {
                 if (index == 0){
                     topic.append('<label class="fancy-checkbox">' +
-                        '<input type="checkbox" value="' + object['topicName'] + '" name="topic" checked="checked">' +
+                        '<input type="checkbox" class="input" value="' + object['topicName'] + '" name="topic" checked="checked">' +
                         '<span>' + object['topicName'] + '</span>' +
                         '</label>')
                 } else {
                     topic.append('<label class="fancy-checkbox">' +
-                        '<input type="checkbox" value="' + object['topicName'] + '" name="topic" >' +
+                        '<input type="checkbox" class="input" value="' + object['topicName'] + '" name="topic" >' +
                         '<span>' + object['topicName'] + '</span>' +
                         '</label>')
 
                 }
             });
-        },
-        error:function () {
-
         }
     })
 }
 
 function getEmptySubmissionForm(){
+    $('.input').val("");
+    $('.fileinput-remove-button').click();
     $('#submission-form').css("display", "block");
-    /*$('#submission-form').append('<div class="panel">' +
-                                    '<div class="panel-heading">' +
-                                        '<h2 class="panel-title">new Submission</h2>' +
-                                    '</div>' +
-                                    '<div class="panel-body">' +
-                                        '<div class="col-md-4">' +
-                                            '<div class="form-group" style="display: none">' +
-                                                '<input type="hidden" name="conferenceID" id="conference-id">' +
-                                            '</div>' +
-                                            '<div class="form-group">' +
-                                                '<label for="title">Title</label><br>' +
-                                                '<div class="alert alert-info alert-dismissible" role="alert">' +
-                                                '<button type="button" class="close" data-dismiss="alert" ' +
-                                                    'aria-label="Close">' +
-                                                    '<span aria-hidden="true">&times</span>' +
-                                                '</button>' +
-                                                '<i class="fa fa-info-circle"></i> Title of you Paper' +
-                                            '</div>' +
-                                            '<input type="text" class="form-control" id="title" placeholder="Enter"><br>' +
-                                        '</div>' +
-                                        '<div class="form-group">' +
-                                            '<label for="abstractText">Abstract</label>' +
-                                            '<div class="alert alert-info alert-dismissible" role="alert">' +
-                                                '<button type="button" class="close" data-dismiss="alert" ' +
-                                                    'aria-label="Close">' +
-                                                    '<span aria-hidden="true">&times</span>' +
-                                                '</button>' +
-                                                '<i class="fa fa-info-circle"></i> Abstract of your paper' +
-                                            '</div>' +
-                                            '<textarea class="form-control" id="abstractText" style="resize: none"' +
-                                            '  rows="8"></textarea><br>' +
-                                        '</div>' +
-                                        '<div class="form-group">' +
-                                            '<label for="keyword">Keyword</label>' +
-                                            '<div class="alert alert-info alert-dismissible" role="alert">' +
-                                                '<button type="button" class="close" data-dismiss="alert" ' +
-                                                'aria-label="Close">' +
-                                                '<span aria-hidden="true">&times</span>' +
-                                            '</button>' +
-                                                '<i class="fa fa-info-circle"></i> Specify <b>at least three</b> keywords,' +
-                                                'which are separated by semicolons.' +
-                                            '</div>' +
-                                            '<input type="text" class="form-control" id="keyword" placeholder="Enter"><br>' +
-                                        '</div>' +
-                                        '<div class="form-group">' +
-                                            '<h5>Topics</h5>' +
-                                            '<div class="alert alert-info alert-dismissible" role="alert">' +
-                                                '<button type="button" class="close" data-dismiss="alert" ' +
-                                                'aria-label="Close">' +
-                                                '<span aria-hidden="true">&times</span>' +
-                                            '</button>' +
-                                                '<i class="fa fa-info-circle"></i> Select <b>at least one</b> topic relevant to' +
-                                                'your submission from the following list' +
-                                            '</div>' +
-                                            '<div class="form-check" id="topic"></div>' +
-                                        '</div><br>' +
-                                    '</div>' +
-                                    '<div class="col-md-4">' +
-                                        '<div class="form-group">' +
-                                            '<h5>Paper</h5>' +
-                                            '<h6>The paper MUST be in PDF and the file name MUST be your English name, e.g.,' +
-                                            'TaimanChan.pdf</h6><br>' +
-                                            '<div class="file-loading">' +
-                                                '<input id="paper" class="file" type="file" data-theme="fas"' +
-                                                '   name="paper" data-browse-on-zone-click="true">' +
-                                            '</div>' +
-                                        '</div><br>' +
-                                        '<div class="form-group">' +
-                                            '<h5>Slide</h5>' +
-                                            '<h6>The slides file MUST be in PPT or PDF and the file name MUST be your' +
-                                            'English name, e.g., TaimanChan.pptx.</h6><br>' +
-                                            '<div class="file-loading">' +
-                                                '<input id="slide" class="file" type="file" data-theme="fas"' +
-                                                '   name="slide" data-browse-on-zone-click="true">' +
-                                            '</div>' +
-                                        '</div><br>' +
-                                        '<button type="submit" style="float:right" ' +
-                                            'class="btn btn-primary create-submission" >' +
-                                            'Submit' +
-                                        '</button>' +
-                                        '</div>' +
-                                            '<div id="toastr" style="display: none">' +
-                                            '<button type="button" id="btn-success" class="btn btn-success btn-toastr" ' +
-                                                'data-context="success" data-message="" data-position="top-right">Success</button>' +
-                                            '<button type="button" id="btn-warning" class="btn btn-warning btn-toastr" ' +
-                                                'data-context="warning" data-message="" data-position="top-right">Warning</button>' +
-                                            '<button type="button" id="btn-danger" class="btn btn-danger btn-toastr" ' +
-                                                    'data-context="error" data-message="" data-position="top-right">Danger</button>' +
-                                        '</div>');
-
-     */
+    $('#submission-warning').click();
 }
 
 $('.create-submission').click(function () {
@@ -242,36 +182,38 @@ function createSubmission() {
     var paper = $('#paper')[0].files[0];
     var slide = $('#slide')[0].files[0];
 
-
-    if (title == ""){
-        notificationMessage("danger","Title can not be empty");
+    if (title === ""){
+        $('#title-cannot-be-empty').click();
+        //$('#conference').click();
         return;
-    } else if (abstractText == ""){
-        notificationMessage("danger","Abstract can not be empty");
+    } else if (author === "") {
+        $('#author-cannot-be-empty').click();
         return;
-    } else if (keyword == ""){
-        notificationMessage("danger","Keyword can not be empty");
+    } else if (abstractText === "") {
+        $('#abstract-cannot-be-empty').click();
         return;
-    } else if (topic == ""){
-        notificationMessage("danger","Topic can not be empty");
+    } else if (keyword === "") {
+        $('#keyword-cannot-be-empty').click();
         return;
-    } else if (paper == undefined){
-        notificationMessage("danger","Paper file can not be empty");
+    } else if (topic === "") {
+        $('#topic-cannot-be-empty').click();
         return;
-    } else if (slide == undefined){
-        notificationMessage("danger","Slide file can not be empty");
+    } else if (paper === undefined) {
+        $('#paper-cannot-be-empty').click();
+        return;
+    } else if (slide === undefined) {
+        $('#abstract-cannot-be-empty').click();
         return;
     }
 
     formData.append("conferenceID", conferenceID);
-    formData.append("title",title);
-    formData.append("author",author);
+    formData.append("title", title);
+    formData.append("author", author);
     formData.append("abstractText", abstractText);
     formData.append("keyword", keyword);
     formData.append("topic", topic);
     formData.append("paper", paper);
     formData.append("slide", slide);
-
 
     $.ajax({
         type:'post',
@@ -286,30 +228,134 @@ function createSubmission() {
             if (data['status'] == 502){
                 notificationMessage("danger",data['message']);
             } else {
-                notificationMessage("success", "Submit application successfully. Thank you");
-                $('#submission-form').empty();
-                window.location.reload()
+                notificationMessage("success", "Success");
+                $('#conference').click();
             }
         },
-        error:function (data) {
-            notificationMessage("danger", data['message'])
+        error:function () {
+            notificationMessage("danger", "error");
         }
     })
 }
 
+function mySubmission() {
+    $.ajax({
+        type: 'post',
+        url: '/submission/my',
+        dataType: 'json',
+        cache: false,
+        data: {},
+        success: function (data) {
+            var mySubmissionList = $('#my-submissions-list');
+            mySubmissionList.empty();
+            mySubmissionList.append('<div class="panel">' +
+                '<div class="panel-heading">' +
+                '<h3 class="panel-title">My Submissions</h3>' +
+                '</div>' +
+                '<div class="panel-body no-padding candidate-submissions-detail">' +
+
+                '</div>' +
+                '<div class="panel-footer">' +
+                '<div class="row">' +
+                '<div class="col-md-6">' +
+                '<span class="panel-note submission-count">' +
+                '</span>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>');
+            var submissionCount = $('.submission-count');
+            submissionCount.empty();
+            if (data['status'] == 404) {
+                submissionCount.append('Submission found: 0');
+            } else {
+                var i = 0;
+                var searchResultDetail = $('.candidate-submissions-detail');
+                searchResultDetail.empty();
+                var table = $('<table class="table"></table>');
+                var thead = $('<thead>' +
+                    '<tr>' +
+                    '<th style="text-align: center">Submission Title</th>' +
+                    '<th style="text-align: center">Commit Time</th>' +
+                    '<th style="text-align: center">Last Modified</th>' +
+                    '</tr>' +
+                    '</thead>');
+                var tbody = $('<tbody></tbody>');
+                $.each(data['data']['result'], function (index, object) {
+                    var tr = $('<tr></tr>');
+                    tr.append($('<td style="text-align: center">' +
+                        '<a href="javascript:void(0)" class="submission-detail" id="' + object['submissionID'] + '">'
+                        + object['title'] + '</a></td>' +
+                        '<td style="text-align: center">' + object['commitTime'] + '</td>' +
+                        '<td style="text-align: center">' + object['lastModified'] + '</td>'));
+                    tbody.append(tr);
+                    i++;
+                });
+                table.append(thead);
+                table.append(tbody);
+                searchResultDetail.append(table);
+                if (i == 1){
+                    submissionCount.append('Submission found: ' + i);
+                } else {
+                    submissionCount.append('Submissions found: ' + i);
+                }
+            }
+        }
+    })
+}
+
+$('#submission').click(function () {
+    $('#submission-form').css("display", "none");
+    $('.conference-list').empty();
+    $('#conference-detail').empty();
+    $('#agenda-detail').empty();
+    mySubmission()
+});
+
+$('#my-submission').on("click", ".submission-detail", function () {
+    var submissionID = $(this).attr('id');
+    submissionForm();
+    submissionDetail(submissionID);
+    $('#submissionDetail').click();
+});
+
+$('#index').on('click', '.new-submission-button', function () {
+    var conferenceID = $(this).attr('id');
+    $('.conference-list').empty();
+    $('#conference-detail').empty();
+    $('#agenda-detail').empty();
+    getEmptySubmissionForm();
+    getTopicsInConference(conferenceID);
+    $('#conference-id').attr("value", conferenceID);
+});
+
+$('#index').on('click', '.submission-detail', function () {
+    var submissionID = $(this).attr('id');
+    submissionForm();
+    submissionDetail(submissionID);
+    $('#submissionDetail').click();
+});
+
+$('#index').on("click", ".conference-detail", function () {
+    var conferenceID = $(this).attr('id');
+    $('#submission-form').css("display", "none");
+    getConferenceDetail(conferenceID);
+});
+
 function notificationMessage(status, message) {
     var button;
     if (status == "success"){
-        button = document.getElementById("btn-success");
-        button.setAttribute("data-message", message);
+        button = $('.btn-success');
+        button.attr("data-message", message);
         button.click();
     } else if (status == "warning"){
-        button = document.getElementById("btn-warning");
-        button.setAttribute("data-message", message);
+        button = $('.btn-warning');
+        button.attr("data-message", message);
         button.click();
     } else if (status == "danger"){
-        button = document.getElementById("btn-danger");
-        button.setAttribute("data-message", message);
+        button = $('.btn-danger');
+        button.attr("data-message", message);
         button.click();
     }
 }

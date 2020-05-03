@@ -3,8 +3,6 @@ package com.lee.ficss.service.impl;
 import com.lee.ficss.constant.StatusCode;
 import com.lee.ficss.mapper.*;
 import com.lee.ficss.pojo.Agenda;
-import com.lee.ficss.pojo.Event;
-import com.lee.ficss.pojo.Session;
 import com.lee.ficss.service.AgendaService;
 import com.lee.ficss.util.DataMap;
 import com.lee.ficss.util.DateFormatter;
@@ -42,13 +40,14 @@ public class AgendaServiceImpl implements AgendaService {
     @Override
     public void createAgenda(String conferenceID, String agendaName, String agendaDate) {
         String date = dateFormatter.formatDateToSimpleString(new Date());
-        agendaMapper.createAgenda(new Agenda(conferenceID, randomIDBuilder.generateRandomId(),
+        agendaMapper.createAgenda(new Agenda(conferenceID, randomIDBuilder.generateRandomID(),
                 agendaName, agendaDate, date));
     }
 
     @Override
-    public void editAgendaInfo(Agenda agenda) {
-        agendaMapper.editAgendaInfo(agenda);
+    public DataMap editAgendaInfo(String agendaID, String agendaName) {
+        agendaMapper.editAgendaInfo(agendaID, agendaName);
+        return DataMap.success();
     }
 
     @Override

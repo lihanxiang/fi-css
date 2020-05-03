@@ -7,8 +7,22 @@ function getValidConferencesByAdmin(){
         success:function (data) {
             var conferenceList = $('.conference-list');
             conferenceList.empty();
-            var ul = $('<ul class="list-unstyled todo-list"></ul>');
-            if (data['status'] == 400){
+            conferenceList.append('<div class="panel">' +
+                '<div class="panel-heading">' +
+                '<h3 class="panel-title">Conference</h3>' +
+                '<div class="right">' +
+                '<button type="button" id="new-conference-form">' +
+                '<i class="lnr lnr-plus-circle"></i>' +
+                '<span> New</span>' +
+                '</button>' +
+                '</div>' +
+                '</div>' +
+                '<div class="panel-body ">' +
+                '<ul class="list-unstyled todo-list conference-detail-list"></ul>' +
+                '</div>' +
+                '</div>');
+            var ul = $('.conference-detail-list');
+            if (data['status'] === 400){
                 ul.append('<li><p><span class="title">No Conference found</span></p></li>');
             } else {
                 $.each(data['data']['result'], function (index, object) {
@@ -19,8 +33,13 @@ function getValidConferencesByAdmin(){
                         'id="' + object['conferenceID'] + '" style="float: right">' +
                         '<i class="lnr lnr-pointer-right"></i>' +
                         '<span> Detail</span>' +
+                        '</a>' +
+                        '<a href="javascript:void(0)" class="download-candidate-form" ' +
+                        'id="' + object['conferenceID'] + '" style="float: right; margin-right: 5%">' +
+                        '<i class="lnr lnr-download"></i>' +
+                        '<span> Candidate Form</span>' +
                         '</a>');
-                    if (object['firstDay'] == object['lastDay']){
+                    if (object['firstDay'] === object['lastDay']){
                         p.append('<span class="short-description">' + object['firstDay'] + '</span>');
                     } else {
                         p.append('<span class="short-description">From '+ object['firstDay'] + ' To ' + object['lastDay'] + '</span>');
@@ -29,7 +48,6 @@ function getValidConferencesByAdmin(){
                     ul.append(li);
                 });
             }
-            conferenceList.append(ul);
         },
         error:function (data) {
             notificationMessage("waring", data['message'])
@@ -37,47 +55,42 @@ function getValidConferencesByAdmin(){
     })
 }
 
-$('#get-empty-conference-form').click(function () {
-    var form = $('#empty-conference-form');
-    form.empty();
-    form.append('<div class="panel">' +
-                    '<div class="panel-heading">' +
-                        '<h3 class="panel-title">Create a new conference</h3>' +
-                        '<div class="right">' +
-                            '<button type="button" class="conference-form-remove">' +
-                                '<i class="lnr lnr-cross"></i>' +
-                            '</button>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="panel-body">' +
-                        '<div class="form-group">' +
-                            '<label for="conferenceName" class="col-form-label">Title</label>' +
-                            '<input type="text" class="form-control" id="conferenceName" name="conferenceName">' +
-                        '</div>' +
-                        '<div class="form-group">' +
-                            '<label for="topics" class="col-form-label">Topics</label>' +
-                            '<div class="alert alert-info alert-dismissible" role="alert">' +
-                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                                    '<span aria-hidden="true">&times</span>' +
-                                '</button>' +
-                                '<i class="fa fa-info-circle"></i> Topics of this conference, separated by ;'+
-                            '</div>' +
-                            '<input type="text" class="form-control" id="topics" name="topics">' +
-                        '</div>' +
-                        '<div class="form-group">' +
-                            '<label for="agendaStartDate" class="col-form-label">Start</label>' +
-                            '<input type="date" class="form-control" id="agendaStartDate" name="agendaStartDate">' +
-                        '</div>' +
-                        '<div class="form-group">' +
-                            '<label for="agendaEndDate" class="col-form-label">End</label>' +
-                            '<input type="date" class="form-control" id="agendaEndDate" name="agendaEndDate">' +
-                        '</div><br>' +
-                        '<button type="submit" style="float:right" class="btn btn-primary" id="create-conference">' +
-                            'Submit' +
-                        '</button>' +
-                    '</div>' +
-                '</div>');
-});
+function newConferenceForm(){
+    var modal = $('#modal');
+    modal.empty();
+    $('#modal').append('<div class="modal fade" id="createConferenceModal" tabindex="-1" role="dialog"' +
+        ' aria-labelledby="createConferenceLabel" aria-hidden="true">' +
+        '<div class="modal-dialog" role="document">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header">' +
+        '<h3 class="modal-title" id="createConferenceLabel">Create a new conference</h3>' +
+        '</div>' +
+        '<div class="modal-body">' +
+        '<form>' +
+        '<div class="form-group">' +
+        '<label for="conferenceName" class="col-form-label">Name:</label>' +
+        '<input type="text" class="form-control" id="conferenceName" required>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="topics" class="col-form-label">Topics(separated by ;): </label>' +
+        '<input type="text" class="form-control" id="topics" required>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="agendaStartDate" class="col-form-label">Start</label>' +
+        '<input type="date" class="form-control" id="agendaStartDate" name="agendaStartDate" required>' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="agendaEndDate" class="col-form-label">End</label>' +
+        '<input type="date" class="form-control" id="agendaEndDate" name="agendaEndDate" required>' +
+        '</div>' +
+        '<div class="modal-footer">' +
+        '<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>' +
+        '<button type="submit" class="btn btn-primary" data-dismiss="modal" id="createConference">Create</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>')
+}
 
 function getConferenceDetail(conferenceID) {
     $.ajax({
@@ -124,7 +137,7 @@ function getConferenceDetail(conferenceID) {
                                             '</a>');
             }
             if (object['submissionCount'] > 0){
-                $('#submissionCount').append('<a href="javascript:void(0)" class="submission-detail" ' +
+                $('#submissionCount').append('<a href="javascript:void(0)" class="submission-info-list" ' +
                                                     'id="' + conferenceID + '" style="float: right">' +
                                                     '<i class="lnr lnr-pointer-right"></i>' +
                                                     '<span> Detail</span>' +
@@ -171,34 +184,56 @@ function createConference() {
             topics:topics
         },
         cache:false,
-        success:function () {
-            notificationMessage("success", "Create agenda success");
-            getValidConferences();
-            $('#empty-conference-form').empty();
+        success:function (data) {
+            if (data['status'] == 300){
+                notificationMessage("danger", data['message']);
+            } else {
+                notificationMessage("success", "Success");
+                getValidConferencesByAdmin();
+            }
         },
-        error:function () {
-            alert("error");
+        error:function (data) {
+            notificationMessage("danger", data['message']);
         }
     })
 }
 
 $('#conference').click(function () {
+    $('.overview-data').empty();
+    $('.conference-list').empty();
+    $('#empty-conference-form').empty();
+    $('#conference-detail').empty();
+    $('#agenda-detail').empty();
+    $('#selectedPaper').empty();
+    $('#availablePaper').empty();
+    $('#submission-list').empty();
+    $('#candidate-search-result').empty();
+    $('#candidate-submissions-list').empty();
     getValidConferencesByAdmin();
 });
 
 var conferenceDiv = $('#conference-div');
-var emptyConferenceForm = $('#empty-conference-form');
 
-conferenceDiv.on("click", "#create-conference", function () {
+conferenceDiv.on("click", "#createConference", function () {
     createConference();
+    $('#conference').click();
+});
+
+conferenceDiv.on('click', '#new-conference-form', function () {
+    newConferenceForm();
+    $('#emptyConferenceForm').click();
 });
 
 conferenceDiv.on("click", ".conference-detail", function () {
     var conferenceID = $(this).attr('id');
-    emptyConferenceForm.empty();
     getConferenceDetail(conferenceID);
 });
 
+conferenceDiv.on("click", ".download-candidate-form", function () {
+    var conferenceID = $(this).attr('id');
+    $('#downloadCandidateForm').attr('href', '/admin/download-candidate-form/' + conferenceID);
+    document.getElementById('downloadCandidateForm').click();
+});
 
 
 

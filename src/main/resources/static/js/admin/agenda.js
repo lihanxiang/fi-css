@@ -15,15 +15,23 @@ function getFirstDayInConference(conferenceID) {
             agendaDetail.append('<div class="panel"> ' +
                                     '<div class="panel-heading">' +
                                         '<h3 class="panel-title">' + object['agendaName'] +'</h3>' +
-                                        '<p class="panel-subtitle">' + object['agendaDate'] +  '</p>' +
                                         '<div class="right">' +
                                             '<button type="button" class="new-event-form" id="' + object['agendaID'] + '">' +
                                                 '<i class="lnr lnr-plus-circle"></i>' +
                                                 '<span> New</span>' +
+                                            '</button><br>' +
+                                            '<button type="button" class="edit-agenda-form" id="' + object['agendaID'] + '">' +
+                                            '<i class="lnr lnr-pencil"></i>' +
+                                            '<span> Edit </span>' +
+                                            '</button><br>' +
+                                            '<button type="button" class="download-agenda" id="' + object['agendaID'] + '">' +
+                                            '<i class="lnr lnr-download"></i>' +
+                                            '<span> Download </span>' +
                                             '</button>' +
                                         '</div>' +
                                     '</div>' +
                                     '<div class="panel-body">' +
+                                        '<p>' + object['agendaDate'] + '</p>' +
                                         '<div class="event-list" style="overflow: auto; word-break: break-all;word-wrap: break-word;">' +
                                         '</div>' +
                                         '<div style="margin-bottom: 5%">' +
@@ -65,15 +73,23 @@ function getAgendaByID(agendaID){
             agendaDetail.append('<div class="panel"> ' +
                 '<div class="panel-heading">' +
                 '<h3 class="panel-title">' + object['agendaName'] +'</h3>' +
-                '<p class="panel-subtitle">' + object['agendaDate'] +  '</p>' +
                 '<div class="right">' +
                 '<button type="button" class="new-event-form" id="' + object['agendaID'] + '">' +
                 '<i class="lnr lnr-plus-circle"></i>' +
                 '<span> New</span>' +
+                '</button><br>' +
+                '<button type="button" class="edit-agenda-form" id="' + object['agendaID'] + '">' +
+                '<i class="lnr lnr-pencil"></i>' +
+                '<span> Edit </span>' +
+                '</button><br>' +
+                '<button type="button" class="download-agenda" id="' + object['agendaID'] + '">' +
+                '<i class="lnr lnr-download"></i>' +
+                '<span> Download </span>' +
                 '</button>' +
                 '</div>' +
                 '</div>' +
                 '<div class="panel-body">' +
+                '<p>' + object['agendaDate'] + '</p>' +
                 '<div class="event-list" style="overflow: auto; word-break: break-all;word-wrap: break-word;"></div>' +
                 '<div style="margin-bottom: 5%">' +
                 '<div class="col-sm-4">' +
@@ -109,9 +125,85 @@ function getAgendaByID(agendaID){
     })
 }
 
+function editAgendaForm() {
+    var modal = $('#modal');
+    modal.empty();
+    $('#modal').append('<div class="modal fade" id="editAgendaModal" tabindex="-1" role="dialog"' +
+        ' aria-labelledby="editAgendaLabel" aria-hidden="true">' +
+        '<div class="modal-dialog" role="document">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header">' +
+        '<h5 class="modal-title" id="editAgendaLabel" >Edit Agenda</h5>' +
+        '</div>' +
+        '<div class="modal-body">' +
+        '<form>' +
+        '<div class="form-group">' +
+        '<input type="hidden" class="form-control" id="agendaID">' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="agendaName" class="col-form-label"><span style="color:red">*</span>Name:</label>' +
+        '<input type="text" class="form-control" id="agendaName">' +
+        '</div>' +
+        '</form>' +
+        '</div>' +
+        '<div class="modal-footer">' +
+        '<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>' +
+        '<button type="submit" class="btn btn-primary" data-dismiss="modal" id="editAgenda">Edit</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>')
+}
+
+function getAgendaDetailForEdit(agendaID) {
+    $.ajax({
+        type: 'post',
+        url: '/agenda/get-by-id',
+        dataType: 'json',
+        data: {
+            agendaID: agendaID
+        },
+        cache: false,
+        success: function (data) {
+            var object = data['data']['result'];
+            $('#agendaID').attr('value', object['agendaID']);
+            $('#agendaName').attr('value', object['agendaName']);
+        },
+        error:function (data) {
+            notificationMessage("danger", data['message']);
+        }
+    })
+}
+
+function editAgenda() {
+
+    var agendaID = $('#agendaID').val();
+    var agendaName = $('#agendaName').val();
+
+    $.ajax({
+        type: 'post',
+        url: '/agenda/edit',
+        dataType: 'json',
+        data: {
+            agendaID: agendaID,
+            agendaName: agendaName,
+        },
+        cache: false,
+        success: function () {
+            getAgendaByID(agendaID);
+            notificationMessage("success", "Success")
+        },
+        error:function () {
+            notificationMessage("danger", "Edit agenda fail");
+        }
+    })
+}
+
+
 var conferenceDiv = $('#conference-div');
 
 conferenceDiv.on("click", ".first-day-in-conference", function () {
+    $('#submission-list').empty();
     var conferenceID = $(this).attr('id');
     getFirstDayInConference(conferenceID);
 });
@@ -119,4 +211,21 @@ conferenceDiv.on("click", ".first-day-in-conference", function () {
 conferenceDiv.on("click", ".get-agenda-by-id", function () {
     var agendaID = $(this).attr('id');
     getAgendaByID(agendaID);
+});
+
+conferenceDiv.on("click", ".download-agenda", function () {
+    var agendaID = $(this).attr('id');
+    $('#downloadAgenda').attr('href', '/agenda/download/' + agendaID);
+    document.getElementById('downloadAgenda').click();
+});
+
+conferenceDiv.on("click", ".edit-agenda-form", function () {
+    var agendaID = $(this).attr('id');
+    editAgendaForm();
+    getAgendaDetailForEdit(agendaID);
+    $('#editAgendaForm').click();
+});
+
+conferenceDiv.on("click", "#editAgenda", function () {
+    editAgenda();
 });

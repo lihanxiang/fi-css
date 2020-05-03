@@ -18,12 +18,13 @@ public enum StatusCode {
     TOPIC_FOUND(212, "Topic found"),
     CANDIDATE_FOUND(213, "Candidate found"),
 
-
     // 3xx Found
     CONFERENCE_ALREADY_EXIST(300, "Same conference already exists"),
     AGENDA_ALREADY_EXIST(301, "Same agenda already exists in this conference"),
     EVENT_ALREADY_EXIST(302, "Same event already exists at this time"),
     TOPIC_ALREADY_EXIST(303, "Same topic already exists in this conference"),
+    EMAIL_ADDRESS_EXIST(304, "This email address belongs to another account"),
+    PHONE_NUMBER_EXIST(305, "This phone number belongs to another account"),
 
 
     // 4xx Not Found
@@ -36,6 +37,7 @@ public enum StatusCode {
     CANDIDATE_NOT_FOUND(406, "There is no candidate found"),
     PAPER_NOT_FOUND(407, "No paper found in this session"),
     NO_AVAILABLE_PAPER(408, "No paper available for this session"),
+    EMAIL_ADDRESS_NOT_REGISTERED(409, "This email address is not registered"),
 
     // 5xx Warning/Error
     INTERNAL_SERVER_ERROR(502, "Internal server error"),
@@ -43,15 +45,14 @@ public enum StatusCode {
             "If it doesn't work, contact with the administrator"),
     CREATE_AGENDA_PROCESS_FAILED(501, "Create agenda failed, please try again. " +
             "If it doesn't work, contact with the administrator"),
-
     ONLY_ONE_SUBMISSION_IN_EACH_CONFERENCE(502, "For every conference, each candidate " +
             "can only have one submission"),
-    FILE_ALREADY_EXIST(5, "File is already exist in the database"),
-
-
-    ;
-
-
+    FILE_ALREADY_EXIST(503, "File is already exist in the database"),
+    WRONG_PASSWORD(504, "Wrong password"),
+    MAIL_SERVICE_CRASHED(505, "Mail service was crashed, please contact the administrator"),
+    PLEASE_FOLLOW_THE_INSTRUCTION(506, "Please follow the instruction and fill in every field"),
+    WRONG_AUTH_CODE(507, "Please enter the correct auth code"),
+    INVALID_EMAIL_ADDRESS(508, "Pleas enter a valid email address");
 
     private int code;
     private String message;

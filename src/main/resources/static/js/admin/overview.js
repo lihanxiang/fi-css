@@ -1,6 +1,17 @@
 $('#overview').click(function () {
-    $('#conference-div').empty();
-    $('#overview-div').append('<div class="panel panel-headline">' +
+    $('.overview-data').empty();
+    $('.conference-list').empty();
+    $('#empty-conference-form').empty();
+    $('#conference-detail').empty();
+    $('#agenda-detail').empty();
+    $('#selectedPaper').empty();
+    $('#availablePaper').empty();
+    $('#conference-detail').empty();
+    $('#submission-list').empty();
+    $('#candidate-search-result').empty();
+    $('#candidate-submissions-list').empty();
+
+    $('.overview-data').append('<div class="panel panel-headline">' +
                                 '<div class="panel-heading">' +
                                     '<h3 class="panel-title">Overview</h3>' +
                                 '</div>' +
@@ -8,7 +19,6 @@ $('#overview').click(function () {
                                     '<div class="row">' +
                                         '<div class="col-md-4">' +
                                             '<div class="metric">' +
-                                                '<span class="icon"><i class="fa fa-calendar"></i></span>' +
                                                 '<p>' +
                                                     '<span class="number" id="conferenceCount"></span>' +
                                                     '<span class="title" id="conferenceCountTitle">Conferences</span>' +
@@ -17,7 +27,6 @@ $('#overview').click(function () {
                                         '</div>' +
                                         '<div class="col-md-4">' +
                                             '<div class="metric">' +
-                                                '<span class="icon"><i class="fa fa-upload"></i></span>' +
                                                 '<p>' +
                                                     '<span class="number" id="submissionCount"></span>' +
                                                     '<span class="title" id="submissionCountTitle">Submissions</span>' +
@@ -26,7 +35,6 @@ $('#overview').click(function () {
                                         '</div>' +
                                         '<div class="col-md-4">' +
                                             '<div class="metric">' +
-                                                '<span class="icon"><i class="fa fa-user"></i></span>' +
                                                 '<p>' +
                                                     '<span class="number" id="candidateCount"></span>' +
                                                     '<span class="title" id="candidateCountTitle">Candidates</span>' +

@@ -13,13 +13,11 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * This is the controller that execute all the operations
@@ -46,6 +44,8 @@ public class SubmissionController {
     private final UserService userService;
     private final RandomIDBuilder randomIDBuilder;
     private final DateFormatter dateFormatter;
+    @Autowired
+    private TopicService topicService;
 
     public SubmissionController(SubmissionService submissionService, PaperService paperService,
                                 SlideService slideService, UserService userService,
@@ -66,14 +66,6 @@ public class SubmissionController {
         return JsonResult.build(dataMap).toJSONString();
     }
 
-    /**
-     * In this method, first thing is to transfer the submitted files to
-     * the specific folders which had been declared above as the final constant.
-     * And then use ID builder to set up the random ID for paper, slide and the
-     * submission
-     *
-     * @return              error/500.html for the IOException caused by file transfer
-     */
     @ResponseBody
     @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public String create(@RequestParam("conferenceID") String conferenceID, @RequestParam("title") String title,
@@ -90,8 +82,8 @@ public class SubmissionController {
         /*
             Set the location of folders which keep the files
          */
-        StringBuffer paperString = new StringBuffer(PAPER_LOCATION);
-        StringBuffer slideString = new StringBuffer(SLIDE_LOCATION);
+        StringBuilder paperString = new StringBuilder(PAPER_LOCATION);
+        StringBuilder slideString = new StringBuilder(SLIDE_LOCATION);
         /*
             Get the name of file, if the file name HanxiangLi.pdf,
             the string will be "HanxiangLi.pdf"
@@ -145,9 +137,9 @@ public class SubmissionController {
         /*
             Generate the random ID
          */
-        String paperFileID = randomIDBuilder.generateRandomId();
-        String slideFileID = randomIDBuilder.generateRandomId();
-        String submissionID = randomIDBuilder.generateRandomId();
+        String paperFileID = randomIDBuilder.generateRandomID();
+        String slideFileID = randomIDBuilder.generateRandomID();
+        String submissionID = randomIDBuilder.generateRandomID();
 
         /*
             Get the present date, used as the 'commit_time'
@@ -162,16 +154,14 @@ public class SubmissionController {
 
         paperService.createPaper(new Paper(paperFileID, userID, paperFileName, paperLocation, now, now));
         slideService.createSlide(new Slide(slideFileID, userID, slideFileName, slideLocation, now, now));
-        submissionService.createSubmission(new Submission(conferenceID, submissionID, userID, title,
-                author, abstractText, keyword, topic, loginEmail, paperFileID, slideFileID, now, now));
-        return JsonResult.build().toJSONString();
+        return JsonResult.build(submissionService.createSubmission(conferenceID, submissionID, userID, title,
+                author, abstractText, keyword, topic, loginEmail, paperFileID, slideFileID, now, now)).toJSONString();
     }
 
     @ResponseBody
     @RequestMapping(value = "/detail", produces = MediaType.APPLICATION_JSON_VALUE)
     public String detail(@RequestParam("submissionID") String submissionID){
         DataMap dataMap = submissionService.getSubmissionByID(submissionID);
-        System.out.println(submissionID);
         return JsonResult.build(dataMap).toJSONString();
     }
 
@@ -180,21 +170,34 @@ public class SubmissionController {
                        @RequestParam("abstractText") String abstractText, @RequestParam("keyword") String keyword,
                        @RequestParam("topic") String topic, @RequestParam("email") String email,
                        @RequestParam("paper") MultipartFile paper, @RequestParam("slide") MultipartFile slide){
-
-
-        return "candidate/submission";
-    }
-
-    @RequestMapping(value = "{submissionID}")
-    public String submission(@PathVariable("submissionID") String submissionID, Model model){
-        model.addAttribute("submission", submissionService.getSubmissionByID(submissionID));
         return "candidate/submission";
     }
 
     @ResponseBody
-    @PostMapping(value = "/submission-detail-in-conference", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String submissionDetailInConference(@RequestParam("conferenceID") String conferenceID){
+    @PostMapping(value = "/submission-info-in-conference", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String submissionInfoInConference(@RequestParam("conferenceID") String conferenceID){
         DataMap dataMap = submissionService.getSubmissionInConference(conferenceID);
         return JsonResult.build(dataMap).toJSONString();
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/topic", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String topic(@RequestParam("conferenceID") String conferenceID){
+        return JsonResult.build(topicService.getAllTopicsOrderByName(conferenceID)).toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/candidate", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String candidate(@RequestParam("userID") String userID){
+        return JsonResult.build(submissionService.getSubmissionBySubmitterID(userID)).toJSONString();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/my", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String mySubmission(){
+        String loginEmail = (String)SecurityUtils.getSubject().getSession().getAttribute("loginEmail");
+        String userID = userService.getUserByEmail(loginEmail).getUserID();
+        return JsonResult.build(submissionService.getSubmissionBySubmitterID(userID)).toJSONString();
     }
 }

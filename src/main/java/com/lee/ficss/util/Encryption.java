@@ -41,11 +41,14 @@ public class Encryption {
     }
 
     public void encryptPassword(User user){
-        if (user.getPassword() != null){
-            user.setSalt(randomNumberGenerator.nextBytes().toHex());
-            String password = new SimpleHash(getAlgorithmName(), user.getPassword(),
-                    ByteSource.Util.bytes(user.getSalt()), getIterationTime()).toHex();
-            user.setPassword(password);
-        }
+        user.setSalt(randomNumberGenerator.nextBytes().toHex());
+        String password = new SimpleHash(getAlgorithmName(), user.getPassword(),
+                ByteSource.Util.bytes(user.getSalt()), getIterationTime()).toHex();
+        user.setPassword(password);
+    }
+
+    public String getEncryptedPassword(String password, String salt){
+        return new SimpleHash(getAlgorithmName(), password,
+                ByteSource.Util.bytes(salt), getIterationTime()).toHex();
     }
 }

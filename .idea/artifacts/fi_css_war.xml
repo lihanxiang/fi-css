@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="fi-css:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>fi-css</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="ficss.war">
+      <element id="artifact" artifact-name="fi-css:war exploded" />
+    </root>
+  </artifact>
+</component>

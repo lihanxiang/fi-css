@@ -5,7 +5,6 @@ import com.lee.ficss.mapper.AgendaMapper;
 import com.lee.ficss.mapper.ConferenceMapper;
 import com.lee.ficss.mapper.SubmissionMapper;
 import com.lee.ficss.mapper.UserMapper;
-import com.lee.ficss.pojo.Agenda;
 import com.lee.ficss.pojo.Conference;
 import com.lee.ficss.pojo.Submission;
 import com.lee.ficss.service.ConferenceService;
@@ -41,7 +40,7 @@ public class ConferenceServiceImpl implements ConferenceService {
         if (conferenceMapper.checkIfConferenceExist(conferenceName) > 0){
             return null;
         }
-        String conferenceID = randomIDBuilder.generateRandomId();
+        String conferenceID = randomIDBuilder.generateRandomID();
         String date = dateFormatter.formatDateToSimpleString(new Date());
         conferenceMapper.createConference(new Conference(conferenceID, conferenceName, date));
         return conferenceID;

@@ -18,12 +18,13 @@ public class User {
     public User() {
     }
 
-    public User(String cnName, String enName, String password,
-                String email, String phone, String role) {
+    public User(String userID, String email, String password, String cnName, String enName,
+                 String phone, String role) {
+        this.userID = userID;
+        this.email = email;
+        this.password = password;
         this.cnName = cnName;
         this.enName = enName;
-        this.password = password;
-        this.email = email;
         this.phone = phone;
         this.role = role;
     }

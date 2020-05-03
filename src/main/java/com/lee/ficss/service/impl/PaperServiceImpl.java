@@ -75,6 +75,7 @@ public class PaperServiceImpl implements PaperService {
             paperJson = new JSONObject();
             Paper paper = paperMapper.getPaperByFileID(paperID);
             paperJson.put("sessionID", sessionID);
+            paperJson.put("submissionID", submissionMapper.getSubmissionByPaperID(paperID).getSubmissionID());
             paperJson.put("paperFileID", paper.getPaperFileID());
             paperJson.put("paperTitle", paper.getPaperTitle());
             paperJson.put("author", submissionMapper.getSubmissionByPaperID(paperID).getAuthor());
@@ -87,6 +88,11 @@ public class PaperServiceImpl implements PaperService {
     @Override
     public List<Paper> searchPapers(String title, String author, String keyword, String topic) {
         return paperMapper.searchPapers(title, author, keyword, topic);
+    }
+
+    @Override
+    public void deletePaperFromSession(String paperFileID) {
+        paperMapper.deletePaperInSession(paperFileID);
     }
 
     @Override

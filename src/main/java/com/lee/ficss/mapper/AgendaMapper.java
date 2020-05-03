@@ -16,9 +16,9 @@ public interface AgendaMapper {
     void createAgenda(Agenda agenda);
 
     //Update
-    @Update("UPDATE agenda SET agenda_name = #{agendaName}, agenda_date = #{agendaDate} " +
+    @Update("UPDATE agenda SET agenda_name = #{agendaName}" +
             "WHERE agenda_id = #{agendaID}")
-    void editAgendaInfo(Agenda agenda);
+    void editAgendaInfo(@Param("agendaID") String agendaID, @Param("agendaName") String agendaName);
 
     //SELECT
     @Select("SELECT COUNT(*) FROM agenda WHERE conference_id = #{conferenceID} AND agenda_date = #{agendaDate}")

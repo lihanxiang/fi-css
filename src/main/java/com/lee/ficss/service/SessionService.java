@@ -16,7 +16,7 @@ public interface SessionService {
     void addPaperToSession(String sessionID, String paperFileID);
 
     //Update
-    void editSessionInfo(String sessionID, String sessionName, String sessionRoom, String sessionReviewer, String sessionChair);
+    DataMap editSessionInfo(String sessionID, String sessionName, String sessionRoom, String sessionReviewer, String sessionChair);
 
     void addReviewerToSession(String sessionID, String sessionReviewerID);
 

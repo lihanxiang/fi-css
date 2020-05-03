@@ -41,8 +41,8 @@ public interface SessionMapper {
             @Result(column = "session_id", property = "sessionID"),
             @Result(column = "session_name", property = "sessionName"),
             @Result(column = "session_room", property = "sessionRoom"),
-            @Result(column = "session_reviewer_id", property = "sessionReviewerID"),
-            @Result(column = "session_chair_id", property = "sessionChairID"),
+            @Result(column = "session_reviewer", property = "sessionReviewer"),
+            @Result(column = "session_chair", property = "sessionChair"),
             @Result(column = "session_index", property = "sessionIndex"),
             @Result(column = "creation_time", property = "creationTime"),
     })
@@ -51,7 +51,8 @@ public interface SessionMapper {
     @Select("SELECT COUNT(*) FROM session WHERE event_id = #{eventID}")
     int getSessionsCountInEvent(String eventID);
 
-    @Select("SELECT * FROM session WHERE event_id = #{eventID}")
+    @Select("SELECT * FROM session WHERE event_id = #{eventID} ORDER BY creation_time")
+    @ResultMap(value = "resultMap")
     List<Session> getSessionsInEvent(String eventID);
 
     @Select("SELECT * FROM session WHERE event_id = #{eventID} AND session_index = #{sessionIndex}")

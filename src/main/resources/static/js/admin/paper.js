@@ -12,6 +12,13 @@ conferenceDiv.on("click", ".add-paper-to-session", function () {
     addPaperToSession(sessionID, paperFileID);
 });
 
+conferenceDiv.on("click", ".remove-paper", function () {
+    var IDs = $(this).attr('id').split(';');
+    var sessionID = IDs[0];
+    var paperFileID = IDs[1];
+    deletePaperFromSession(sessionID, paperFileID);
+});
+
 
 function showAvailablePapers(sessionID) {
 
@@ -48,8 +55,8 @@ function showAvailablePapers(sessionID) {
                     ul.append('<li>' +
                                 '<p>' +
                                 '<span class="title">' +
-                                    '<a href="javascript:void(0)" class="show-submission-detail" ' +
-                                        'id="' + object['paperFileID'] + '">' + object['paperTitle'] +
+                                    '<a href="javascript:void(0)" class="submission-detail" ' +
+                                        'id="' + object['submissionID'] + '">' + object['paperTitle'] +
                                     '</a>' +
                                 '</span>' +
                                 '<span class="short-description">' + object['author'] + '</span>' +
@@ -86,3 +93,25 @@ function addPaperToSession(sessionID, paperFileID) {
         }
     })
 }
+
+function deletePaperFromSession(sessionID, paperFileID) {
+
+    $.ajax({
+        type: 'post',
+        url: '/paper/delete-paper-from-session',
+        dataType: 'json',
+        data: {
+            paperFileID: paperFileID
+        },
+        cache: false,
+        success: function () {
+            getPapersInSession(sessionID);
+            showAvailablePapers(sessionID);
+        },
+        error:function (data) {
+            notificationMessage("danger", data['message']);
+        }
+    })
+}
+
+

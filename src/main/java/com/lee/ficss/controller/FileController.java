@@ -1,76 +1,63 @@
 package com.lee.ficss.controller;
 
+import com.lee.ficss.mapper.*;
+import com.lee.ficss.pojo.Event;
+import com.lee.ficss.pojo.Paper;
+import com.lee.ficss.pojo.Session;
+import com.lee.ficss.service.ConferenceService;
+import com.lee.ficss.service.TopicService;
+import com.lee.ficss.service.UserService;
 import com.lee.ficss.util.DateFormatter;
+import com.lee.ficss.util.JsonResult;
 import com.lee.ficss.util.RandomIDBuilder;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.ss.util.RegionUtil;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.List;
 
 @Controller
 @RequestMapping("file")
 public class FileController {
 
-    private static final String PAPER_LOCATION = "C:\\Users\\94545\\Desktop\\Papers";
-    private static final String SLIDE_LOCATION = "C:\\Users\\94545\\Desktop\\Slides";
-
+    @Autowired
+    private AgendaMapper agendaMapper;
+    @Autowired
+    private TopicService topicService;
     @Autowired
     private RandomIDBuilder randomIDBuilder;
     @Autowired
+    private UserService userService;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private PaperMapper paperMapper;
+    @Autowired
     private DateFormatter dateFormatter;
+    @Autowired
+    private TopicMapper topicMapper;
+    @Autowired
+    private EventMapper eventMapper;
+    @Autowired
+    private SessionMapper sessionMapper;
+    @Autowired
+    private ConferenceService conferenceService;
+    @Autowired
+    private SubmissionMapper submissionMapper;
 
-    @RequestMapping(value = "upload-page", method = RequestMethod.GET)
-    public String uploadPage(Model model){
-        return "file/upload";
-    }
 
-    @RequestMapping(value = "upload", method = RequestMethod.POST)
-    public String upload(@RequestParam("paper") MultipartFile paper, @RequestParam("slide") MultipartFile slide, Model model){
+    private static final String CANDIDATE_LOCATION = "classpath:/file/agenda/candidate.xlsx";
 
-        //MultipartFile paper = file[0];
-        //MultipartFile slide = file[1];
-        if (!paper.isEmpty() && !slide.isEmpty()){
-            StringBuffer paperFile = new StringBuffer(PAPER_LOCATION);
-            StringBuffer slideFile = new StringBuffer(SLIDE_LOCATION);
-            //String fileId = randomIDBuilder.generateFileId();
-            String paperName = paper.getOriginalFilename();
-            String slideName = slide.getOriginalFilename();
-            paperFile.append("\\").append(paperName);
-            slideFile.append("\\").append(slideName);
-            String paperLocation = paperFile.toString();
-            String slideLocation = slideFile.toString();
-            File p = new File(paperLocation);
-            File s = new File(paperLocation);
-            if (!p.getParentFile().exists()){
-                p.getParentFile().mkdirs();
-            }
-            if (!s.getParentFile().exists()){
-                s.getParentFile().mkdirs();
-            }
-            try {
-                paper.transferTo(new File(paperLocation));
-                slide.transferTo(new File(slideLocation));
-            } catch (IOException e){
-                e.printStackTrace();
-                return "file/500";
-            }
-            return "file/uploadSuccess";
-        } else {
-            return "file/uploadFail";
-        }
-    }
-
-    /*@RequestMapping(value = "download/{fileId}")
-    public String download(@PathVariable("fileId") String fileId, HttpServletResponse response){
-        //File file = new File("C:\\Users\\94545\\Desktop\\file set\\1.txt");
-        File file = new File(fileService.getFileByFileId(fileId).getPath());
+    @ResponseBody
+    @RequestMapping(value = "download")
+    public String download(@RequestParam("path") String path, HttpServletResponse response) {
+        File file = new File(path);
         response.setHeader("content-type", "application/octet-stream");
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/octet-stream");
@@ -79,7 +66,7 @@ public class FileController {
         try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
             byte[] buff = new byte[1024];
             OutputStream os = response.getOutputStream();
-            int i = 0;
+            int i;
             while ((i = bis.read(buff)) != -1) {
                 os.write(buff, 0, i);
                 os.flush();
@@ -87,8 +74,7 @@ public class FileController {
 
         } catch (IOException e) {
             e.printStackTrace();
-            return "file/500";
         }
-        return "";
-    }*/
+        return JsonResult.build().toJSONString();
+    }
 }

@@ -40,7 +40,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public String createSession(String eventID, String sessionName, String sessionRoom, String sessionReviewer, String sessionChair) {
-        String sessionID = randomIDBuilder.generateRandomId();
+        String sessionID = randomIDBuilder.generateRandomID();
         sessionMapper.createSession(new Session(eventID, sessionID, sessionName,
                 sessionRoom, sessionReviewer, sessionChair, sessionMapper.getSessionsCountInEvent(eventID) + 1,
                 dateFormatter.formatDateToString(new Date())));
@@ -53,8 +53,9 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void editSessionInfo(String sessionID, String sessionName, String sessionRoom, String sessionReviewer, String sessionChair) {
+    public DataMap editSessionInfo(String sessionID, String sessionName, String sessionRoom, String sessionReviewer, String sessionChair) {
         sessionMapper.editSessionInfo(sessionID, sessionName, sessionRoom, sessionReviewer, sessionChair);
+        return DataMap.success();
     }
 
     @Override

@@ -5,8 +5,6 @@ import com.lee.ficss.mapper.EventMapper;
 import com.lee.ficss.mapper.SessionMapper;
 import com.lee.ficss.mapper.UserMapper;
 import com.lee.ficss.pojo.Event;
-import com.lee.ficss.pojo.Paper;
-import com.lee.ficss.pojo.Session;
 import com.lee.ficss.service.EventService;
 import com.lee.ficss.util.DataMap;
 import com.lee.ficss.util.DateFormatter;
@@ -43,7 +41,7 @@ public class EventServiceImpl implements EventService {
         if (room.isEmpty()){
             status = 1;
         }
-        eventMapper.createEvent(new Event(agendaID, randomIDBuilder.generateRandomId(), eventName, eventStartTime,
+        eventMapper.createEvent(new Event(agendaID, randomIDBuilder.generateRandomID(), eventName, eventStartTime,
                 eventEndTime, room, description, status, dateFormatter.formatDateToSimpleString(new Date())));
         return DataMap.success();
     }

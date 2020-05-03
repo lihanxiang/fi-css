@@ -40,26 +40,12 @@
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="lnr lnr-question-circle"></i>
-                                <span>Help</span>
-                                <i class="icon-submenu lnr lnr-chevron-down"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="#">
-                                        <i class="lnr lnr-envelope"></i>
-                                        <span>Contact Us</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/img/user.png" class="img-circle" alt="">
                                 <span>User</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
+                                <li><a href="javascript:void(0)" id="profile"><i class="lnr lnr-user"></i><span>My Profile</span></a></li>
+                                <li><a href="javascript:void(0)" id="password"><i class="lnr lnr-pencil"></i><span>Change Password</span></a></li>
                                 <li><a href="/user/logout"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
                             </ul>
                         </li>
@@ -76,20 +62,7 @@
                     <ul class="nav">
                         <li><a href="javascript:void(0)" id="overview"><i class="lnr lnr-inbox"></i><span>Overview</span></a></li>
                         <li><a href="javascript:void(0)" id="conference"><i class="lnr lnr-list"></i><span>Conference</span></a></li>
-                        <li><a href="javascript:void(0)" id="paper"><i class="lnr lnr-file-empty"></i><span>Paper</span></a></li>
                         <li><a href="javascript:void(0)" id="candidate"><i class="lnr lnr-users"></i><span>Candidate</span></a></li>
-                        <li>
-                            <a href="#subPages" data-toggle="collapse" class="collapsed">
-                                <i class="fa fa-calendar"></i>
-                                <span>Calendar</span>
-                                <i class="icon-submenu lnr lnr-chevron-left"></i>
-                            </a>
-                            <div id="subPages" class="collapse ">
-                                <ul class="nav">
-                                    <li><a href="" class="">Profile</a></li>
-                                </ul>
-                            </div>
-                        </li>
                     </ul>
                 </nav>
             </div>
@@ -111,6 +84,9 @@
         <script type="application/javascript" src="/js/admin/submission.js"></script>
         <script type="application/javascript" src="/js/admin/paper.js"></script>
         <script type="application/javascript" src="/js/admin/overview.js"></script>
+        <script type="application/javascript" src="/js/admin/candidate.js"></script>
+        <script type="application/javascript" src="/js/admin/user.js"></script>
+        <script type="application/javascript" src="/js/admin/password.js"></script>
     </div>
 
 </html>

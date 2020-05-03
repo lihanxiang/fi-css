@@ -7,7 +7,9 @@ import org.apache.ibatis.annotations.Param;
 public interface SubmissionService {
 
     //Insert
-    void createSubmission(Submission submission);
+    DataMap createSubmission(String conferenceID, String submissionID, String submitterID, String title,
+                          String author, String abstractText, String keyword, String topic, String email,
+                          String paperFileID, String slideFileID, String commitTime, String lastModified);
 
     //Update
     void editSubmission(Submission submission);

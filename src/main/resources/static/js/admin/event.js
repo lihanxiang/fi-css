@@ -22,13 +22,12 @@ function getEventsInAgenda(agendaID) {
             } else {
                 $.each(data['data']['result'], function (index, object) {
                     if (agendaID == object['agendaID']){
-                        var title = '<span class="title">' + object['eventName'] + '</span>';
                         if (object['status'] == 1){
                             ul.append('<li>' +
                                 '<p>' +
                                 '<span class="title">' + object['eventName'] + '</span>' +
                                 '<span class="short-description">' + object['eventStartTime'] + ' - ' + object['eventEndTime'] + '</span>' +
-                                '<span class="date">Oct 9, 2016</span>' +
+                                '<span class="short-description">' + object['description'] + '</span>' +
                                 '<a href="javascript:void(0)" class="remove-event" ' +
                                 'id="' + object['eventID'] + '" style="float: right">' +
                                 '<span class="lnr lnr-trash"> Remove</span>' +
@@ -49,8 +48,8 @@ function getEventsInAgenda(agendaID) {
                                 '<span class="title">' + object['eventName'] + '</span>' +
                                 '<span class="short-description">' + object['eventStartTime'] +
                                 ' - ' + object['eventEndTime'] + '</span>' +
+                                '<span class="short-description">' + object['description'] + '</span>' +
                                 '<span class="date">Room ' + object['room'] + '</span>' +
-                                '<span class="date">' + object['description'] + '</span>' +
                                 '<a href="javascript:void(0)" class="remove-event" ' +
                                 'id="' + object['eventID'] + '" style="float: right">' +
                                 '<span class="lnr lnr-trash"> Remove</span>' +

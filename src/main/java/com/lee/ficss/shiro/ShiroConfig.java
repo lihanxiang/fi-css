@@ -31,13 +31,16 @@ public class ShiroConfig {
 
         definition.addPathDefinition("/user/login-form", "anon");
         definition.addPathDefinition("/user/logout", "logout");
-        definition.addPathDefinition("/submission/**", "authc");
-        definition.addPathDefinition("/candidate/**", "authc");
         definition.addPathDefinition("/admin/**", "authc");
-        /*definition.addPathDefinition("/auth/login", "anon");
-        definition.addPathDefinition("/student/**", "authc");
-        definition.addPathDefinition("/teacher/**", "authc");
-         */
+        definition.addPathDefinition("/agenda/**", "authc");
+        definition.addPathDefinition("/candidate/**", "authc");
+        definition.addPathDefinition("/conference/**", "authc");
+        definition.addPathDefinition("/event/**", "authc");
+        definition.addPathDefinition("/file/**", "authc");
+        definition.addPathDefinition("/overview/**", "authc");
+        definition.addPathDefinition("/paper/**", "authc");
+        definition.addPathDefinition("/session/**", "authc");
+        definition.addPathDefinition("/submission/**", "authc");
         return definition;
     }
 
@@ -49,18 +52,4 @@ public class ShiroConfig {
         hashedCredentialsMatcher.setHashIterations(encryption.getIterationTime());
         return hashedCredentialsMatcher;
     }
-
-    /*
-    @Bean
-    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager){
-        AuthorizationAttributeSourceAdvisor advisor = new AuthorizationAttributeSourceAdvisor();
-        advisor.setSecurityManager(securityManager);
-        return advisor;
-    }
-
-    @Bean
-    public static DefaultAdvisorAutoProxyCreator getDefaultAdvisorAutoProxyCreator(){
-        return new DefaultAdvisorAutoProxyCreator();
-    }
-     */
 }

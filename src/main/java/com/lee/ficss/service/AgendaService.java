@@ -11,7 +11,7 @@ public interface AgendaService {
     void createAgenda(String conferenceID, String agendaName, String agendaDate);
 
     //Update
-    void editAgendaInfo(Agenda agenda);
+    DataMap editAgendaInfo(String agendaID, String agendaName);
 
     //SELECT
     DataMap getAgendaByID(String agendaID);

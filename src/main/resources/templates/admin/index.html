@@ -15,88 +15,19 @@
 				<div class="container-fluid">
 					<!-- OVERVIEW -->
 					<div id="overview-div">
+						<div class="overview-data">
 
+						</div>
 					</div>
 					<!-- END OVERVIEW -->
 
-					<!-- SEARCH FORM -->
-					<div id="search-candidate-form" style="display: none">
-						<div class="row">
-							<div class="col-md-4">
-								<div class="panel">
-									<div class="panel-heading">
-										<h3 class="panel-title">Search for candidate</h3>
-										<div class="right">
-											<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-										</div>
-									</div>
-									<div class="panel-body">
-										<label for="cnName">Chinese Name</label>
-										<input type="text" class="form-control" id="cnName"
-											   name="cnName" placeholder="Enter"><br>
-
-										<label for="enName">English Name</label>
-										<input type="text" class="form-control" id="enName"
-											   name="enName" placeholder="Enter"><br>
-
-										<label for="email">Email</label>
-										<input type="email" class="form-control" id="email"
-											   name="email" placeholder="Enter"><br>
-
-										<label for="phone">Phone</label>
-										<input type="text" class="form-control" id="phone"
-											   name="phone" placeholder="Enter"><br>
-
-										<button type="submit" class="btn btn-primary search-candidate">Submit</button>
-									</div>
-								</div>
-							</div>
-
-							<div class="col-md-8">
-								<div class="panel">
-									<div class="panel-heading">
-										<h3 class="panel-title">Search Results</h3>
-										<div class="right">
-											<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
-										</div>
-									</div>
-									<div class="panel-body no-padding search-result">
-										<!-- Insert search results -->
-									</div>
-									<div class="panel-footer">
-										<div class="row">
-											<div class="col-md-6">
-												<span class="panel-note result-num">
-													<!-- Insert search results -->
-													Results will be shown in here
-												</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- END SEARCH FORM -->
 					<!-- CONFERENCE -->
 					<div id="conference-div">
 						<div class="row">
-							<div class="col-md-6">
-								<div class="panel">
-									<div class="panel-heading">
-										<h3 class="panel-title">Conference</h3>
-										<div class="right">
-											<button type="button" id="get-empty-conference-form">
-												<i class="lnr lnr-plus-circle"></i>
-												<span> New</span>
-											</button>
-										</div>
-									</div>
-									<div class="panel-body conference-list">
-										<!-- INSERT DATA -->
-									</div>
-								</div>
+							<div class="col-md-6 conference-list">
+
 							</div>
+
 							<div class="col-md-6" id="empty-conference-form">
 								<!-- INSERT EMPTY TABLE -->
 							</div>
@@ -112,24 +43,52 @@
 
 							<div id="availablePaper" class="col-md-4"></div>
 
-							<div id="submission-list" class="col-md-4">
+							<div id="submission-list" class="col-md-6">
 								<!-- Insert search results -->
 							</div>
 
 							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
 									data-target="#createEventModal" id="emptyEventForm"></button>
 							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+									data-target="#createConferenceModal" id="emptyConferenceForm"></button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
 									data-target="#editEventModal" id="editEventForm"></button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+									data-target="#editAgendaModal" id="editAgendaForm"></button>
 							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
 									data-target="#createSessionModal" id="createSessionForm"></button>
 							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
 									data-target="#editSessionModal" id="editSessionForm"></button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+									data-target="#profileModal" id="profileForm"></button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+									data-target="#submissionDetailModal" id="submissionDetail"></button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+									data-target="#changePasswordModal" id="changePasswordForm"></button>
+							<button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+									data-target="#candidateSearchModal" id="candidateSearchForm"></button>
 							<div id="modal">
 
+							</div>
+							<div id="download">
+								<a id="downloadCandidateForm" style="display: none"></a>
+								<a id="downloadAgenda" style="display: none"></a>
+								<a id="downloadSession" style="display: none"></a>
 							</div>
 						</div>
 					</div>
 					<!-- END CONFERENCE -->
+
+					<!-- SEARCH FORM -->
+					<div id="candidate-div">
+						<div class="row">
+							<div id="candidate-search-result"></div>
+						</div>
+						<div class="row">
+							<div id="candidate-submissions-list"></div>
+						</div>
+					</div>
+					<!-- END SEARCH FORM -->
 				</div>
 			</div>
 		</div>

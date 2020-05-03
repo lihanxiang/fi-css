@@ -2,6 +2,8 @@ package com.lee.ficss.service.impl;
 
 import com.lee.ficss.constant.StatusCode;
 import com.lee.ficss.mapper.*;
+import com.lee.ficss.pojo.Paper;
+import com.lee.ficss.pojo.Slide;
 import com.lee.ficss.pojo.Submission;
 import com.lee.ficss.pojo.Topic;
 import com.lee.ficss.service.SubmissionService;
@@ -31,8 +33,12 @@ public class SubmissionServiceImpl implements SubmissionService {
     }
 
     @Override
-    public void createSubmission(Submission submission) {
-        submissionMapper.createSubmission(submission);
+    public DataMap createSubmission(String conferenceID, String submissionID, String submitterID, String title,
+                                    String author, String abstractText, String keyword, String topic, String email,
+                                    String paperFileID, String slideFileID, String commitTime, String lastModified) {
+        submissionMapper.createSubmission(new Submission(conferenceID, submissionID, submitterID, title,
+                 author, abstractText, keyword, topic, email, paperFileID, slideFileID, commitTime, lastModified));
+        return DataMap.success();
     }
 
     @Override
@@ -50,16 +56,19 @@ public class SubmissionServiceImpl implements SubmissionService {
         JSONObject resultJson = new JSONObject();
         submissionJson.put("conferenceID", submission.getConferenceID());
         submissionJson.put("title", submission.getTitle());
+        submissionJson.put("author", submission.getAuthor());
         submissionJson.put("abstractText", submission.getAbstractText());
         submissionJson.put("keyword", submission.getKeyword());
         submissionJson.put("topic", submission.getTopic());
         submissionJson.put("email", submission.getEmail());
-        String paperFileID = submission.getPaperFileID();
-        submissionJson.put("paperFilePath", paperMapper.getPaperByFileID(paperFileID).getPaperFilePath());
-        String slideFileID = submission.getSlideFileID();
-        submissionJson.put("slideFilePath", slideMapper.getSlideByFileID(slideFileID).getSlideFilePath());
-        submissionJson.put("commitTime", submission.getTitle());
-        submissionJson.put("lastModified", submission.getTitle());
+        Paper paper = paperMapper.getPaperByFileID(submission.getPaperFileID());
+        submissionJson.put("paperTitle", paper.getPaperTitle());
+        submissionJson.put("paperFileID", paper.getPaperFileID());
+        Slide slide = slideMapper.getSlideByFileID(submission.getSlideFileID());
+        submissionJson.put("slideTitle", slide.getSlideTitle());
+        submissionJson.put("slideFileID", slide.getSlideFileID());
+        submissionJson.put("commitTime", submission.getCommitTime());
+        submissionJson.put("lastModified", submission.getLastModified());
         resultJson.put("result", submissionJson);
         return DataMap.success().setData(resultJson);
     }
@@ -132,15 +141,8 @@ public class SubmissionServiceImpl implements SubmissionService {
         JSONObject jsonObject;
         for (Submission s : submissions){
             jsonObject = new JSONObject();
-            jsonObject.put("submitter", userMapper.getUserByUserID(s.getSubmitterID()).getEnName());
+            jsonObject.put("submissionID", s.getSubmissionID());
             jsonObject.put("title", s.getTitle());
-            jsonObject.put("abstractText", s.getAbstractText());
-            jsonObject.put("keyword", s.getKeyword());
-            jsonObject.put("topic", s.getTopic());
-            String paperFilePath = paperMapper.getPaperByFileID(s.getPaperFileID()).getPaperFilePath();
-            String slideFilePath = slideMapper.getSlideByFileID(s.getPaperFileID()).getSlideFilePath();
-            jsonObject.put("paper", paperFilePath);
-            jsonObject.put("slide", slideFilePath);
             jsonObject.put("commitTime", s.getCommitTime());
             jsonObject.put("lastModified", s.getLastModified());
             jsonArray.add(jsonObject);

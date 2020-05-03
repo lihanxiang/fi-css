@@ -25,9 +25,10 @@ public interface PaperService {
 
     DataMap getAvailablePapers(String sessionID);
 
-
     List<Paper> searchPapers(String title, String author, String keyword, String topic);
 
     //Delete
+    void deletePaperFromSession(String paperFileID);
+
     void deletePaper(String paperFileID);
 }

@@ -11,7 +11,6 @@ public class DataMap<T> extends LinkedHashMap {
     private Integer code;
     private String message;
     private Boolean success;
-
     private T data;
 
     private DataMap(){
