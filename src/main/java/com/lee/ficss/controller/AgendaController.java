@@ -1239,7 +1239,7 @@ public class AgendaController {
             }
         }
 
-        String fileName = "C:\\Users\\94545\\Desktop\\" + agendaMapper.getAgendaByID(agendaID).getAgendaName() + ".xlsx";
+        String fileName = "";
         try {
             FileOutputStream outputStream = new FileOutputStream(
                     new File(fileName));

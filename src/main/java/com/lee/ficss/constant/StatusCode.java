@@ -40,7 +40,6 @@ public enum StatusCode {
     EMAIL_ADDRESS_NOT_REGISTERED(409, "This email address is not registered"),
 
     // 5xx Warning/Error
-    INTERNAL_SERVER_ERROR(502, "Internal server error"),
     SUBMISSION_PROCESS_INTERRUPTED(500, "Submission process interrupted, please try again. " +
             "If it doesn't work, contact with the administrator"),
     CREATE_AGENDA_PROCESS_FAILED(501, "Create agenda failed, please try again. " +

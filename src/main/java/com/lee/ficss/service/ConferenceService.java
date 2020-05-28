@@ -11,7 +11,7 @@ public interface ConferenceService {
     String createConference(String conferenceName);
 
     //Update
-    void editConferenceInfo(Conference conference);
+    void editConferenceInfo(String conferenceID, String conferenceName);
 
     //Select
     Conference getConferenceByID(String conferenceID);

@@ -518,7 +518,7 @@ public class SessionController {
             blankCell.setCellStyle(blankCellStyle);
         }
 
-        String fileName = "C:\\Users\\94545\\Desktop\\" + sessionMapper.getSessionByID(sessionID).getSessionName() + ".xlsx";
+        String fileName = "";
         try {
             FileOutputStream outputStream = new FileOutputStream(
                     new File(fileName));

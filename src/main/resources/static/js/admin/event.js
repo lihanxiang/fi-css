@@ -65,9 +65,6 @@ function getEventsInAgenda(agendaID) {
                 });
             }
             eventList.append(ul);
-        },
-        error:function () {
-            notificationMessage("danger", "error");
         }
     })
 }
@@ -141,9 +138,6 @@ function getEventDetailForEdit(eventID) {
             $('#eventEndTime').attr('value', object['eventEndTime']);
             $('#room').attr('value', object['room']);
             $('#description').attr('value', object['description']);
-        },
-        error:function () {
-            notificationMessage("danger", "error");
         }
     })
 }
@@ -155,6 +149,17 @@ function editEvent() {
     var eventEndTime = $('#eventEndTime').val();
     var room = $('#room').val();
     var description = $('#description').val();
+
+    if (eventName == ""){
+        $('#event-name-cannot-be-empty').click();
+        return;
+    } else if (eventStartTime == ""){
+        $('#event-start-time-cannot-be-empty').click();
+        return;
+    } else if (eventEndTime == ""){
+        $('#event-end-time-cannot-be-empty').click();
+        return;
+    }
 
     $.ajax({
         type: 'post',
@@ -170,10 +175,8 @@ function editEvent() {
         },
         cache: false,
         success: function (data) {
+            $('#edit-event-success').click();
             getAgendaByID(data['data']['result']['agendaID']);
-        },
-        error:function () {
-            notificationMessage("danger", "error");
         }
     })
 }
@@ -187,10 +190,8 @@ function removeEvent(eventID) {
             eventID:eventID,
         },
         success:function (data) {
+            $('#remove-event-success').click();
             getAgendaByID(data['data']['result']['agendaID']);
-        },
-        error:function () {
-            notificationMessage("danger", "error");
         }
     })
 }
@@ -203,6 +204,17 @@ function createEvent() {
     var eventEndTime = $('#eventEndTime').val();
     var room = $('#room').val();
     var description = $('#description').val();
+
+    if (eventName == ""){
+        $('#event-name-cannot-be-empty').click();
+        return;
+    } else if (eventStartTime == ""){
+        $('#event-start-time-cannot-be-empty').click();
+        return;
+    } else if (eventEndTime == ""){
+        $('#event-end-time-cannot-be-empty').click();
+        return;
+    }
 
     $.ajax({
         type:'post',
@@ -219,7 +231,7 @@ function createEvent() {
         cache:false,
         success:function (data) {
             if (data['status'] == 302){
-                notificationMessage("danger", "event with same time already exists");
+                $('#event-already-exists').click();
             }
             getEventsInAgenda(agendaID);
             $('#createEventModal').empty();

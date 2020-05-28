@@ -17,7 +17,7 @@ public interface ConferenceMapper {
     //Update
     @Update("UPDATE conference SET conference_name = #{conferenceName}" +
             "WHERE conference_id = #{conferenceID}")
-    void editConferenceInfo(Conference conference);
+    void editConferenceInfo(@Param("conferenceID") String conferenceID, @Param("conferenceName") String conferenceName);
 
     //Select
     @Select("SELECT COUNT(*) FROM conference WHERE conference_name = #{conferenceName}")

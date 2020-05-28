@@ -48,7 +48,21 @@ function createSession() {
     var sessionReviewer = $('#sessionReviewer').val();
     var sessionChair = $('#sessionChair').val();
 
-    $.ajax({
+    if (sessionName == ""){
+        $('#session-name-cannot-be-empty').click();
+        return;
+    } else if (sessionRoom == ""){
+        $('#session-room-cannot-be-empty').click();
+        return;
+    } else if (sessionReviewer == ""){
+        $('#session-reviewer-cannot-be-empty').click();
+        return;
+    } else if (sessionChair == ""){
+        $('#session-chair-cannot-be-empty').click();
+        return;
+    }
+
+        $.ajax({
         type: 'post',
         url: '/session/create',
         dataType: 'json',
@@ -60,11 +74,8 @@ function createSession() {
             sessionChair:sessionChair
         },
         cache: false,
-        success: function () {
-            getFirstSession(eventID);
-        },
-        error:function () {
-            notificationMessage("danger", "error");
+        success: function (data) {
+            getSessionByID(data['data']['result']['sessionID']);
         }
     })
 }
@@ -127,9 +138,6 @@ function getSessionDetailForEdit(sessionID) {
             $('#sessionRoom').attr('value', object['sessionRoom']);
             $('#sessionReviewer').attr('value', object['sessionReviewer']);
             $('#sessionChair').attr('value', object['sessionChair']);
-        },
-        error:function (data) {
-            notificationMessage("danger", data['message']);
         }
     })
 }
@@ -141,6 +149,20 @@ function editSession() {
     var sessionRoom = $('#sessionRoom').val();
     var sessionReviewer = $('#sessionReviewer').val();
     var sessionChair = $('#sessionChair').val();
+
+    if (sessionName == ""){
+        $('#session-name-cannot-be-empty').click();
+        return;
+    } else if (sessionRoom == ""){
+        $('#session-room-cannot-be-empty').click();
+        return;
+    } else if (sessionReviewer == ""){
+        $('#session-reviewer-cannot-be-empty').click();
+        return;
+    } else if (sessionChair == ""){
+        $('#session-chair-cannot-be-empty').click();
+        return;
+    }
 
     $.ajax({
         type: 'post',
@@ -156,10 +178,7 @@ function editSession() {
         cache: false,
         success: function () {
             getSessionByID(sessionID);
-            notificationMessage("success", "Edit session success");
-        },
-        error:function () {
-            notificationMessage("danger", "Edit session fail");
+            $('#edit-session-success').click();
         }
     })
 }

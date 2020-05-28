@@ -39,9 +39,9 @@ function changePassword(oldPassword, newPassword){
         cache: false,
         success: function (data) {
             if (data['status'] == 504){
-                notificationMessage("danger", data['message']);
+                $('#wrong-password').click();
             } else {
-                notificationMessage("success", "Success");
+                $('#change-password-success').click();
             }
         },
     })

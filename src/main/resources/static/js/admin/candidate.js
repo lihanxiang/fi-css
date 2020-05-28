@@ -164,9 +164,6 @@ function searchCandidate() {
                     candidateCount.append('Candidates found: ' + i);
                 }
             }
-        },
-        error:function (data) {
-            notificationMessage("danger", data['message']);
         }
     })
 }
@@ -213,7 +210,6 @@ function getCandidateSubmissions(userID) {
                     '<tr>' +
                     '<th style="text-align: center">Submission Title</th>' +
                     '<th style="text-align: center">Commit Time</th>' +
-                    '<th style="text-align: center">Last Modified</th>' +
                     '</tr>' +
                     '</thead>');
                 var tbody = $('<tbody></tbody>');
@@ -222,8 +218,7 @@ function getCandidateSubmissions(userID) {
                     tr.append($('<td style="text-align: center">' +
                         '<a href="javascript:void(0)" class="submission-detail" id="' + object['submissionID'] + '">'
                         + object['title'] + '</a></td>' +
-                        '<td style="text-align: center">' + object['commitTime'] + '</td>' +
-                        '<td style="text-align: center">' + object['lastModified'] + '</td>'));
+                        '<td style="text-align: center">' + object['commitTime'] + '</td>'));
                     tbody.append(tr);
                     i++;
                 });

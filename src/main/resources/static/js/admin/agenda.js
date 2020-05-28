@@ -168,9 +168,6 @@ function getAgendaDetailForEdit(agendaID) {
             var object = data['data']['result'];
             $('#agendaID').attr('value', object['agendaID']);
             $('#agendaName').attr('value', object['agendaName']);
-        },
-        error:function (data) {
-            notificationMessage("danger", data['message']);
         }
     })
 }
@@ -191,10 +188,7 @@ function editAgenda() {
         cache: false,
         success: function () {
             getAgendaByID(agendaID);
-            notificationMessage("success", "Success")
-        },
-        error:function () {
-            notificationMessage("danger", "Edit agenda fail");
+            $('#edit-agenda-success').click();
         }
     })
 }

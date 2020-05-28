@@ -466,7 +466,7 @@ public class AdministratorController {
            RegionUtil.setBorderRight(CellStyle.BORDER_THIN, cellRangeAddress, sheet, workbook);
        }
 
-       String fileName = "C:\\Users\\94545\\Desktop\\candidateForm.xlsx";
+       String fileName = "";
        try {
            FileOutputStream outputStream = new FileOutputStream(
                    new File(fileName));

@@ -49,9 +49,6 @@ public class SubmissionServiceImpl implements SubmissionService {
     @Override
     public DataMap getSubmissionByID(String submissionID) {
         Submission submission = submissionMapper.getSubmissionByID(submissionID);
-        if (submission == null){
-            return DataMap.fail(StatusCode.INTERNAL_SERVER_ERROR);
-        }
         JSONObject submissionJson = new JSONObject();
         JSONObject resultJson = new JSONObject();
         submissionJson.put("conferenceID", submission.getConferenceID());
@@ -92,9 +89,7 @@ public class SubmissionServiceImpl implements SubmissionService {
 
     @Override
     public DataMap getSubmissionInConference(String conferenceID) {
-        //PageHelper.startPage(pageNum, rows);
-        List<Submission> submissions = submissionMapper.getSubmissionsInConferenceOrderByCondition(conferenceID, "title");
-        //PageInfo<Submission> pageInfo = new PageInfo(submissions);
+        List<Submission> submissions = submissionMapper.getSubmissionsInConferenceOrderByCondition(conferenceID, "last_modified");
 
         if (submissions.isEmpty()){
             return DataMap.fail(StatusCode.SUBMISSION_NOT_FOUND);
@@ -108,7 +103,7 @@ public class SubmissionServiceImpl implements SubmissionService {
             submissionJson.put("submissionID", submission.getSubmissionID());
             submissionJson.put("submitter", userMapper.getUserByUserID(submission.getSubmitterID()).getEnName());
             submissionJson.put("title", submission.getTitle());
-            submissionJson.put("lastModified", submission.getLastModified());
+            submissionJson.put("commitTime", submission.getCommitTime());
             submissionJsonArray.add(submissionJson);
         }
 
@@ -163,7 +158,7 @@ public class SubmissionServiceImpl implements SubmissionService {
             snapJson = new JSONObject();
             snapJson.put("submissionID", submission.getSubmissionID());
             snapJson.put("title", submission.getTitle());
-            snapJson.put("lastModified", submission.getLastModified());
+            snapJson.put("commit Time", submission.getCommitTime());
             snapshotJsonArray.add(snapJson);
         }
         resultJson.put("result", snapshotJsonArray);

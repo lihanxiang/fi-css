@@ -87,9 +87,6 @@ function addPaperToSession(sessionID, paperFileID) {
         success: function () {
             getPapersInSession(sessionID);
             showAvailablePapers(sessionID);
-        },
-        error:function (data) {
-            notificationMessage("danger", data['message']);
         }
     })
 }
@@ -107,9 +104,6 @@ function deletePaperFromSession(sessionID, paperFileID) {
         success: function () {
             getPapersInSession(sessionID);
             showAvailablePapers(sessionID);
-        },
-        error:function (data) {
-            notificationMessage("danger", data['message']);
         }
     })
 }

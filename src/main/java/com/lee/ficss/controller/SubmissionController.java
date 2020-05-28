@@ -114,14 +114,8 @@ public class SubmissionController {
         if (!p.getParentFile().exists()) {
             p.getParentFile().mkdirs();
         }
-        if (p.exists()){
-            return JsonResult.build(DataMap.fail(StatusCode.FILE_ALREADY_EXIST)).toJSONString();
-        }
         if (!s.getParentFile().exists()) {
             s.getParentFile().mkdirs();
-        }
-        if (s.exists()){
-            return JsonResult.build(DataMap.fail(StatusCode.FILE_ALREADY_EXIST)).toJSONString();
         }
 
         /*
@@ -163,14 +157,6 @@ public class SubmissionController {
     public String detail(@RequestParam("submissionID") String submissionID){
         DataMap dataMap = submissionService.getSubmissionByID(submissionID);
         return JsonResult.build(dataMap).toJSONString();
-    }
-
-    @RequestMapping(value = "edit")
-    public String edit(@RequestParam("submissionID") String submissionID, @RequestParam("title") String title,
-                       @RequestParam("abstractText") String abstractText, @RequestParam("keyword") String keyword,
-                       @RequestParam("topic") String topic, @RequestParam("email") String email,
-                       @RequestParam("paper") MultipartFile paper, @RequestParam("slide") MultipartFile slide){
-        return "candidate/submission";
     }
 
     @ResponseBody

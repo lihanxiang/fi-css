@@ -34,8 +34,13 @@ function getValidConferencesByAdmin(){
                         '<i class="lnr lnr-pointer-right"></i>' +
                         '<span> Detail</span>' +
                         '</a>' +
+                        '<a href="javascript:void(0)" class="edit-conference" ' +
+                        'id="' + object['conferenceID'] + '" style="float: right; margin-right: 3%">' +
+                        '<i class="lnr lnr-pencil"></i>' +
+                        '<span> Edit</span>' +
+                        '</a>' +
                         '<a href="javascript:void(0)" class="download-candidate-form" ' +
-                        'id="' + object['conferenceID'] + '" style="float: right; margin-right: 5%">' +
+                        'id="' + object['conferenceID'] + '" style="float: right; margin-right: 3%">' +
                         '<i class="lnr lnr-download"></i>' +
                         '<span> Candidate Form</span>' +
                         '</a>');
@@ -48,9 +53,92 @@ function getValidConferencesByAdmin(){
                     ul.append(li);
                 });
             }
+        }
+    })
+}
+
+function getConferenceFormForEdit() {
+    var modal = $('#modal');
+    modal.empty();
+    $('#modal').append('<div class="modal fade" id="editConferenceModal" tabindex="-1" role="dialog"' +
+        ' aria-labelledby="editConferenceLabel" aria-hidden="true">' +
+        '<div class="modal-dialog" role="document">' +
+        '<div class="modal-content">' +
+        '<div class="modal-header">' +
+        '<h3 class="modal-title" id="editConferenceLabel">Edit conference</h3>' +
+        '</div>' +
+        '<div class="modal-body">' +
+        '<form>' +
+        '<div class="form-group">' +
+        '<input type="hidden" class="form-control" id="conferenceID">' +
+        '</div>' +
+        '<div class="form-group">' +
+        '<label for="conferenceName" class="col-form-label">Conference Name</label>' +
+        '<input type="text" class="form-control" id="conferenceName">' +
+        '</div>' +
+        '<div class="modal-footer">' +
+        '<button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>' +
+        '<button type="submit" class="btn btn-primary" data-dismiss="modal" id="EditConference">Edit</button>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>')
+}
+
+function getConferenceDetailForEdit(conferenceID) {
+    $.ajax({
+        type: 'post',
+        url: '/conference/detail',
+        dataType: 'json',
+        data: {
+            conferenceID: conferenceID
         },
-        error:function (data) {
-            notificationMessage("waring", data['message'])
+        cache: false,
+        success:function (data) {
+            $('#conferenceID').attr("value", data['data']['result']['conferenceID']);
+            $('#conferenceName').attr("value", data['data']['result']['conferenceName']);
+        }
+    })
+}
+
+function editConference() {
+    var conferenceID = $('#conferenceID').val();
+    var conferenceName = $('#conferenceName').val();
+
+    if (conferenceName == ""){
+        $('#conference-name-cannot-be-empty').click();
+        return
+    }
+
+    $.ajax({
+        type: 'post',
+        url: '/conference/edit',
+        dataType: 'json',
+        data: {
+            conferenceID: conferenceID,
+            conferenceName:conferenceName
+        },
+        cache: false,
+        success:function () {
+            $('#edit-conference-success').click();
+            getValidConferencesByAdmin();
+        }
+    })
+}
+
+function removeConference(conferenceID) {
+
+    $.ajax({
+        type: 'post',
+        url: '/conference/remove',
+        dataType: 'json',
+        data: {
+            conferenceID: conferenceID
+        },
+        cache: false,
+        success:function () {
+            $('#remove-conference-success').click();
+            getValidConferencesByAdmin();
         }
     })
 }
@@ -143,9 +231,6 @@ function getConferenceDetail(conferenceID) {
                                                     '<span> Detail</span>' +
                                                 '</a>');
             }
-        },
-        error(){
-            notificationMessage("danger", "Internal error");
         }
     })
 }
@@ -157,19 +242,19 @@ function createConference() {
     var topics = $('#topics').val();
 
     if (!conferenceName){
-        notificationMessage("danger", "title is required");
+        $('#name-cannot-be-empty').click();
         return;
     }
     if (!agendaStartDate){
-        notificationMessage("danger", "start date is required");
+        $('#start-date-cannot-be-empty').click();
         return;
     }
     if (!agendaEndDate){
-        notificationMessage("danger", "end date is required");
+        $('#end-date-cannot-be-empty').click();
         return;
     }
     if (!topics){
-        notificationMessage("danger", "At least one topic is required");
+        $('#topics-cannot-be-empty').click();
         return;
     }
 
@@ -186,14 +271,11 @@ function createConference() {
         cache:false,
         success:function (data) {
             if (data['status'] == 300){
-                notificationMessage("danger", data['message']);
+                $('#conference-already-exists').click();
             } else {
-                notificationMessage("success", "Success");
+                $('#create-conference-success').click();
                 getValidConferencesByAdmin();
             }
-        },
-        error:function (data) {
-            notificationMessage("danger", data['message']);
         }
     })
 }
@@ -235,6 +317,21 @@ conferenceDiv.on("click", ".download-candidate-form", function () {
     document.getElementById('downloadCandidateForm').click();
 });
 
+conferenceDiv.on("click", ".edit-conference", function () {
+    getConferenceFormForEdit();
+    var conferenceID = $(this).attr('id');
+    getConferenceDetailForEdit(conferenceID);
+    $('#editConferenceForm').click();
+});
+
+conferenceDiv.on("click", "#EditConference", function () {
+    editConference();
+});
+
+conferenceDiv.on("click", ".remove-conference", function () {
+    var conferenceID = $(this).attr('id');
+    removeConference(conferenceID);
+});
 
 
 

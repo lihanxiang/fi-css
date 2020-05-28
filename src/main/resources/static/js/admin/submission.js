@@ -20,7 +20,7 @@ function getSubmissionInfoListInConference(conferenceID) {
                 '<tr>' +
                 '<th>Title of paper</th>' +
                 '<th>Submitter by</th>' +
-                '<th>Last modified</th>' +
+                '<th>Commit time</th>' +
                 '</tr>' +
                 '</thead>' +
                 '<tbody class="submission-list-detail">' +
@@ -34,7 +34,7 @@ function getSubmissionInfoListInConference(conferenceID) {
                 tr.append($('<td><a href="javascript:void(0)" class="submission-detail" id="' + object['submissionID'] + '">' 
                     + object['title'] + '</a></td>' +
                     '<td>' + object['submitter'] + '</td>' +
-                    '<td>' + object['lastModified'] + '</td>'));
+                    '<td>' + object['commitTime'] + '</td>'));
                 submissionListDetail.append(tr);
             });
         }
@@ -162,9 +162,6 @@ function getTopicsInSubmission(conferenceID, topics) {
                     }
                 }
             }
-        },
-        error:function () {
-
         }
     })
 }

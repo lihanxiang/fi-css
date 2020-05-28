@@ -95,4 +95,19 @@ public class ConferenceController {
         DataMap dataMap = conferenceService.getConferenceDetail(conferenceID);
         return JsonResult.build(dataMap).toJSONString();
     }
+
+    @ResponseBody
+    @PostMapping(value = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String edit(@RequestParam("conferenceID") String conferenceID, @RequestParam("conferenceName") String conferenceName){
+        conferenceService.editConferenceInfo(conferenceID, conferenceName);
+        return JsonResult.build(DataMap.success()).toJSONString();
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/remove", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String remove(@RequestParam("conferenceID") String conferenceID){
+        conferenceService.deleteConferenceByID(conferenceID);
+        return JsonResult.build(DataMap.success()).toJSONString();
+    }
+
 }

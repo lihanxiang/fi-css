@@ -78,10 +78,7 @@ function editProfile() {
         },
         cache: false,
         success() {
-            notificationMessage("success", "Success")
-        },
-        error:function () {
-            notificationMessage("danger", "error");
+            $('#edit-profile-success').click();
         }
     })
 }

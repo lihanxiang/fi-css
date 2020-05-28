@@ -48,9 +48,6 @@ function submissionForm() {
         '<div class="form-group">' +
         '<p id="commitTime"></p>' +
         '</div>' +
-        '<div class="form-group">' +
-        '<p id="lastModified"></p>' +
-        '</div>' +
         '</form>' +
         '</div>' +
         '<div class="modal-footer">' +
@@ -84,7 +81,6 @@ function submissionDetail(submissionID) {
             $('#slide').append(object['slideTitle']);
             $('#slide').attr('href', "/slide/download/" + object['slideFileID']);
             $('#commitTime').append("Commit: " + object['commitTime']);
-            $('#lastModified').append("Last Modified: " + object['lastModified']);
         }
     })
 }
@@ -224,16 +220,9 @@ function createSubmission() {
         async:false,
         contentType: false,
         processData: false,
-        success:function (data) {
-            if (data['status'] == 502){
-                notificationMessage("danger",data['message']);
-            } else {
-                notificationMessage("success", "Success");
-                $('#conference').click();
-            }
-        },
-        error:function () {
-            notificationMessage("danger", "error");
+        success:function () {
+            $('#create-submission-success').click();
+            $('#conference').click();
         }
     })
 }
@@ -278,7 +267,6 @@ function mySubmission() {
                     '<tr>' +
                     '<th style="text-align: center">Submission Title</th>' +
                     '<th style="text-align: center">Commit Time</th>' +
-                    '<th style="text-align: center">Last Modified</th>' +
                     '</tr>' +
                     '</thead>');
                 var tbody = $('<tbody></tbody>');
@@ -287,8 +275,7 @@ function mySubmission() {
                     tr.append($('<td style="text-align: center">' +
                         '<a href="javascript:void(0)" class="submission-detail" id="' + object['submissionID'] + '">'
                         + object['title'] + '</a></td>' +
-                        '<td style="text-align: center">' + object['commitTime'] + '</td>' +
-                        '<td style="text-align: center">' + object['lastModified'] + '</td>'));
+                        '<td style="text-align: center">' + object['commitTime'] + '</td>'));
                     tbody.append(tr);
                     i++;
                 });
@@ -342,22 +329,5 @@ $('#index').on("click", ".conference-detail", function () {
     $('#submission-form').css("display", "none");
     getConferenceDetail(conferenceID);
 });
-
-function notificationMessage(status, message) {
-    var button;
-    if (status == "success"){
-        button = $('.btn-success');
-        button.attr("data-message", message);
-        button.click();
-    } else if (status == "warning"){
-        button = $('.btn-warning');
-        button.attr("data-message", message);
-        button.click();
-    } else if (status == "danger"){
-        button = $('.btn-danger');
-        button.attr("data-message", message);
-        button.click();
-    }
-}
 
 

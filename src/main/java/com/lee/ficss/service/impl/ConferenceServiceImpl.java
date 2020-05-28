@@ -47,8 +47,8 @@ public class ConferenceServiceImpl implements ConferenceService {
     }
 
     @Override
-    public void editConferenceInfo(Conference conference) {
-        conferenceMapper.editConferenceInfo(conference);
+    public void editConferenceInfo(String conferenceID, String conferenceName) {
+        conferenceMapper.editConferenceInfo(conferenceID, conferenceName);
     }
 
     @Override
@@ -132,6 +132,7 @@ public class ConferenceServiceImpl implements ConferenceService {
         int submissionCount = submissionMapper.getSubmissionCountInConference(conferenceID);
         JSONObject resultJson = new JSONObject();
         JSONObject detailJson = new JSONObject();
+        detailJson.put("conferenceID", conference.getConferenceID());
         detailJson.put("conferenceName", conference.getConferenceName());
         detailJson.put("agendaCount", agendaCount);
         detailJson.put("submissionCount", submissionCount);
