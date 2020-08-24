@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/vendor/linearicons/style.css">
+    <link rel="stylesheet" href="/assets/vendor/chartist/css/chartist-custom.css">
+    <link rel="stylesheet" href="/assets/vendor/toastr/toastr.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" crossorigin="anonymous">
+    <link href="/themes/explorer-fas/theme.css" media="all" rel="stylesheet" type="text/css"/>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="/js/plugins/piexif.js" type="text/javascript"></script>
+    <script src="/js/plugins/sortable.js" type="text/javascript"></script>
+    <script src="/js/fileinput.js" type="text/javascript"></script>
+    <script src="/js/locales/fr.js" type="text/javascript"></script>
+    <script src="/js/locales/es.js" type="text/javascript"></script>
+    <script src="/themes/fas/theme.js" type="text/javascript"></script>
+    <script src="/themes/explorer-fas/theme.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class="vertical-align-wrap">
+            <div class="vertical-align-middle">
+                <div class="auth-box ">
+                    <div class="left index">
+                        <div class="content">
+                            <div class="header">
+                                <div class="logo text-center">
+                                    <img src="/img/must.png" alt="" width="50" height="50">
+                                </div>
+                                <p class="lead">Login to your account</p>
+                            </div>
+                            <form class="form-auth-small" action="/user/login" method="post">
+                                <div class="alert alert-danger alert-dismissible" role="alert" th:if="${message} ne null">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <i class="fa fa-times-circle" th:text="${message}"></i>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="control-label sr-only">Email</label>
+                                    <input type="email" class="form-control" id="email"
+                                           name="email" placeholder="Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="control-label sr-only">Password</label>
+                                    <input type="password" class="form-control" id="password"
+                                           name="password" placeholder="Password" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">Login</button>
+                                <div class="bottom">
+                                    <div>
+                                        <div class="left">
+                                            <span class="helper-text">
+                                                <i class="fa fa-lock"></i>
+                                                <a href="javascript:void(0)" id="forgetPassword">Forgot password?</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="right">
+                                            <span class="helper-text">
+                                                <i class="fa fa-user-edit"></i>
+                                                <a href="javascript:void(0)" id="newAccount">Sign up an account</a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+                                    data-target="#inputEmailModal" id="inputEmailForm"></button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+                                    data-target="#signUpModal" id="signUpForm2"></button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" style="display: none"
+                                    data-target="#sendAuthCodeModal" id="signUpForm1"></button>
+                            <div id="modal">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="overlay"></div>
+                        <div class="content text">
+                            <h1 class="heading">Conference Submission System</h1>
+                            <p>Macau University of Science and Technology</p>
+                            <p>Faculty of Information Technology</p>
+                        </div>
+                    </div>
+                    <div id="toastr" style="display: none">
+                        <button type="button" id="create-account-success" class="btn btn-success btn-toastr"
+                                data-context="success" data-message="Sign up account success" data-position="top-right">
+                        </button>
+                        <button type="button" id="check-inbox-for-auth-code" class="btn btn-success btn-toastr"
+                                data-context="success" data-message="Please check your inbox for the auth code" data-position="top-right">
+                        </button>
+                        <button type="button" id="check-inbox-for-password" class="btn btn-success btn-toastr"
+                                data-context="success" data-message="Please check your inbox for the new password" data-position="top-right">
+                        </button>
+                        <button type="button" id="email-already-exists" class="btn btn-danger btn-toastr"
+                                data-context="error" data-message="This email address belongs to another account" data-position="top-right">
+                        </button>
+                        <button type="button" id="invalid-email-address" class="btn btn-danger btn-toastr"
+                                data-context="error" data-message="Pleas enter a valid email address" data-position="top-right">
+                        </button>
+                        <button type="button" id="password-cannot-be-empty" class="btn btn-warning btn-toastr"
+                                data-context="error" data-message="Please enter the password" data-position="top-right">
+                        </button>
+                        <button type="button" id="cnName-cannot-be-empty" class="btn btn-warning btn-toastr"
+                                data-context="error" data-message="Please enter the Chinese name" data-position="top-right">
+                        </button>
+                        <button type="button" id="enName-cannot-be-empty" class="btn btn-warning btn-toastr"
+                                data-context="error" data-message="Please enter the English name" data-position="top-right">
+                        </button>
+                        <button type="button" id="phone-cannot-be-empty" class="btn btn-warning btn-toastr"
+                                data-context="error" data-message="Please enter the phone" data-position="top-right">
+                        </button>
+                        <button type="button" id="auth-code-cannot-be-empty" class="btn btn-warning btn-toastr"
+                                data-context="error" data-message="Please enter the auth code" data-position="top-right">
+                        </button>
+                        <button type="button" id="wrong-auth-code" class="btn btn-danger btn-toastr"
+                                data-context="error" data-message="Please enter the correct auth code" data-position="top-right">
+                        </button>
+                        <button type="button" id="phone-already-exists" class="btn btn-danger btn-toastr"
+                                data-context="error" data-message="This phone number belongs to another account" data-position="top-right">
+                        </button>
+                        <button type="button" id="email-not-registered" class="btn btn-danger btn-toastr"
+                                data-context="error" data-message="This email address is not registered" data-position="top-right">
+                        </button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="/assets/vendor/toastr/toastr.min.js"></script>
+    <script src="/assets/scripts/klorofil-common.js"></script>
+    <script type="application/javascript" src="/js/common/password.js"></script>
+    <script type="application/javascript" src="/js/common/signUp.js"></script>
+</body>
+</html>

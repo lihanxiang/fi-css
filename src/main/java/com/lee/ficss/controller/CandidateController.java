@@ -22,7 +22,7 @@ import java.util.Date;
 
 @RequiresRoles("candidate")
 @Controller
-@RequestMapping("candidate")
+@RequestMapping("/candidate")
 public class CandidateController {
 
     private final UserService userService;

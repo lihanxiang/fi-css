@@ -19,9 +19,9 @@ public class IndexController {
         User user = userService.getUserByEmail(loginEmail);
         if (user != null){
             if (user.getRole().equals("candidate")){
-                return "redirect:/candidate/index";
+                return "redirect:candidate/index";
             } else if (user.getRole().equals("admin")){
-                return "redirect:/admin/index";
+                return "redirect:admin/index";
             }
         }
         return "index";
